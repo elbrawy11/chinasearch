@@ -1,2 +1,1 @@
-
-console.log("ChinaSearch Loaded");
+<!-- deleted -->
