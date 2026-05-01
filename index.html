@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ChinaSearch — Compare China Deals by Price, Shipping & Rewards</title>
-  <meta name="description" content="ChinaSearch helps shoppers compare Chinese marketplace products by price, shipping speed, rating, country, currency, and estimated rewards before buying.">
+  <meta name="description" content="ChinaSearch is a smart pre-launch China marketplace comparison platform for price, shipping, ratings, country fit and estimated rewards. Affiliate links are pending marketplace approval.">
   <meta name="keywords" content="China deals, AliExpress deals, Temu deals, SHEIN deals, Banggood deals, DHgate deals, price comparison, cashback, rewards, smart shopping">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://chinasearch.vercel.app/">
@@ -92,12 +92,127 @@ body[dir="rtl"] .consent-mini{left:auto;right:18px}
 .consent-mini.show{display:block}.consent-mini b{display:block;margin-bottom:5px}.consent-mini p{margin:0 0 10px;color:#64748b;font-size:12px;line-height:1.55}.consent-mini button{border:0;background:#071225;color:white;border-radius:999px;padding:9px 12px;font-weight:900;cursor:pointer}
 @media(max-width:560px){.consent-mini{left:12px!important;right:12px!important;bottom:12px;max-width:none}}
 
+
+/* v3.3 SEO crawlable homepage + prelaunch hardening */
+.crawlable-home{
+  background:linear-gradient(180deg,#ffffff,#f8fafc);
+  border-top:1px solid #e2e8f0;
+  padding:34px 0;
+}
+.crawlable-card{
+  background:white;
+  border:1px solid #e2e8f0;
+  border-radius:28px;
+  padding:26px;
+  box-shadow:0 18px 55px rgba(15,23,42,.07);
+}
+.crawlable-card h2{
+  margin:0 0 10px;
+  font-size:28px;
+  color:#0f172a;
+}
+.crawlable-card p,.crawlable-card li{
+  color:#475569;
+  line-height:1.85;
+  font-size:14px;
+}
+.crawlable-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin:18px 0;
+}
+.crawlable-mini{
+  background:#f8fafc;
+  border:1px solid #e2e8f0;
+  border-radius:18px;
+  padding:14px;
+}
+.crawlable-mini b{
+  color:#0f172a;
+  display:block;
+  margin-bottom:5px;
+}
+.prelaunch-banner{
+  background:#fff7ed;
+  border:1px solid #fed7aa;
+  color:#9a3412;
+  border-radius:18px;
+  padding:14px;
+  margin:16px 0;
+  line-height:1.75;
+  font-size:13px;
+}
+.official-links{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
+.official-links a{
+  display:inline-flex;
+  background:#071225;
+  color:white;
+  text-decoration:none;
+  border-radius:999px;
+  padding:9px 12px;
+  font-size:12px;
+  font-weight:900;
+}
+@media(max-width:900px){.crawlable-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.crawlable-grid{grid-template-columns:1fr}.crawlable-card{padding:20px}}
+
 </style>
 </head>
 <body>
   <div class="site-view">
   <div id="app"></div>
+  
+<section class="crawlable-home" aria-label="ChinaSearch official information">
+  <div class="container">
+    <div class="crawlable-card">
+      <h2>ChinaSearch helps shoppers compare China marketplace deals before buying</h2>
+      <p>ChinaSearch is a smart shopping-comparison platform built to help users discover products from Chinese marketplaces and compare offers by price, shipping speed, rating, country, currency, platform and estimated rewards.</p>
+      <div class="crawlable-grid">
+        <div class="crawlable-mini"><b>Smart comparison</b>Compare product offers using price, shipping, rating and deal score signals.</div>
+        <div class="crawlable-mini"><b>Country aware</b>Shopping preferences, shipping expectations and currency can change by region.</div>
+        <div class="crawlable-mini"><b>Quick decision view</b>Quick View explains why a deal may be suitable before visiting the marketplace.</div>
+        <div class="crawlable-mini"><b>Transparent model</b>ChinaSearch does not sell products directly. Purchases happen on the original marketplace.</div>
+      </div>
+      <div class="prelaunch-banner">
+        <b>Pre-launch transparency:</b> Product data and rewards are currently used for demonstration and platform review. Official affiliate links will be connected only after marketplace or affiliate-network approval.
+      </div>
+      <h3>How ChinaSearch ranks deals</h3>
+      <ul>
+        <li><b>Price:</b> lower price and stronger savings improve the deal score.</li>
+        <li><b>Shipping:</b> faster and more suitable shipping improves the recommendation.</li>
+        <li><b>Rating:</b> stronger ratings and reviews increase confidence.</li>
+        <li><b>Country fit:</b> recommendations may adapt to the selected country and currency.</li>
+        <li><b>Estimated rewards:</b> rewards are not guaranteed and must be confirmed by the partner after approval.</li>
+      </ul>
+      <div class="official-links">
+        <a href="/about.html">About ChinaSearch</a>
+        <a href="/how-it-works.html">How it works</a>
+        <a href="/affiliate-disclosure.html">Affiliate disclosure</a>
+        <a href="/privacy.html">Privacy policy</a>
+        <a href="/terms.html">Terms of use</a>
+        <a href="/contact.html">Contact</a>
+      </div>
+    </div>
   </div>
+</section>
+<noscript>
+  <section class="crawlable-home">
+    <div class="container">
+      <div class="crawlable-card">
+        <h2>ChinaSearch requires JavaScript for the interactive comparison experience.</h2>
+        <p>You can still read our official pages: About, How it works, Affiliate disclosure, Privacy policy, Terms of use and Contact.</p>
+      </div>
+    </div>
+  </section>
+</noscript>
+
+</div>
   <div id="legalPage" class="page-view"></div>
   <div id="quickModal" class="quick-modal" onclick="if(event.target.id==='quickModal')closeQuick()"></div>
   <div id="compareBar" class="compare-bar"></div>
