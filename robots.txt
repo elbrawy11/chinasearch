@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://chinasearch.vercel.app/sitemap.xml

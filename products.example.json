@@ -1,0 +1,31 @@
+[
+  {
+    "id": "p1",
+    "title": "Smart Wireless Earbuds Pro",
+    "platform": "aliexpress",
+    "category": "electronics",
+    "status": "demo",
+    "note": "Replace with approved marketplace/API product data later."
+  },
+  {
+    "id": "p2",
+    "title": "Ultra Fast USB-C Charger 65W",
+    "platform": "banggood",
+    "category": "electronics",
+    "status": "demo"
+  },
+  {
+    "id": "p3",
+    "title": "Smart Watch Fitness Tracker",
+    "platform": "temu",
+    "category": "gadgets",
+    "status": "demo"
+  },
+  {
+    "id": "p5",
+    "title": "Minimal Crossbody Fashion Bag",
+    "platform": "shein",
+    "category": "fashion",
+    "status": "demo"
+  }
+]
