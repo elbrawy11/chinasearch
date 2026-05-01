@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "build": "mkdir -p dist && cp index.html manifest.json robots.txt sitemap.xml products.example.json dist/"
+  }
+}
