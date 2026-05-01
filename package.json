@@ -1,5 +1,5 @@
 {
   "scripts": {
-    "build": "node -e \"const fs=require('fs');fs.mkdirSync('dist',{recursive:true});for(const f of [\"index.html\", \"about.html\", \"how-it-works.html\", \"affiliate-disclosure.html\", \"privacy.html\", \"terms.html\", \"contact.html\", \"robots.txt\", \"sitemap.xml\", \"manifest.json\", \"products.example.json\", \"icon-192.png\", \"icon-512.png\", \"og-image.png\", \"404.html\", \"_headers\"]){if(fs.existsSync(f))fs.copyFileSync(f,'dist/'+f)}\""
+    "build": "node build.js"
   }
 }
