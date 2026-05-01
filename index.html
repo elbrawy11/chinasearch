@@ -601,14 +601,6 @@ function openMobileFilters(){
  sheet.classList.add("show");
 }
 function closeMobileFilters(){document.getElementById("mobileFilterSheet").classList.remove("show")}
-
-
-
-alert("Admin access denied");
- history.pushState("",document.title,location.pathname);
- return false;
-}
-
 function isAdminRoute(){
  const wantsAdmin=new URLSearchParams(location.search).get("admin")==="1" || location.hash==="#admin";
  if(wantsAdmin){ const base=location.origin+location.pathname.replace(/index\.html$/i,""); location.replace(base+"admin.html"); }
