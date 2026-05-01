@@ -741,7 +741,7 @@ function renderLegalPage(){
  if(!route)return;
  let l=L(), page=legalContent(route), box=document.getElementById("legalPage");
  if(!box)return;
- box.innerHTML=`<div class="container"><div class="page-card"><a class="route-back" href="#">← ${l.backHome}</a><div class="page-kicker">${page.icon} ${l.trustPages} · ${l.legalUpdated}: ${new Date().getFullYear()}</div><h1>${page.title}</h1>${page.body}<div class="legal-nav"><a href="#about">${l.about}</a><a href="#how-it-works">${l.howWorks}</a><a href="#affiliate-disclosure">${l.affiliateDisclosure}</a><a href="#privacy-policy">${l.privacy}</a><a href="#terms-of-use">${l.terms}</a><a href="#contact">${l.contact}</a></div></div></div>`;
+ box.innerHTML=`<div class="container"><div class="page-card"><a class="route-back" href="#">← ${l.backHome}</a><div class="page-kicker">${page.icon} ${l.trustPages} · ${l.legalUpdated}: ${new Date().getFullYear()}</div><h1>${page.title}</h1>${page.body}<div class="legal-nav"><a href="/about.html">${l.about}</a><a href="/how-it-works.html">${l.howWorks}</a><a href="/affiliate-disclosure.html">${l.affiliateDisclosure}</a><a href="/privacy.html">${l.privacy}</a><a href="/terms.html">${l.terms}</a><a href="/contact.html">${l.contact}</a></div></div></div>`;
  window.scrollTo({top:0,behavior:"smooth"});
 }
 
@@ -860,12 +860,12 @@ document.getElementById("app").innerHTML=`
  <section id="how" class="container section lower-compact"><div class="section-head"><h2>${l.howTitle}</h2></div><div class="steps"><div class="step"><div class="step-num">1</div><h3>${l.s1}</h3><p>${l.s1p}</p></div><div class="step"><div class="step-num">2</div><h3>${l.s2}</h3><p>${l.s2p}</p></div><div class="step"><div class="step-num">3</div><h3>${l.s3}</h3><p>${l.s3p}</p></div></div></section>
  <section id="faq" class="container section lower-compact"><div class="section-head"><h2>${l.faq}</h2></div><div class="faq"><details><summary>${l.q1}</summary><p>${l.a1}</p></details><details><summary>${l.q2}</summary><p>${l.a2}</p></details><details><summary>${l.q3}</summary><p>${l.a3}</p></details><details><summary>${l.q4}</summary><p>${l.a4}</p></details></div></section>
  <footer><div class="container footer-grid"><div><h3>ChinaSearch</h3><p>${l.footer}</p><div class="legal-nav">
-  <a href="#about">${l.about}</a>
-  <a href="#how-it-works">${l.howWorks}</a>
-  <a href="#affiliate-disclosure">${l.affiliateDisclosure}</a>
-  <a href="#privacy-policy">${l.privacy}</a>
-  <a href="#terms-of-use">${l.terms}</a>
-  <a href="#contact">${l.contact}</a>
+  <a href="/about.html">${l.about}</a>
+  <a href="/how-it-works.html">${l.howWorks}</a>
+  <a href="/affiliate-disclosure.html">${l.affiliateDisclosure}</a>
+  <a href="/privacy.html">${l.privacy}</a>
+  <a href="/terms.html">${l.terms}</a>
+  <a href="/contact.html">${l.contact}</a>
 </div></div><div><h4>${l.deals}</h4><a href="#deals">${l.best}</a><a>${l.cheap}</a><a>${l.fast}</a></div><div><h4>${l.platforms}</h4>${Object.keys(platforms).slice(0,4).map(k=>`<a>${platforms[k].name}</a>`).join("")}</div><div><h4>${l.country}</h4><a>${c.flag} ${state.lang==='ar'?c.countryAr:c.countryEn}</a><a>${c.currency}</a><a>${c.region}</a></div></div></footer>
  `;
 }
