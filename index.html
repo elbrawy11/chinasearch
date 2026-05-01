@@ -202,6 +202,179 @@
       background:linear-gradient(135deg,#eff6ff,#fff7ed);border:1px solid #bfdbfe;border-radius:20px;padding:13px;margin:12px 0;color:#1e3a8a
     }
     .ai-assistant-box b{color:#0f172a}
+
+    /* v1.9 Compact Premium UI */
+    .section{padding:22px 0!important}
+    .hero{padding:42px 0 28px!important}
+    .hero h2{font-size:50px!important}
+    .hero p{font-size:16px!important;line-height:1.65!important;margin-bottom:16px!important}
+    .stats{margin-top:12px!important}
+    .geo-panel{margin-top:12px!important;padding:11px!important}
+    .benefits{margin-top:-18px!important}
+    .benefit{padding:13px!important}
+    .benefit .bicon{width:38px!important;height:38px!important;font-size:21px!important}
+    .rewards-section{margin-top:12px!important}
+    .rewards-card{padding:13px!important;border-radius:22px!important;grid-template-columns:1.2fr .8fr!important}
+    .rewards-card h2{font-size:22px!important;margin-bottom:4px!important}
+    .rewards-card p{line-height:1.45!important;font-size:13px!important}
+    .reward-steps{margin-top:10px!important}
+    .reward-step{padding:9px!important;font-size:12px!important}
+    .reward-wallet{padding:12px!important;border-radius:20px!important}
+    .wallet-points{font-size:26px!important}
+    .best-deal{padding:10px!important;border-radius:24px!important;grid-template-columns:.85fr 1.15fr!important}
+    .best-copy h2{font-size:23px!important}
+    .best-copy p{font-size:13px!important}
+    .reason{font-size:12px!important}
+    .best-deal .image{height:132px!important}
+    .best-deal .price-row strong{font-size:19px!important}
+    .section-head{margin-bottom:12px!important}
+    .section-head h2{font-size:26px!important}
+    .section-head p{font-size:13px!important}
+    .advanced-toolbar{
+      position:sticky;top:88px;z-index:70;
+      background:rgba(255,255,255,.78)!important;
+      backdrop-filter:blur(22px);
+      border:1px solid rgba(255,255,255,.72)!important;
+      box-shadow:0 18px 45px rgba(15,23,42,.11)!important;
+      border-radius:26px!important;
+      padding:10px!important;
+      margin-bottom:14px!important;
+    }
+    .toolbar-grid{
+      grid-template-columns:1.15fr .95fr .95fr .95fr!important;
+      gap:8px!important;
+    }
+    .field{
+      background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(248,250,252,.90));
+      border:1px solid rgba(226,232,240,.9);
+      border-radius:18px;
+      padding:8px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 10px 22px rgba(15,23,42,.045);
+    }
+    .field label{
+      font-size:11px!important;
+      margin-bottom:6px!important;
+      padding-inline:4px;
+    }
+    .field select,.field input{
+      padding:9px 10px!important;
+      border-radius:13px!important;
+      background:white!important;
+      border-color:#e2e8f0!important;
+      box-shadow:inset 0 1px 2px rgba(15,23,42,.04);
+      font-size:13px;
+    }
+    .view-toggle{
+      background:#eef2f7;
+      padding:4px;
+      border-radius:16px;
+      display:grid!important;
+      grid-template-columns:repeat(4,1fr);
+      gap:3px!important;
+      box-shadow:inset 0 2px 8px rgba(15,23,42,.08);
+    }
+    .view-btn{
+      border:0!important;
+      background:transparent!important;
+      border-radius:13px!important;
+      padding:9px 7px!important;
+      font-size:12px!important;
+      position:relative;
+      transition:.2s ease;
+      color:#475569;
+    }
+    .view-btn:hover{transform:translateY(-1px);color:#0f172a}
+    .view-btn.active{
+      background:linear-gradient(180deg,#fff,#fff7ed)!important;
+      color:#c2410c!important;
+      box-shadow:0 10px 22px rgba(251,146,60,.18), inset 0 1px 0 rgba(255,255,255,.95);
+      border:1px solid rgba(251,146,60,.38)!important;
+    }
+    .intent-chips{
+      background:rgba(248,250,252,.88);
+      border:1px solid rgba(226,232,240,.9);
+      border-radius:18px;
+      padding:7px;
+      margin-top:8px!important;
+    }
+    .intent-chip{
+      padding:8px 11px!important;
+      font-size:12px!important;
+      background:linear-gradient(180deg,#fff,#fff7ed)!important;
+      box-shadow:0 8px 18px rgba(251,146,60,.10);
+      transition:.18s ease;
+    }
+    .intent-chip:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(251,146,60,.17)}
+    .filters{
+      padding:8px 0!important;
+      background:rgba(255,255,255,.72)!important;
+    }
+    .filter-row{
+      background:rgba(255,255,255,.75);
+      border:1px solid rgba(226,232,240,.85);
+      border-radius:22px;
+      padding:7px;
+      box-shadow:0 12px 30px rgba(15,23,42,.07);
+    }
+    .chip{
+      padding:8px 11px!important;
+      font-size:12px!important;
+      border-radius:999px!important;
+      background:transparent!important;
+      border:0!important;
+      color:#475569!important;
+      transition:.18s ease;
+    }
+    .chip:hover{background:#f8fafc!important;color:#0f172a!important;transform:translateY(-1px)}
+    .chip.active{
+      background:linear-gradient(180deg,#fff,#fff3e8)!important;
+      color:#c2410c!important;
+      box-shadow:0 10px 22px rgba(251,146,60,.16);
+      border:1px solid rgba(251,146,60,.32)!important;
+    }
+    .grid{gap:12px!important}
+    .grid.view-compact{grid-template-columns:repeat(6,minmax(0,1fr))!important}
+    .grid.view-compact .card{padding:10px!important;border-radius:18px!important}
+    .grid.view-compact .image{height:112px!important;border-radius:14px!important}
+    .grid.view-compact .card h3{font-size:13px!important;line-height:1.25!important;min-height:34px!important;margin:6px 0!important}
+    .grid.view-compact .price-row strong{font-size:18px!important}
+    .grid.view-compact .price-row del,.grid.view-compact .discount{font-size:11px!important}
+    .grid.view-compact .badges{margin:7px 0!important;gap:4px!important}
+    .grid.view-compact .tag{font-size:10px!important;padding:4px 6px!important}
+    .grid.view-compact .rating-line,.grid.view-compact .shipping-line{font-size:11px!important;margin-top:6px!important;gap:6px!important}
+    .grid.view-compact .cta,.grid.view-compact .secondary-action{padding:9px!important;border-radius:12px!important;font-size:12px!important;margin-top:6px!important}
+    .grid.view-compact .deal-score{width:50px!important;height:50px!important;border-radius:16px!important}
+    .grid.view-compact .deal-score b{font-size:14px!important}
+    .grid.view-compact .compare-check{font-size:10px!important;padding:5px 7px!important}
+    .grid.view-cards{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+    .notice{padding:10px 13px!important;font-size:13px!important}
+    .best-platform-hero{padding:18px!important;border-radius:24px!important}
+    .best-platform-content h2{font-size:26px!important}
+    .score-box{padding:13px!important;border-radius:18px!important}
+    .manager-panel,.compare-panel{padding:15px!important;border-radius:20px!important}
+    .platform-row{padding:9px!important;margin:7px 0!important}
+    .info-card,.step,.platform-card{padding:15px!important;border-radius:18px!important}
+    .quick-box{max-width:900px!important;border-radius:24px!important}
+    .quick-content{padding:18px!important}
+    .quick-content h2{font-size:24px!important}
+    .quick-img{min-height:360px!important}
+    footer{padding:26px 0!important}
+    @media(max-width:1100px){.grid.view-compact{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
+    @media(max-width:900px){
+      .toolbar-grid{grid-template-columns:1fr 1fr!important}
+      .grid.view-compact{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+      .rewards-card{grid-template-columns:1fr!important}
+    }
+    @media(max-width:560px){
+      .hero h2{font-size:29px!important}
+      .toolbar-grid{grid-template-columns:1fr!important}
+      .advanced-toolbar{position:relative!important;top:0!important}
+      .grid.view-compact{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+      .grid.view-compact .image{height:105px!important}
+      .grid.view-compact .card h3{font-size:12px!important}
+      .grid.view-compact .price-row strong{font-size:16px!important}
+    }
+
     @media(max-width:900px){
       .toolbar-grid{grid-template-columns:1fr 1fr}
       .grid.view-list .card{grid-template-columns:1fr}
@@ -282,6 +455,179 @@
       background:linear-gradient(135deg,#eff6ff,#fff7ed);border:1px solid #bfdbfe;border-radius:20px;padding:13px;margin:12px 0;color:#1e3a8a
     }
     .ai-assistant-box b{color:#0f172a}
+
+    /* v1.9 Compact Premium UI */
+    .section{padding:22px 0!important}
+    .hero{padding:42px 0 28px!important}
+    .hero h2{font-size:50px!important}
+    .hero p{font-size:16px!important;line-height:1.65!important;margin-bottom:16px!important}
+    .stats{margin-top:12px!important}
+    .geo-panel{margin-top:12px!important;padding:11px!important}
+    .benefits{margin-top:-18px!important}
+    .benefit{padding:13px!important}
+    .benefit .bicon{width:38px!important;height:38px!important;font-size:21px!important}
+    .rewards-section{margin-top:12px!important}
+    .rewards-card{padding:13px!important;border-radius:22px!important;grid-template-columns:1.2fr .8fr!important}
+    .rewards-card h2{font-size:22px!important;margin-bottom:4px!important}
+    .rewards-card p{line-height:1.45!important;font-size:13px!important}
+    .reward-steps{margin-top:10px!important}
+    .reward-step{padding:9px!important;font-size:12px!important}
+    .reward-wallet{padding:12px!important;border-radius:20px!important}
+    .wallet-points{font-size:26px!important}
+    .best-deal{padding:10px!important;border-radius:24px!important;grid-template-columns:.85fr 1.15fr!important}
+    .best-copy h2{font-size:23px!important}
+    .best-copy p{font-size:13px!important}
+    .reason{font-size:12px!important}
+    .best-deal .image{height:132px!important}
+    .best-deal .price-row strong{font-size:19px!important}
+    .section-head{margin-bottom:12px!important}
+    .section-head h2{font-size:26px!important}
+    .section-head p{font-size:13px!important}
+    .advanced-toolbar{
+      position:sticky;top:88px;z-index:70;
+      background:rgba(255,255,255,.78)!important;
+      backdrop-filter:blur(22px);
+      border:1px solid rgba(255,255,255,.72)!important;
+      box-shadow:0 18px 45px rgba(15,23,42,.11)!important;
+      border-radius:26px!important;
+      padding:10px!important;
+      margin-bottom:14px!important;
+    }
+    .toolbar-grid{
+      grid-template-columns:1.15fr .95fr .95fr .95fr!important;
+      gap:8px!important;
+    }
+    .field{
+      background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(248,250,252,.90));
+      border:1px solid rgba(226,232,240,.9);
+      border-radius:18px;
+      padding:8px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 10px 22px rgba(15,23,42,.045);
+    }
+    .field label{
+      font-size:11px!important;
+      margin-bottom:6px!important;
+      padding-inline:4px;
+    }
+    .field select,.field input{
+      padding:9px 10px!important;
+      border-radius:13px!important;
+      background:white!important;
+      border-color:#e2e8f0!important;
+      box-shadow:inset 0 1px 2px rgba(15,23,42,.04);
+      font-size:13px;
+    }
+    .view-toggle{
+      background:#eef2f7;
+      padding:4px;
+      border-radius:16px;
+      display:grid!important;
+      grid-template-columns:repeat(4,1fr);
+      gap:3px!important;
+      box-shadow:inset 0 2px 8px rgba(15,23,42,.08);
+    }
+    .view-btn{
+      border:0!important;
+      background:transparent!important;
+      border-radius:13px!important;
+      padding:9px 7px!important;
+      font-size:12px!important;
+      position:relative;
+      transition:.2s ease;
+      color:#475569;
+    }
+    .view-btn:hover{transform:translateY(-1px);color:#0f172a}
+    .view-btn.active{
+      background:linear-gradient(180deg,#fff,#fff7ed)!important;
+      color:#c2410c!important;
+      box-shadow:0 10px 22px rgba(251,146,60,.18), inset 0 1px 0 rgba(255,255,255,.95);
+      border:1px solid rgba(251,146,60,.38)!important;
+    }
+    .intent-chips{
+      background:rgba(248,250,252,.88);
+      border:1px solid rgba(226,232,240,.9);
+      border-radius:18px;
+      padding:7px;
+      margin-top:8px!important;
+    }
+    .intent-chip{
+      padding:8px 11px!important;
+      font-size:12px!important;
+      background:linear-gradient(180deg,#fff,#fff7ed)!important;
+      box-shadow:0 8px 18px rgba(251,146,60,.10);
+      transition:.18s ease;
+    }
+    .intent-chip:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(251,146,60,.17)}
+    .filters{
+      padding:8px 0!important;
+      background:rgba(255,255,255,.72)!important;
+    }
+    .filter-row{
+      background:rgba(255,255,255,.75);
+      border:1px solid rgba(226,232,240,.85);
+      border-radius:22px;
+      padding:7px;
+      box-shadow:0 12px 30px rgba(15,23,42,.07);
+    }
+    .chip{
+      padding:8px 11px!important;
+      font-size:12px!important;
+      border-radius:999px!important;
+      background:transparent!important;
+      border:0!important;
+      color:#475569!important;
+      transition:.18s ease;
+    }
+    .chip:hover{background:#f8fafc!important;color:#0f172a!important;transform:translateY(-1px)}
+    .chip.active{
+      background:linear-gradient(180deg,#fff,#fff3e8)!important;
+      color:#c2410c!important;
+      box-shadow:0 10px 22px rgba(251,146,60,.16);
+      border:1px solid rgba(251,146,60,.32)!important;
+    }
+    .grid{gap:12px!important}
+    .grid.view-compact{grid-template-columns:repeat(6,minmax(0,1fr))!important}
+    .grid.view-compact .card{padding:10px!important;border-radius:18px!important}
+    .grid.view-compact .image{height:112px!important;border-radius:14px!important}
+    .grid.view-compact .card h3{font-size:13px!important;line-height:1.25!important;min-height:34px!important;margin:6px 0!important}
+    .grid.view-compact .price-row strong{font-size:18px!important}
+    .grid.view-compact .price-row del,.grid.view-compact .discount{font-size:11px!important}
+    .grid.view-compact .badges{margin:7px 0!important;gap:4px!important}
+    .grid.view-compact .tag{font-size:10px!important;padding:4px 6px!important}
+    .grid.view-compact .rating-line,.grid.view-compact .shipping-line{font-size:11px!important;margin-top:6px!important;gap:6px!important}
+    .grid.view-compact .cta,.grid.view-compact .secondary-action{padding:9px!important;border-radius:12px!important;font-size:12px!important;margin-top:6px!important}
+    .grid.view-compact .deal-score{width:50px!important;height:50px!important;border-radius:16px!important}
+    .grid.view-compact .deal-score b{font-size:14px!important}
+    .grid.view-compact .compare-check{font-size:10px!important;padding:5px 7px!important}
+    .grid.view-cards{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+    .notice{padding:10px 13px!important;font-size:13px!important}
+    .best-platform-hero{padding:18px!important;border-radius:24px!important}
+    .best-platform-content h2{font-size:26px!important}
+    .score-box{padding:13px!important;border-radius:18px!important}
+    .manager-panel,.compare-panel{padding:15px!important;border-radius:20px!important}
+    .platform-row{padding:9px!important;margin:7px 0!important}
+    .info-card,.step,.platform-card{padding:15px!important;border-radius:18px!important}
+    .quick-box{max-width:900px!important;border-radius:24px!important}
+    .quick-content{padding:18px!important}
+    .quick-content h2{font-size:24px!important}
+    .quick-img{min-height:360px!important}
+    footer{padding:26px 0!important}
+    @media(max-width:1100px){.grid.view-compact{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
+    @media(max-width:900px){
+      .toolbar-grid{grid-template-columns:1fr 1fr!important}
+      .grid.view-compact{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+      .rewards-card{grid-template-columns:1fr!important}
+    }
+    @media(max-width:560px){
+      .hero h2{font-size:29px!important}
+      .toolbar-grid{grid-template-columns:1fr!important}
+      .advanced-toolbar{position:relative!important;top:0!important}
+      .grid.view-compact{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+      .grid.view-compact .image{height:105px!important}
+      .grid.view-compact .card h3{font-size:12px!important}
+      .grid.view-compact .price-row strong{font-size:16px!important}
+    }
+
     @media(max-width:900px){
       .toolbar-grid{grid-template-columns:1fr 1fr}
       .grid.view-list .card{grid-template-columns:1fr}
@@ -402,7 +748,7 @@ function assignBrands(){
  });
 }
 
-let state={view:'cards',platformFilter:'all',brandFilter:'all',compareList:[],country:localStorage.getItem("country")||"KW",lang:localStorage.getItem("lang")||"ar",sort:"score",q:"",admin:false,aff:{},compareA:"aliexpress",compareB:"temu"};
+let state={view:'compact',platformFilter:'all',brandFilter:'all',compareList:[],country:localStorage.getItem("country")||"KW",lang:localStorage.getItem("lang")||"ar",sort:"score",q:"",admin:false,aff:{},compareA:"aliexpress",compareB:"temu"};
 function C(){return SUPPORTED_COUNTRIES[state.country]||SUPPORTED_COUNTRIES.KW}
 function L(){return T[state.lang==="ar"?"ar":"en"]}
 function norm(v,min,max,inv){if(max===min)return 1;let n=(v-min)/(max-min);return inv?1-n:n}
@@ -533,7 +879,7 @@ function render(){
  <div class="filters"><div class="container filter-row"><b>${l.filter}</b>${filterBtns}</div></div>
  <main id="deals" class="container section"><div class="section-head"><div><h2>${l.deals}</h2><p>${l.resultsNote}</p></div><span class="pill" style="background:#fff;color:#111;border-color:#e5e7eb">${l.bestToday}: ${c.flag} ${state.lang==='ar'?c.countryAr:c.countryEn}</span></div><div class="advanced-toolbar">
    <div class="toolbar-grid">
-    <div class="field"><label>${l.viewMode}</label><div class="view-toggle">${[["cards",l.cards],["list",l.list],["compact",l.compact],["compare",l.compare]].map(v=>`<button class="view-btn ${state.view===v[0]?'active':''}" onclick="state.view='${v[0]}';render()">${v[1]}</button>`).join("")}</div></div>
+    <div class="field"><label>${l.viewMode}</label><div class="view-toggle">${[["cards","▦",l.cards],["list","☰",l.list],["compact","▥",l.compact],["compare","⇄",l.compare]].map(v=>`<button class="view-btn ${state.view===v[0]?'active':''}" onclick="state.view='${v[0]}';render()">${v[1]} ${v[2]}</button>`).join("")}</div></div>
     <div class="field"><label>${l.platformFilter}</label><select onchange="state.platformFilter=this.value;state.brandFilter='all';render()"><option value="all">${l.allPlatforms}</option>${Object.keys(platforms).filter(k=>platforms[k].enabled).map(k=>`<option value="${k}" ${state.platformFilter===k?'selected':''}>${platforms[k].name}</option>`).join("")}</select></div>
     <div class="field"><label>${l.brandFilter}</label><select onchange="state.brandFilter=this.value;render()"><option value="all">${l.allBrands}</option>${availableBrands().map(b=>`<option value="${b}" ${state.brandFilter===b?'selected':''}>${b}</option>`).join("")}</select></div>
     <div class="field"><label>${l.country}</label><select onchange="state.country=this.value;localStorage.setItem('country',this.value);render()">${Object.keys(SUPPORTED_COUNTRIES).map(k=>`<option value="${k}" ${state.country===k?'selected':''}>${SUPPORTED_COUNTRIES[k].flag} ${state.lang==='ar'?SUPPORTED_COUNTRIES[k].countryAr:SUPPORTED_COUNTRIES[k].countryEn}</option>`).join("")}</select></div>
