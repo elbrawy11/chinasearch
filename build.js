@@ -9,6 +9,7 @@ const files = [
   "privacy.html",
   "terms.html",
   "contact.html",
+  "admin.html",
   "robots.txt",
   "sitemap.xml",
   "manifest.json",
