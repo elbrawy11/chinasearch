@@ -81,6 +81,17 @@ body.route-page .page-view{display:block}
   .page-grid,.contact-box{grid-template-columns:1fr}
 }
 
+
+/* v3.2 final polish before hosting */
+.footer-trust-links{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+.footer-trust-links a{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.13);border-radius:999px;padding:8px 11px;color:#cbd5e1;text-decoration:none;font-weight:850;font-size:12px}
+.footer-trust-links a:hover{background:rgba(255,255,255,.14);color:#fff}
+.admin-lock-note{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;border-radius:16px;padding:12px;margin-top:12px;font-size:12px;line-height:1.6}
+.consent-mini{position:fixed;left:18px;bottom:18px;z-index:2300;max-width:380px;background:white;border:1px solid #e2e8f0;border-radius:20px;padding:14px;box-shadow:0 20px 60px rgba(2,6,23,.20);display:none}
+body[dir="rtl"] .consent-mini{left:auto;right:18px}
+.consent-mini.show{display:block}.consent-mini b{display:block;margin-bottom:5px}.consent-mini p{margin:0 0 10px;color:#64748b;font-size:12px;line-height:1.55}.consent-mini button{border:0;background:#071225;color:white;border-radius:999px;padding:9px 12px;font-weight:900;cursor:pointer}
+@media(max-width:560px){.consent-mini{left:12px!important;right:12px!important;bottom:12px;max-width:none}}
+
 </style>
 </head>
 <body>
@@ -471,6 +482,21 @@ function openMobileFilters(){
 function closeMobileFilters(){document.getElementById("mobileFilterSheet").classList.remove("show")}
 
 
+
+function adminPasswordRequired(){
+ return isAdminRoute() && sessionStorage.getItem("cs_admin_unlocked")!=="1";
+}
+function unlockAdmin(){
+ const pass=prompt("Admin access password");
+ if(pass==="cs-admin-2026"){
+   sessionStorage.setItem("cs_admin_unlocked","1");
+   return true;
+ }
+ alert("Admin access denied");
+ history.pushState("",document.title,location.pathname);
+ return false;
+}
+
 function isAdminRoute(){
  return new URLSearchParams(location.search).get("admin")==="1" || location.hash==="#admin";
 }
@@ -747,7 +773,7 @@ function renderLegalPage(){
 
 function render(){
  assignBrands();
- if(isAdminRoute())state.admin=true;let l=L(),c=C();document.body.classList.toggle("admin-mode",isAdminRoute());document.documentElement.lang=state.lang;setTimeout(()=>{let f=document.getElementById("mobileFilterFab");if(f)f.innerHTML="⚙️ "+l.filters},0); if(state.q)addInterest(state.q); if(state.brandFilter!=="all")addInterest(state.brandFilter); if(state.platformFilter!=="all"&&platforms[state.platformFilter])addInterest(platforms[state.platformFilter].name);document.documentElement.dir=state.lang==="ar"?"rtl":"ltr";document.body.dir=document.documentElement.dir;
+ if(isAdminRoute()){ if(adminPasswordRequired()&&!unlockAdmin()) state.admin=false; else state.admin=true; }let l=L(),c=C();document.body.classList.toggle("admin-mode",isAdminRoute());document.documentElement.lang=state.lang;setTimeout(()=>{let f=document.getElementById("mobileFilterFab");if(f)f.innerHTML="⚙️ "+l.filters},0); if(state.q)addInterest(state.q); if(state.brandFilter!=="all")addInterest(state.brandFilter); if(state.platformFilter!=="all"&&platforms[state.platformFilter])addInterest(platforms[state.platformFilter].name);document.documentElement.dir=state.lang==="ar"?"rtl":"ltr";document.body.dir=document.documentElement.dir;
  let data=ranked().filter(p=>!state.q||p.title.toLowerCase().includes(state.q.toLowerCase())||p.titleAr.includes(state.q)||p.cat.toLowerCase().includes(state.q.toLowerCase())||(p.brand||'').toLowerCase().includes(state.q.toLowerCase()));
  if(state.sort==="price")data.sort((a,b)=>a.price-b.price);else if(state.sort==="ship")data.sort((a,b)=>a.ship-b.ship);else if(state.sort==="rating")data.sort((a,b)=>b.rating-a.rating);else if(state.sort==="free")data.sort((a,b)=>(b.free?1:0)-(a.free?1:0)||b.score-a.score);else if(state.sort==="pop")data.sort((a,b)=>b.reviews-a.reviews);else data.sort((a,b)=>b.score-a.score);
  window._products={};data.forEach(p=>window._products[p.id]=p);
@@ -836,7 +862,7 @@ document.getElementById("app").innerHTML=`
       <div class="admin-kpi"><b>Ready</b><span>${l.cacheStatus}</span></div>
     </div>
     <div class="admin-grid">
-      <div class="admin-panel"><h3>${l.mode}</h3><select><option>${l.mock}</option><option>${l.live}</option></select><button class="primary" onclick="addPlatform()">${l.addPlatform}</button><div class="admin-status"><p><span class="status-dot"></span>${l.mockActive}</p><p>🕒 ${l.lastSync}: 24h</p><p>⚡ ${l.cacheReady}</p><p>🔗 ${l.affiliateTester}</p><p>🚀 ${l.liveReady}</p><p>🧾 Affiliate links: platform search mode until approval</p></div><div class="admin-route-note"><b>${l.adminAccess}</b><br>${l.adminAccessText}</div></div>
+      <div class="admin-panel"><h3>${l.mode}</h3><select><option>${l.mock}</option><option>${l.live}</option></select><button class="primary" onclick="addPlatform()">${l.addPlatform}</button><div class="admin-status"><p><span class="status-dot"></span>${l.mockActive}</p><p>🕒 ${l.lastSync}: 24h</p><p>⚡ ${l.cacheReady}</p><p>🔗 ${l.affiliateTester}</p><p>🚀 ${l.liveReady}</p><p>🧾 Affiliate links: platform search mode until approval</p></div><div class="admin-route-note"><b>${l.adminAccess}</b><br>${l.adminAccessText}</div><div class="admin-lock-note">Admin is protected by a temporary front-end password for demo only. Use real backend login before storing sensitive data.</div></div>
       <div class="admin-panel"><h3>${l.aff}</h3>${Object.keys(platforms).map(k=>`<input placeholder="${platforms[k].name} ID" oninput="state.aff['${k}']=this.value">`).join("")}</div>
       <div class="admin-panel"><h3>${l.stats}</h3>${Object.keys(platforms).map(k=>`<p>${platforms[k].name}: ${localStorage.getItem("click_"+k)||0}</p>`).join("")}</div>
     </div>
@@ -859,7 +885,14 @@ document.getElementById("app").innerHTML=`
  <section id="why" class="container section lower-compact"><div class="section-head"><div><h2>${l.whyTitle}</h2><p>${l.whySub}</p></div></div><div class="info-grid"><div class="info-card"><div class="big">🛡️</div><h3>${l.w1}</h3><p>${l.w1p}</p></div><div class="info-card"><div class="big">💸</div><h3>${l.w2}</h3><p>${l.w2p}</p></div><div class="info-card"><div class="big">⚡</div><h3>${l.w3}</h3><p>${l.w3p}</p></div><div class="info-card"><div class="big">🌍</div><h3>${l.w4}</h3><p>${l.w4p}</p></div></div></section>
  <section id="how" class="container section lower-compact"><div class="section-head"><h2>${l.howTitle}</h2></div><div class="steps"><div class="step"><div class="step-num">1</div><h3>${l.s1}</h3><p>${l.s1p}</p></div><div class="step"><div class="step-num">2</div><h3>${l.s2}</h3><p>${l.s2p}</p></div><div class="step"><div class="step-num">3</div><h3>${l.s3}</h3><p>${l.s3p}</p></div></div></section>
  <section id="faq" class="container section lower-compact"><div class="section-head"><h2>${l.faq}</h2></div><div class="faq"><details><summary>${l.q1}</summary><p>${l.a1}</p></details><details><summary>${l.q2}</summary><p>${l.a2}</p></details><details><summary>${l.q3}</summary><p>${l.a3}</p></details><details><summary>${l.q4}</summary><p>${l.a4}</p></details></div></section>
- <footer><div class="container footer-grid"><div><h3>ChinaSearch</h3><p>${l.footer}</p><div class="legal-nav">
+ <footer><div class="container footer-grid"><div><h3>ChinaSearch</h3><p>${l.footer}</p><div class="footer-trust-links">
+  <a href="/about.html">About</a>
+  <a href="/how-it-works.html">How it works</a>
+  <a href="/affiliate-disclosure.html">Affiliate disclosure</a>
+  <a href="/privacy.html">Privacy</a>
+  <a href="/terms.html">Terms</a>
+  <a href="/contact.html">Contact</a>
+</div><div class="legal-nav">
   <a href="/about.html">${l.about}</a>
   <a href="/how-it-works.html">${l.howWorks}</a>
   <a href="/affiliate-disclosure.html">${l.affiliateDisclosure}</a>
@@ -874,5 +907,6 @@ render();
 renderLegalPage();
 window.addEventListener('hashchange',()=>{render();renderLegalPage()});
 </script>
+<div id="consentMini" class="consent-mini"><b>Privacy & personalization</b><p>ChinaSearch uses local browser storage for preferences, searches, watched products and demo recommendations. No real tracking is activated yet.</p><button onclick="localStorage.setItem('cs_consent','1');document.getElementById('consentMini').classList.remove('show')">OK</button></div>
 </body>
 </html>
