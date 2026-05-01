@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ChinaSearch — Smart China Deals</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <meta name="description" content="ChinaSearch is a smart affiliate product discovery platform for Chinese marketplaces." />
   <style>
     :root{
@@ -17,9 +20,9 @@
     html{scroll-behavior:smooth}
     body{
       margin:0;background:radial-gradient(circle at 8% 3%,rgba(255,106,0,.09),transparent 25%),radial-gradient(circle at 90% 5%,rgba(37,99,235,.10),transparent 28%),var(--bg);
-      color:var(--ink);font-family:Arial,Tahoma,system-ui,sans-serif;overflow-x:hidden
+      color:var(--ink);font-family:'Alexandria',Arial,Tahoma,system-ui,sans-serif;overflow-x:hidden
     }
-    body[dir="ltr"]{font-family:Inter,Arial,system-ui,sans-serif}
+    body[dir="ltr"]{font-family:'Inter',Arial,system-ui,sans-serif}
     a{text-decoration:none;color:inherit}button,select,input{font-family:inherit}
     .container{max-width:1230px;margin:auto;padding-inline:22px}
     .topbar{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.88);backdrop-filter:blur(18px);border-bottom:1px solid rgba(229,231,235,.75)}
@@ -359,6 +362,93 @@
     .quick-content h2{font-size:24px!important}
     .quick-img{min-height:360px!important}
     footer{padding:26px 0!important}
+
+    /* v2.0 Icon + Font Premium Polish */
+    .ico{
+      width:16px;height:16px;display:inline-block;vertical-align:-3px;
+      stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;
+      flex:0 0 auto;
+    }
+    .ico.solid{fill:currentColor;stroke:none}
+    .view-btn,.chip,.intent-chip,.primary,.ghost,.select{
+      gap:7px!important;
+      align-items:center!important;
+      justify-content:center!important;
+      letter-spacing:-.15px;
+    }
+    .view-btn .ico{width:15px;height:15px}
+    .chip .ico,.intent-chip .ico{width:15px;height:15px}
+    .view-btn.active .ico,.chip.active .ico{
+      filter:drop-shadow(0 4px 8px rgba(251,146,60,.22));
+      transform:scale(1.08);
+    }
+    .view-toggle{
+      background:linear-gradient(180deg,#eef2f7,#e8edf5)!important;
+      border:1px solid rgba(203,213,225,.75);
+      padding:5px!important;
+    }
+    .view-btn{
+      display:flex!important;
+      min-height:36px;
+    }
+    .view-btn.active{
+      background:linear-gradient(180deg,#fff,#fff8f0)!important;
+      box-shadow:0 12px 28px rgba(251,146,60,.18), inset 0 1px 0 rgba(255,255,255,.98)!important;
+    }
+    .filter-row{
+      gap:4px!important;
+      padding:6px!important;
+    }
+    .chip{
+      display:inline-flex!important;
+      min-height:34px;
+      padding:8px 12px!important;
+    }
+    .chip.active{
+      background:linear-gradient(180deg,#ffffff,#fff4ea)!important;
+      box-shadow:0 12px 25px rgba(251,146,60,.17), inset 0 1px 0 rgba(255,255,255,.95)!important;
+    }
+    .intent-chip{
+      display:inline-flex!important;
+      min-height:34px;
+      border-color:#fed7aa!important;
+    }
+    .field label{
+      letter-spacing:-.1px;
+    }
+    .card h3,.section-head h2,.hero h2,.brand h1{
+      letter-spacing:-.7px;
+    }
+    body[dir="rtl"] .card h3, body[dir="rtl"] .section-head h2, body[dir="rtl"] .hero h2, body[dir="rtl"] .brand h1{
+      letter-spacing:-.35px;
+    }
+    .price-row strong{
+      font-family:'Inter','Alexandria',Arial,sans-serif;
+    }
+    .toolbar-grid .field:first-child{
+      background:linear-gradient(180deg,#fff,#f8fafc);
+      border-color:rgba(251,146,60,.20);
+    }
+    .advanced-toolbar{
+      border-radius:28px!important;
+    }
+    .field select{
+      appearance:none;
+      background-image:linear-gradient(45deg,transparent 50%,#64748b 50%),linear-gradient(135deg,#64748b 50%,transparent 50%)!important;
+      background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%!important;
+      background-size:5px 5px,5px 5px!important;
+      background-repeat:no-repeat!important;
+    }
+    body[dir="rtl"] .field select{
+      background-position:18px 50%,23px 50%!important;
+    }
+    .tag{
+      letter-spacing:-.1px;
+    }
+    .ai-note{
+      font-weight:650;
+    }
+
     @media(max-width:1100px){.grid.view-compact{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
     @media(max-width:900px){
       .toolbar-grid{grid-template-columns:1fr 1fr!important}
@@ -612,6 +702,93 @@
     .quick-content h2{font-size:24px!important}
     .quick-img{min-height:360px!important}
     footer{padding:26px 0!important}
+
+    /* v2.0 Icon + Font Premium Polish */
+    .ico{
+      width:16px;height:16px;display:inline-block;vertical-align:-3px;
+      stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;
+      flex:0 0 auto;
+    }
+    .ico.solid{fill:currentColor;stroke:none}
+    .view-btn,.chip,.intent-chip,.primary,.ghost,.select{
+      gap:7px!important;
+      align-items:center!important;
+      justify-content:center!important;
+      letter-spacing:-.15px;
+    }
+    .view-btn .ico{width:15px;height:15px}
+    .chip .ico,.intent-chip .ico{width:15px;height:15px}
+    .view-btn.active .ico,.chip.active .ico{
+      filter:drop-shadow(0 4px 8px rgba(251,146,60,.22));
+      transform:scale(1.08);
+    }
+    .view-toggle{
+      background:linear-gradient(180deg,#eef2f7,#e8edf5)!important;
+      border:1px solid rgba(203,213,225,.75);
+      padding:5px!important;
+    }
+    .view-btn{
+      display:flex!important;
+      min-height:36px;
+    }
+    .view-btn.active{
+      background:linear-gradient(180deg,#fff,#fff8f0)!important;
+      box-shadow:0 12px 28px rgba(251,146,60,.18), inset 0 1px 0 rgba(255,255,255,.98)!important;
+    }
+    .filter-row{
+      gap:4px!important;
+      padding:6px!important;
+    }
+    .chip{
+      display:inline-flex!important;
+      min-height:34px;
+      padding:8px 12px!important;
+    }
+    .chip.active{
+      background:linear-gradient(180deg,#ffffff,#fff4ea)!important;
+      box-shadow:0 12px 25px rgba(251,146,60,.17), inset 0 1px 0 rgba(255,255,255,.95)!important;
+    }
+    .intent-chip{
+      display:inline-flex!important;
+      min-height:34px;
+      border-color:#fed7aa!important;
+    }
+    .field label{
+      letter-spacing:-.1px;
+    }
+    .card h3,.section-head h2,.hero h2,.brand h1{
+      letter-spacing:-.7px;
+    }
+    body[dir="rtl"] .card h3, body[dir="rtl"] .section-head h2, body[dir="rtl"] .hero h2, body[dir="rtl"] .brand h1{
+      letter-spacing:-.35px;
+    }
+    .price-row strong{
+      font-family:'Inter','Alexandria',Arial,sans-serif;
+    }
+    .toolbar-grid .field:first-child{
+      background:linear-gradient(180deg,#fff,#f8fafc);
+      border-color:rgba(251,146,60,.20);
+    }
+    .advanced-toolbar{
+      border-radius:28px!important;
+    }
+    .field select{
+      appearance:none;
+      background-image:linear-gradient(45deg,transparent 50%,#64748b 50%),linear-gradient(135deg,#64748b 50%,transparent 50%)!important;
+      background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%!important;
+      background-size:5px 5px,5px 5px!important;
+      background-repeat:no-repeat!important;
+    }
+    body[dir="rtl"] .field select{
+      background-position:18px 50%,23px 50%!important;
+    }
+    .tag{
+      letter-spacing:-.1px;
+    }
+    .ai-note{
+      font-weight:650;
+    }
+
     @media(max-width:1100px){.grid.view-compact{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
     @media(max-width:900px){
       .toolbar-grid{grid-template-columns:1fr 1fr!important}
@@ -647,6 +824,22 @@
   <div id="exitHook" class="exit-hook"></div>
 
 <script>
+
+const ICONS={
+ grid:`<svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>`,
+ list:`<svg class="ico" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg>`,
+ compact:`<svg class="ico" viewBox="0 0 24 24"><rect x="3" y="4" width="5" height="5" rx="1"/><rect x="10" y="4" width="5" height="5" rx="1"/><rect x="17" y="4" width="4" height="5" rx="1"/><rect x="3" y="11" width="5" height="5" rx="1"/><rect x="10" y="11" width="5" height="5" rx="1"/><rect x="17" y="11" width="4" height="5" rx="1"/><rect x="3" y="18" width="5" height="2" rx="1"/><rect x="10" y="18" width="5" height="2" rx="1"/><rect x="17" y="18" width="4" height="2" rx="1"/></svg>`,
+ compare:`<svg class="ico" viewBox="0 0 24 24"><path d="M7 7h13"/><path d="M17 4l3 3-3 3"/><path d="M17 17H4"/><path d="M7 14l-3 3 3 3"/></svg>`,
+ star:`<svg class="ico" viewBox="0 0 24 24"><path d="M12 3l2.7 5.5 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.8 1-6.1-4.4-4.3 6.1-.9L12 3z"/></svg>`,
+ money:`<svg class="ico" viewBox="0 0 24 24"><path d="M4 7h16v10H4z"/><path d="M8 12h.01"/><path d="M16 12h.01"/><path d="M12 9.5c-1.4 0-2.5 1.1-2.5 2.5s1.1 2.5 2.5 2.5 2.5-1.1 2.5-2.5-1.1-2.5-2.5-2.5z"/></svg>`,
+ rocket:`<svg class="ico" viewBox="0 0 24 24"><path d="M5 19c2-1 3.5-1.2 5-1"/><path d="M14 4c3.5.5 5.5 2.5 6 6-2 2-4 3.5-6.5 4.5L9.5 10C10.5 7.8 12 5.8 14 4z"/><path d="M9.5 10L6 11l-2 4 5-1"/><path d="M13.5 14.5L13 20l4-2 1-3.5"/><circle cx="15" cy="9" r="1.5"/></svg>`,
+ truck:`<svg class="ico" viewBox="0 0 24 24"><path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>`,
+ trend:`<svg class="ico" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 7-8"/><path d="M14 7h6v6"/></svg>`,
+ quality:`<svg class="ico" viewBox="0 0 24 24"><path d="M12 3l7 4v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V7z"/><path d="M9 12l2 2 4-4"/></svg>`,
+ free:`<svg class="ico" viewBox="0 0 24 24"><path d="M20 12v8H4v-8"/><path d="M2 7h20v5H2z"/><path d="M12 7v13"/><path d="M12 7H8.5a2.5 2.5 0 1 1 2.1-3.8C11.2 4 12 5.5 12 7z"/><path d="M12 7h3.5a2.5 2.5 0 1 0-2.1-3.8C12.8 4 12 5.5 12 7z"/></svg>`
+};
+function icon(name){return ICONS[name]||""}
+
 const SUPPORTED_COUNTRIES={
  KW:{region:"Middle East",countryAr:"الكويت",countryEn:"Kuwait",currency:"KWD",symbol:"KD",rate:.31,lang:"ar",flag:"🇰🇼"},
  SA:{region:"Middle East",countryAr:"السعودية",countryEn:"Saudi Arabia",currency:"SAR",symbol:"ر.س",rate:3.75,lang:"ar",flag:"🇸🇦"},
@@ -879,12 +1072,12 @@ function render(){
  <div class="filters"><div class="container filter-row"><b>${l.filter}</b>${filterBtns}</div></div>
  <main id="deals" class="container section"><div class="section-head"><div><h2>${l.deals}</h2><p>${l.resultsNote}</p></div><span class="pill" style="background:#fff;color:#111;border-color:#e5e7eb">${l.bestToday}: ${c.flag} ${state.lang==='ar'?c.countryAr:c.countryEn}</span></div><div class="advanced-toolbar">
    <div class="toolbar-grid">
-    <div class="field"><label>${l.viewMode}</label><div class="view-toggle">${[["cards","▦",l.cards],["list","☰",l.list],["compact","▥",l.compact],["compare","⇄",l.compare]].map(v=>`<button class="view-btn ${state.view===v[0]?'active':''}" onclick="state.view='${v[0]}';render()">${v[1]} ${v[2]}</button>`).join("")}</div></div>
+    <div class="field"><label>${l.viewMode}</label><div class="view-toggle">${[["cards","grid",l.cards],["list","list",l.list],["compact","compact",l.compact],["compare","compare",l.compare]].map(v=>`<button class="view-btn ${state.view===v[0]?'active':''}" onclick="state.view='${v[0]}';render()">${icon(v[1])}<span>${v[2]}</span></button>`).join("")}</div></div>
     <div class="field"><label>${l.platformFilter}</label><select onchange="state.platformFilter=this.value;state.brandFilter='all';render()"><option value="all">${l.allPlatforms}</option>${Object.keys(platforms).filter(k=>platforms[k].enabled).map(k=>`<option value="${k}" ${state.platformFilter===k?'selected':''}>${platforms[k].name}</option>`).join("")}</select></div>
     <div class="field"><label>${l.brandFilter}</label><select onchange="state.brandFilter=this.value;render()"><option value="all">${l.allBrands}</option>${availableBrands().map(b=>`<option value="${b}" ${state.brandFilter===b?'selected':''}>${b}</option>`).join("")}</select></div>
     <div class="field"><label>${l.country}</label><select onchange="state.country=this.value;localStorage.setItem('country',this.value);render()">${Object.keys(SUPPORTED_COUNTRIES).map(k=>`<option value="${k}" ${state.country===k?'selected':''}>${SUPPORTED_COUNTRIES[k].flag} ${state.lang==='ar'?SUPPORTED_COUNTRIES[k].countryAr:SUPPORTED_COUNTRIES[k].countryEn}</option>`).join("")}</select></div>
    </div>
-   <div class="intent-chips"><button class="intent-chip" onclick="setIntent('cheap')">${l.intentCheap}</button><button class="intent-chip" onclick="setIntent('fast')">${l.intentFast}</button><button class="intent-chip" onclick="setIntent('free')">${l.intentFree}</button><button class="intent-chip" onclick="setIntent('quality')">${l.intentQuality}</button></div>
+   <div class="intent-chips"><button class="intent-chip" onclick="setIntent('cheap')">${icon('money')}<span>${l.intentCheap}</span></button><button class="intent-chip" onclick="setIntent('fast')">${icon('rocket')}<span>${l.intentFast}</span></button><button class="intent-chip" onclick="setIntent('free')">${icon('free')}<span>${l.intentFree}</span></button><button class="intent-chip" onclick="setIntent('quality')">${icon('quality')}<span>${l.intentQuality}</span></button></div>
   </div>
   <div class="grid view-${state.view}">${data.map(card).join("")}</div><div class="notice">ℹ️ ${l.resultsNote}</div></main>
  <section id="platforms" class="container section"><div class="best-platform-hero"><div class="best-platform-content"><span class="pill">🏆 ${l.bestPlatform}</span><div class="platform-title-big"><span class="icon" style="background:${platforms[bp].color}">${platforms[bp].name[0]}</span><div><b>${platforms[bp].name}</b><p>${l.bestPlatformSub}</p></div></div><div class="best-platform-actions"><a class="primary" href="#deals">${l.bestPlatformCta}</a><button class="ghost" onclick="state.admin=true;render();document.querySelector('.admin').scrollIntoView()">${l.admin}</button></div></div><div class="best-platform-score"><div class="score-box"><div class="score-row"><b>${l.dealScore}</b><b>${bpScore}/100</b></div><div class="bar"><span style="width:${bpScore}%"></span></div></div><div class="score-box"><b>${l.bestPlatformWhy}</b><div class="score-row"><span>⭐ Rating</span><span>${bpStats.avgRating.toFixed(1)}</span></div><div class="score-row"><span>🚚 Shipping</span><span>${bpStats.avgShip.toFixed(1)} ${l.days}</span></div><div class="score-row"><span>💰 ${l.commission}</span><span>${platforms[bp].commission}%</span></div></div></div></div></section>
