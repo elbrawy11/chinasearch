@@ -1,6 +1,6 @@
-ChinaSearch V6.7 clean URL search fix
-- Fixed /search?q=... so it is recognized as the search page, not only /search.html
-- Added Vercel rewrite: /search -> /search.html
-- Updated homepage/search links to use /search?q=...
-- Kept /search.html?q=... compatible
-- Fixes the issue where the search page looked hidden or empty after cleanUrls
+ChinaSearch V6.8 actions and market pulse
+- Fixed product card action feedback: Best Price opens marketplace search; Watch Price shows toast and stores the product
+- Added robust data-action handlers for watch/buy buttons
+- Added Market Pulse section: trending, new arrivals, top trusted picks and platform deal summary
+- Today Deals navigation points to Market Pulse
+- Kept search page, Quick View and clean URL behavior intact

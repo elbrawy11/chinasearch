@@ -264,7 +264,27 @@ function buildAffiliateUrl(p){
  return platformSearchUrl(p.platform, p.title || p.titleAr || "china deals");
 }
 
-function click(id){let p=(window._products&&window._products[id])||allProducts().find(x=>x.id===id);if(!p)return;localStorage.setItem("click_"+p.platform,(+(localStorage.getItem("click_"+p.platform)||0)+1));window.open(buildAffiliateUrl(p),"_blank")}
+
+function showToast(message,type="ok"){
+  let old=document.getElementById("csToast");
+  if(old) old.remove();
+  let t=document.createElement("div");
+  t.id="csToast";
+  t.className="cs-toast "+type;
+  t.innerHTML=message;
+  document.body.appendChild(t);
+  requestAnimationFrame(()=>t.classList.add("show"));
+  setTimeout(()=>{t.classList.remove("show");setTimeout(()=>t.remove(),260)},2600);
+}
+function goBestPrice(id){
+  const p=getById(id);
+  if(!p){showToast("⚠️ المنتج غير متاح الآن","warn");return}
+  localStorage.setItem("click_"+p.platform,(+(localStorage.getItem("click_"+p.platform)||0)+1));
+  showToast((state.lang==="ar"?"جارٍ فتح أفضل سعر من ":"Opening best price from ")+(platforms[p.platform]?.name||p.platform),"ok");
+  setTimeout(()=>window.open(buildAffiliateUrl(p),"_blank"),180);
+}
+
+function click(id){goBestPrice(id)}
 function productName(p){return state.lang==="ar"?p.titleAr:p.title}
 function badge(p){let l=L();return `${p.isBest?`<span class="tag best">🏆 ${l.bestChoice}</span>`:""}${p.isCheap?`<span class="tag cheap">💰 ${l.cheapest}</span>`:""}${p.isFast?`<span class="tag fast">⚡ ${l.fastest}</span>`:""}${p.free?`<span class="tag free">🚚 ${l.freeShipping}</span>`:""}<span class="tag platform" style="background:${platforms[p.platform].color}">${platforms[p.platform].name}</span>`}
 
@@ -290,7 +310,7 @@ function liveFeedItems(){
  ];
 }
 
-function card(p){let l=L(),avg=activeProducts().reduce((s,x)=>s+x.price,0)/Math.max(1,activeProducts().length),saved=Math.max(0,Math.round((1-p.price/avg)*100)),score=dealScore(p),pts=rewardPoints(p),checked=state.compareList.includes(p.id);return `<div class="card ${p.isBest?'best':''}" data-product-id="${p.id}" role="button" tabindex="0"><label class="compare-check"><input title="${l.chooseCompare}" type="checkbox" ${checked?'checked':''} onclick="event.stopPropagation()" onchange="toggleCompare('${p.id}')"></label><div class="deal-score"><div class="score-ring" style="--score:${score}"><b>${score}</b></div></div><div class="image"><img src="${p.img}" alt="${productName(p)}"></div><div class="badges">${badge(p)}<span class="tag free">${p.brand}</span><span class="country-badge">🌍 ${l.bestForCountry}</span></div><h3>${productName(p)}</h3><div class="price-row"><strong>${price(p.price)}</strong><del>${price(p.old)}</del><span class="discount">-${p.discount}%</span></div><div class="rating-line"><span class="stars">★★★★★</span><span>${p.rating} · ${p.reviews.toLocaleString()}</span></div><div class="shipping-line"><span>🚚 ${p.ship} ${l.days}</span><span>🎁 +${pts} ${l.points}</span></div><div class="reason-chips"><span class="reason-chip">💰 ${saved}% ${l.reasonCheap}</span><span class="reason-chip">🚀 ${l.reasonFast}</span><span class="reason-chip">⭐ ${l.reasonRating}</span><span class="reason-chip">🤖 AI Pick</span></div><div class="card-actions-clean"><button class="secondary-action" data-open-product="${p.id}" onclick="event.stopPropagation();openQuick('${p.id}')">${l.quickView}</button><button class="watch-btn" onclick="event.stopPropagation();watchPrice('${p.id}')">${isWatched(p.id)?l.watched:l.watchPrice}</button><button class="cta" data-open-product="${p.id}" onclick="event.stopPropagation();openQuick('${p.id}')">${l.get}</button></div></div>`}
+function card(p){let l=L(),avg=activeProducts().reduce((s,x)=>s+x.price,0)/Math.max(1,activeProducts().length),saved=Math.max(0,Math.round((1-p.price/avg)*100)),score=dealScore(p),pts=rewardPoints(p),checked=state.compareList.includes(p.id);return `<div class="card ${p.isBest?'best':''}" data-product-id="${p.id}" role="button" tabindex="0"><label class="compare-check"><input title="${l.chooseCompare}" type="checkbox" ${checked?'checked':''} onclick="event.stopPropagation()" onchange="toggleCompare('${p.id}')"></label><div class="deal-score"><div class="score-ring" style="--score:${score}"><b>${score}</b></div></div><div class="image"><img src="${p.img}" alt="${productName(p)}"></div><div class="badges">${badge(p)}<span class="tag free">${p.brand}</span><span class="country-badge">🌍 ${l.bestForCountry}</span></div><h3>${productName(p)}</h3><div class="price-row"><strong>${price(p.price)}</strong><del>${price(p.old)}</del><span class="discount">-${p.discount}%</span></div><div class="rating-line"><span class="stars">★★★★★</span><span>${p.rating} · ${p.reviews.toLocaleString()}</span></div><div class="shipping-line"><span>🚚 ${p.ship} ${l.days}</span><span>🎁 +${pts} ${l.points}</span></div><div class="reason-chips"><span class="reason-chip">💰 ${saved}% ${l.reasonCheap}</span><span class="reason-chip">🚀 ${l.reasonFast}</span><span class="reason-chip">⭐ ${l.reasonRating}</span><span class="reason-chip">🤖 AI Pick</span></div><div class="card-actions-clean"><button class="secondary-action" data-open-product="${p.id}" onclick="event.stopPropagation();openQuick('${p.id}')">${l.quickView}</button><button class="watch-btn" data-watch-price="${p.id}" onclick="event.stopPropagation();watchPrice('${p.id}')">${isWatched(p.id)?l.watched:l.watchPrice}</button><button class="cta" data-buy-product="${p.id}" onclick="event.stopPropagation();goBestPrice('${p.id}')">💰 ${state.lang==="ar"?"أفضل سعر":"Best price"}</button></div></div>`}
 function floatCard(p,type,style){return `<div class="float-card" role="button" tabindex="0" onclick="openQuick('${p.id}')" style="${style};--rot:${style.includes('rotate')?'0deg':'0deg'}"><span class="float-badge" style="background:${type.color}">${type.label}</span><div class="f-img"><img src="${p.img}"></div><h4>${productName(p)}</h4><div class="float-price"><b>${price(p.price)}</b><small style="text-decoration:line-through;color:#94a3b8">${price(p.old)}</small></div><div class="float-meta"><span>${platforms[p.platform].name}</span><span>⭐ ${p.rating}</span><span>🚚 ${p.ship}</span></div></div>`}
 function platformStats(k){let list=products.filter(p=>p.platform===k),avgPrice=list.reduce((s,p)=>s+p.price,0)/list.length,avgShip=list.reduce((s,p)=>s+p.ship,0)/list.length,avgRating=list.reduce((s,p)=>s+p.rating,0)/list.length;return{avgPrice,avgShip,avgRating,count:list.length}}
 function bestPlatformKey(){let keys=Object.keys(platforms).filter(k=>platforms[k].enabled&&platforms[k].regions.includes(C().region));return keys.sort((a,b)=>{let A=platformStats(a),B=platformStats(b);return (B.avgRating*2-B.avgShip*.08-platforms[b].priority*.05+platforms[b].commission*.03)-(A.avgRating*2-A.avgShip*.08-platforms[a].priority*.05+platforms[a].commission*.03)})[0]||"aliexpress"}
@@ -373,9 +393,21 @@ function rememberViewed(id){
 }
 function watchPrice(id){
  let arr=JSON.parse(localStorage.getItem("watchedProducts")||"[]");
- if(!arr.includes(id))arr.unshift(id);
- localStorage.setItem("watchedProducts",JSON.stringify(arr.slice(0,8))); let p=getById(id); if(p){addInterest(p.cat);addInterest(p.brand);}
- render();
+ const already=arr.includes(id);
+ if(!already) arr.unshift(id);
+ localStorage.setItem("watchedProducts",JSON.stringify(arr.slice(0,20)));
+ let p=getById(id);
+ if(p){addInterest(p.cat);addInterest(p.brand);}
+ showToast(already
+   ? (state.lang==="ar"?"🔔 هذا المنتج مراقب بالفعل":"🔔 Already watching this product")
+   : (state.lang==="ar"?"✅ تم تفعيل راقب السعر لهذا المنتج":"✅ Price watch enabled"),
+   already?"warn":"ok"
+ );
+ renderCompareBar();
+ requestAnimationFrame(()=>{
+   const btn=document.querySelector(`[data-watch-price="${id}"]`);
+   if(btn) btn.textContent=state.lang==="ar"?"✓ تتم مراقبته":"✓ Watching";
+ });
 }
 function isWatched(id){return JSON.parse(localStorage.getItem("watchedProducts")||"[]").includes(id)}
 function getById(id){return products.find(p=>p.id===id)||window._products?.[id]}
@@ -1130,6 +1162,20 @@ document.addEventListener("click",(e)=>{
     window.scrollTo({top:0,behavior:"smooth"});
     return;
   }
+  const watch=e.target.closest("[data-watch-price]");
+  if(watch){
+    e.preventDefault();
+    e.stopPropagation();
+    watchPrice(watch.getAttribute("data-watch-price"));
+    return;
+  }
+  const buy=e.target.closest("[data-buy-product]");
+  if(buy){
+    e.preventDefault();
+    e.stopPropagation();
+    goBestPrice(buy.getAttribute("data-buy-product"));
+    return;
+  }
   const open=e.target.closest("[data-open-product]");
   if(open){
     e.preventDefault();
@@ -1400,6 +1446,48 @@ function renderSearchPage(){
   requestAnimationFrame(()=>requestAnimationFrame(()=>{forceHeroMotionReady();}));
 }
 
+
+function marketPulseHtml(){
+  if(searchMode()) return "";
+  const l=L();
+  const all=ranked();
+  const trending=all.slice().sort((a,b)=>(b.sold||0)-(a.sold||0)).slice(0,5);
+  const newArrivals=all.slice().sort((a,b)=>String(b.id).localeCompare(String(a.id))).slice(0,5);
+  const hot=all.slice().sort((a,b)=>((b.reviews||0)*b.rating)-((a.reviews||0)*a.rating)).slice(0,5);
+  const mini=(p,i)=>`<button class="pulse-item" data-open-product="${p.id}">
+    <span class="pulse-rank">${i+1}</span>
+    <img src="${p.img}" alt="${productName(p)}">
+    <span class="pulse-info"><b>${productName(p)}</b><small>${platforms[p.platform]?.name||""} · ${price(p.price)} · ⭐ ${p.rating}</small></span>
+  </button>`;
+  const platformTiles=Object.keys(platforms).filter(k=>platforms[k].enabled).map(k=>{
+    const list=all.filter(p=>p.platform===k);
+    const best=list.slice().sort((a,b)=>dealScore(b)-dealScore(a))[0];
+    return `<div class="pulse-platform" style="--pc:${platforms[k].color}">
+      <b>${platforms[k].name}</b>
+      <span>${list.length}+ ${state.lang==="ar"?"عرض":"offers"}</span>
+      <small>${best?price(best.price):"—"}</small>
+    </div>`;
+  }).join("");
+  return `<section id="marketPulse" class="market-pulse">
+    <div class="container">
+      <div class="pulse-head">
+        <div>
+          <span class="pulse-kicker">🔥 ${state.lang==="ar"?"مؤشر السوق الحي":"Live market pulse"}</span>
+          <h2>${state.lang==="ar"?"الترند والجديد والأكثر طلبًا من المنصات":"Trending, new and high-demand picks"}</h2>
+          <p>${state.lang==="ar"?"نرتب المنتجات حسب الطلب، التقييم، سرعة الشحن، وقوة الصفقة من AliExpress وTemu وSHEIN وDHgate وBanggood.":"Ranked by demand, rating, shipping speed and deal strength across marketplaces."}</p>
+        </div>
+        <a class="pulse-search-link" href="/search?q=${encodeURIComponent(state.q||"موبايل")}">${state.lang==="ar"?"افتح صفحة البحث":"Open search"}</a>
+      </div>
+      <div class="pulse-platforms">${platformTiles}</div>
+      <div class="pulse-grid">
+        <div class="pulse-card"><h3>⚡ ${state.lang==="ar"?"الأكثر طلبًا":"Most wanted"}</h3>${trending.map(mini).join("")}</div>
+        <div class="pulse-card"><h3>🆕 ${state.lang==="ar"?"وصل حديثًا":"New arrivals"}</h3>${newArrivals.map(mini).join("")}</div>
+        <div class="pulse-card"><h3>🏆 ${state.lang==="ar"?"الأعلى ثقة":"Top trusted"}</h3>${hot.map(mini).join("")}</div>
+      </div>
+    </div>
+  </section>`;
+}
+
 function render(){
  initSearchRouteFromUrl();
  if(isSearchRoute()){renderSearchPage();return;}
@@ -1439,7 +1527,7 @@ document.getElementById("app").innerHTML=`
   <path d="M27 29 L49 40" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
   <rect x="63" y="16" width="18" height="18" rx="4" fill="#e11d2e"/>
   <path d="M68 20 v10 M76 20 v10 M68 25 h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
-</svg></div><div><h1>ChinaSearch</h1><span>${l.sub.substring(0,68)}...</span></div></a><nav class="navlinks"><a class="active">${l.home}</a><a href="/search">${state.lang==="ar"?"بحث":"Search"}</a><a href="#deals">${l.deals}</a><a href="#platforms">${l.platforms}</a><a href="#how">${l.how}</a><a href="#faq">${l.faq}</a></nav><div class="nav-actions"><select class="select" onchange="setCountry(this.value)">${Object.keys(SUPPORTED_COUNTRIES).map(k=>`<option value="${k}" ${state.country===k?'selected':''}>${SUPPORTED_COUNTRIES[k].flag} ${state.lang==='ar'?SUPPORTED_COUNTRIES[k].countryAr:SUPPORTED_COUNTRIES[k].countryEn}</option>`).join("")}</select><select class="select" onchange="setLang(this.value)"><option value="ar" ${state.lang==='ar'?'selected':''}>AR</option><option value="en" ${state.lang==='en'?'selected':''}>EN</option><option value="fr">FR</option><option value="de">DE</option><option value="es">ES</option><option value="pt">PT</option><option value="ru">RU</option></select><button class="notif-btn" onclick="toggleNotifications()">🔔<span class="notif-dot"></span></button><a class="primary" href="#deals">${l.start}</a></div></div></header>
+</svg></div><div><h1>ChinaSearch</h1><span>${l.sub.substring(0,68)}...</span></div></a><nav class="navlinks"><a class="active">${l.home}</a><a href="/search">${state.lang==="ar"?"بحث":"Search"}</a><a href="#marketPulse">${state.lang==="ar"?"عروض اليوم":"Today deals"}</a><a href="#platforms">${l.platforms}</a><a href="#how">${l.how}</a><a href="#faq">${l.faq}</a></nav><div class="nav-actions"><select class="select" onchange="setCountry(this.value)">${Object.keys(SUPPORTED_COUNTRIES).map(k=>`<option value="${k}" ${state.country===k?'selected':''}>${SUPPORTED_COUNTRIES[k].flag} ${state.lang==='ar'?SUPPORTED_COUNTRIES[k].countryAr:SUPPORTED_COUNTRIES[k].countryEn}</option>`).join("")}</select><select class="select" onchange="setLang(this.value)"><option value="ar" ${state.lang==='ar'?'selected':''}>AR</option><option value="en" ${state.lang==='en'?'selected':''}>EN</option><option value="fr">FR</option><option value="de">DE</option><option value="es">ES</option><option value="pt">PT</option><option value="ru">RU</option></select><button class="notif-btn" onclick="toggleNotifications()">🔔<span class="notif-dot"></span></button><a class="primary" href="#deals">${l.start}</a></div></div></header>
  <section class="hero"><div class="container hero-inner"><div><div class="badge-line"><span class="pill">✅ ${l.trusted}</span><span class="pill">🌍 ${c.region}</span><span class="pill">💱 ${c.currency}</span></div><div class="hero-slogan">✨ ${searchMode()?(state.lang==="ar"?"بحث مباشر عبر كل المنصات":"Live marketplace search"):l.heroPunch}</div><h2>${heroTitleHtml()}</h2><p>${heroSubtitleText()}</p><div class="hero-helper-row"><span class="hero-helper-chip">🤖 ${l.aiAssistant}</span><span class="hero-helper-chip">🌍 ${l.geoTitle}</span><span class="hero-helper-chip">🏆 ${l.dealScore}</span></div><div class="search-panel"><span class="icon">🔍</span><input class="hero-search-input" value="${state.q}" oninput="liveSearchInput(this.value)" placeholder="${searchMode()?(state.lang==='ar'?'ابحث عن بديل أو نوع آخر...':'Search another product...'):l.search}"><button type="button" data-search-run="1">${searchMode()?(state.lang==='ar'?'حدّث البحث':'Update search'):l.searchBtn}</button></div><div class="hero-search-note"><span class="hint">⚡ ${l.bestMatchTitle}</span><span class="hint">💱 ${l.currency}: ${c.currency}</span><span class="hint">🚚 ${l.fast}</span></div>
 <div class="search-examples">
   <button class="search-example" type="button" data-search-example="${l.ex1}">🔎 ${l.ex1}</button>
@@ -1457,7 +1545,7 @@ document.getElementById("app").innerHTML=`
   <button class="cat-chip" onclick="state.q='auto';render();document.getElementById('deals').scrollIntoView()">🚗 ${l.catAuto}</button>
   <button class="cat-chip" onclick="state.q='gadgets';render();document.getElementById('deals').scrollIntoView()">🎮 ${l.catGadgets}</button>
 </div>
-<div class="platform-tags">${Object.keys(platforms).filter(k=>platforms[k].enabled).map(k=>`<span class="platform-tag" style="color:${platforms[k].color}">${platforms[k].name}</span>`).join("")}</div><div class="stats"><div class="stat"><b>20K+</b><span>${l.products}</span></div><div class="stat"><b>${Object.keys(platforms).filter(k=>platforms[k].enabled).length}</b><span>${l.markets}</span></div><div class="stat"><b>24h</b><span>${l.updated}</span></div></div><div class="geo-panel"><div><h4>✨ ${l.geoTitle}</h4><p>${l.geoText}</p></div><div class="geo-item"><b>${c.flag} ${state.lang==='ar'?c.countryAr:c.countryEn}</b><span>${l.country}</span></div><div class="geo-item"><b>${state.lang.toUpperCase()}</b><span>${l.language}</span></div><div class="geo-item"><b>${c.symbol} ${c.currency}</b><span>${l.currency}</span></div></div></div><div class="stage"><div class="orbit"></div><div class="orbit o2"></div>${floatCard(cheap,{label:"Best Price",color:"#22c55e"},"top:30px;right:60px;--rot:6deg;transform:rotate(6deg)")} ${floatCard(fast,{label:"Fast Shipping",color:"#3b82f6"},"top:80px;left:15px;--rot:-8deg;transform:rotate(-8deg)")} ${floatCard(rated,{label:"Top Rated",color:"#8b5cf6"},"top:245px;right:5px;--rot:-10deg;transform:rotate(-10deg)")} ${floatCard(free,{label:"Free Shipping",color:"#16a34a"},"top:285px;left:70px;--rot:8deg;transform:rotate(8deg)")} ${floatCard(best,{label:"Great Deal",color:"#f97316"},"bottom:5px;right:175px;--rot:2deg;transform:rotate(2deg)")}</div></div></section>
+<div class="platform-tags">${Object.keys(platforms).filter(k=>platforms[k].enabled).map(k=>`<span class="platform-tag" style="color:${platforms[k].color}">${platforms[k].name}</span>`).join("")}</div><div class="stats"><div class="stat"><b>20K+</b><span>${l.products}</span></div><div class="stat"><b>${Object.keys(platforms).filter(k=>platforms[k].enabled).length}</b><span>${l.markets}</span></div><div class="stat"><b>24h</b><span>${l.updated}</span></div></div><div class="geo-panel"><div><h4>✨ ${l.geoTitle}</h4><p>${l.geoText}</p></div><div class="geo-item"><b>${c.flag} ${state.lang==='ar'?c.countryAr:c.countryEn}</b><span>${l.country}</span></div><div class="geo-item"><b>${state.lang.toUpperCase()}</b><span>${l.language}</span></div><div class="geo-item"><b>${c.symbol} ${c.currency}</b><span>${l.currency}</span></div></div></div><div class="stage"><div class="orbit"></div><div class="orbit o2"></div>${floatCard(cheap,{label:"Best Price",color:"#22c55e"},"top:30px;right:60px;--rot:6deg;transform:rotate(6deg)")} ${floatCard(fast,{label:"Fast Shipping",color:"#3b82f6"},"top:80px;left:15px;--rot:-8deg;transform:rotate(-8deg)")} ${floatCard(rated,{label:"Top Rated",color:"#8b5cf6"},"top:245px;right:5px;--rot:-10deg;transform:rotate(-10deg)")} ${floatCard(free,{label:"Free Shipping",color:"#16a34a"},"top:285px;left:70px;--rot:8deg;transform:rotate(8deg)")} ${floatCard(best,{label:"Great Deal",color:"#f97316"},"bottom:5px;right:175px;--rot:2deg;transform:rotate(2deg)")}</div></div></section>${marketPulseHtml()}
  <section class="benefits"><div class="container benefit-strip"><div class="benefit"><div class="bicon">🏷️</div><div><b>${l.benefit1}</b><span>${l.benefit1s}</span></div></div><div class="benefit"><div class="bicon">🚚</div><div><b>${l.benefit2}</b><span>${l.benefit2s}</span></div></div><div class="benefit"><div class="bicon">🚀</div><div><b>${l.benefit3}</b><span>${l.benefit3s}</span></div></div><div class="benefit"><div class="bicon">🎁</div><div><b>${l.benefit4}</b><span>${l.benefit4s}</span></div></div></div></section>
  <section class="rewards-section">
   <div class="container">
