@@ -1,6 +1,8 @@
-ChinaSearch V6.4 floating search navigation cleanup
-- Added search link to the main navigation
-- Added floating animated search button that stays while scrolling
-- Removed the large crawlable English information block from visible pages
-- Replaced official information with a compact collapsible link block
-- Kept homepage and standalone search page behavior intact
+ChinaSearch V6.5 search architecture fix
+- Floating search orb hidden on /search.html
+- Nav Search link opens /search.html without forcing a default query
+- /search.html empty state added with focused search and popular searches
+- Search page DOM cleaned from unused homepage-only elements
+- search-page-mode applied early in search.html
+- Consent mini is hidden by default and shown only once when needed
+- Large visible crawlable info remains removed/collapsed

@@ -65,7 +65,7 @@
   <button id="mobileFilterFab" class="mobile-filter-fab" onclick="openMobileFilters()">⚙️ Filters</button>
   <div id="exitHook" class="exit-hook"></div>
   <button class="quick-scroll-hint" onclick="document.getElementById('deals').scrollIntoView()">⚡ العروض مباشرة</button>
-<div id="consentMini" class="consent-mini"><b>Privacy & personalization</b><p>ChinaSearch uses local browser storage for preferences, searches, watched products and demo recommendations. No real tracking is activated yet.</p><button onclick="localStorage.setItem('cs_consent','1');document.getElementById('consentMini').classList.remove('show')">OK</button></div>
+<div id="consentMini" class="consent-mini hidden"><b>Privacy & personalization</b><p>ChinaSearch uses local browser storage for preferences, searches, watched products and demo recommendations. No real tracking is activated yet.</p><button onclick="localStorage.setItem('cs_consent','1');document.getElementById('consentMini').classList.remove('show');document.getElementById('consentMini').classList.add('hidden')">OK</button></div>
 <script src="/app.js?v=6.4"></script>
 </body>
 </html>
