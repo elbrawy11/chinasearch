@@ -1,2 +1,2 @@
-ChinaSearch V5.5 leak-safe motion engine
-Motion engine is requestAnimationFrame based, cancels previous loops, stops when hidden/no cards, and uses transform only.
+ChinaSearch V5.6 search and card click fix
+Search button now runs render/scroll, product cards are clickable, Quick View modal display is forced.

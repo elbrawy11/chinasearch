@@ -243,3 +243,11 @@ body.route-page .page-view{display:block}
 .stage .float-card{
   box-shadow:0 28px 60px rgba(2,6,23,.28) !important;
 }
+
+/* v5.6 search and click fix */
+.card{cursor:pointer}
+.card-actions-clean button,.compare-check,.watch-btn{cursor:pointer}
+.quick-modal.show{display:flex!important}
+.quick-modal .quick-shell{max-width:1160px;width:min(1160px,calc(100vw - 24px));max-height:min(92vh,920px);overflow:auto;background:#fff;border-radius:30px;box-shadow:0 35px 100px rgba(2,6,23,.36);position:relative}
+.hero-search-input:focus{outline:none}
+.search-panel:focus-within{box-shadow:0 30px 80px rgba(255,106,0,.18)!important}
