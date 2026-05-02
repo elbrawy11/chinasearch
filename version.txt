@@ -1,2 +1,2 @@
-ChinaSearch V6.0 intent search engine
-Products expanded to 60, intents added, true intent detection, focused search results mode, alternatives and sticky compact search enabled.
+ChinaSearch V6.1 standalone search results page
+Search now redirects from homepage to /search.html?q=..., keeps homepage intact, saves searches, supports platform multi-select, cards/list/compare views, watch price and compare actions.

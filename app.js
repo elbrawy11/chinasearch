@@ -58,7 +58,7 @@ function assignBrands(){
  });
 }
 
-let state={view:'compact',platformFilter:'all',brandFilter:'all',compareList:[],country:localStorage.getItem("country")||"KW",lang:localStorage.getItem("lang")||"ar",sort:"score",q:"",admin:false,aff:{},compareA:"aliexpress",compareB:"temu"};
+let state={view:'cards',platformFilter:'all',brandFilter:'all',compareList:[],country:localStorage.getItem("country")||"KW",lang:localStorage.getItem("lang")||"ar",sort:"score",q:"",admin:false,aff:{},compareA:"aliexpress",compareB:"temu",selectedPlatforms:JSON.parse(localStorage.getItem('selectedPlatforms')||'[]')};
 
 
 function inferCountryFromClient(){
@@ -1049,9 +1049,17 @@ function executeSearch(source="button"){
     state.q=q;
     if(!q) return;
     if(typeof hideExitHook==="function") hideExitHook();
-    state.view="cards";
+    state.view=state.view==="compact"?"cards":state.view;
     __csLastQuery=q;
     rememberSearch();
+    localStorage.setItem("lastSearchQuery",q);
+    if(!isSearchRoute()){
+      window.location.href="/search.html?q="+encodeURIComponent(q);
+      return;
+    }
+    const url=new URL(window.location.href);
+    url.searchParams.set("q",q);
+    history.replaceState(null,"",url.toString());
     render();
     scrollToFocusedResults();
   }catch(e){
@@ -1062,29 +1070,24 @@ function executeSearch(source="button"){
 function liveSearchInput(value){
   state.q=value;
   clearTimeout(__csSearchDebounce);
-  // Desktop live transform. Mobile waits for button/Enter so keyboard does not collapse.
-  if(window.innerWidth<=760) {
-    requestAnimationFrame(syncHeroCardsWithSearch);
-    return;
-  }
+  requestAnimationFrame(syncHeroCardsWithSearch);
+  if(!isSearchRoute()) return;
   const q=value.trim();
-  if(q.length<2){
-    requestAnimationFrame(syncHeroCardsWithSearch);
-    return;
-  }
   __csSearchDebounce=setTimeout(()=>{
     const active=document.activeElement;
-    const shouldRestore=active && active.classList && active.classList.contains("hero-search-input");
-    const pos=shouldRestore ? active.selectionStart : null;
+    const pos=active&&active.classList&&active.classList.contains("hero-search-input")?active.selectionStart:null;
+    const url=new URL(window.location.href);
+    if(q) url.searchParams.set("q",q); else url.searchParams.delete("q");
+    history.replaceState(null,"",url.toString());
     render();
     requestAnimationFrame(()=>{
       const next=document.querySelector(".hero-search-input");
-      if(shouldRestore && next){
+      if(next){
         next.focus({preventScroll:true});
-        try{ next.setSelectionRange(pos,pos); }catch(e){}
+        try{ if(pos!==null)next.setSelectionRange(pos,pos); }catch(e){}
       }
     });
-  },520);
+  },420);
 }
 
 document.addEventListener("click",(e)=>{
@@ -1139,7 +1142,180 @@ document.addEventListener("keydown",(e)=>{
 
 
 
+
+function isSearchRoute(){
+  return /\/search\.html$/.test(location.pathname) || location.search.includes("search=1");
+}
+function initSearchRouteFromUrl(){
+  if(!isSearchRoute()) return;
+  const params=new URLSearchParams(location.search);
+  const q=params.get("q")||localStorage.getItem("lastSearchQuery")||"";
+  if(q) state.q=q;
+  if(!state.selectedPlatforms || !state.selectedPlatforms.length){
+    state.selectedPlatforms=Object.keys(platforms).filter(k=>platforms[k].enabled);
+  }
+}
+function selectedPlatformKeys(){
+  if(!state.selectedPlatforms || !state.selectedPlatforms.length){
+    state.selectedPlatforms=Object.keys(platforms).filter(k=>platforms[k].enabled);
+  }
+  return state.selectedPlatforms.filter(k=>platforms[k]&&platforms[k].enabled);
+}
+function isPlatformSelected(k){return selectedPlatformKeys().includes(k)}
+function persistSelectedPlatforms(){localStorage.setItem("selectedPlatforms",JSON.stringify(selectedPlatformKeys()))}
+function toggleSearchPlatform(k){
+  let set=new Set(selectedPlatformKeys());
+  if(set.has(k)) set.delete(k); else set.add(k);
+  if(!set.size) set.add(k);
+  state.selectedPlatforms=[...set];
+  persistSelectedPlatforms();
+  render();
+}
+function setAllSearchPlatforms(checked=true){
+  state.selectedPlatforms=checked?Object.keys(platforms).filter(k=>platforms[k].enabled):[];
+  if(!state.selectedPlatforms.length) state.selectedPlatforms=Object.keys(platforms).filter(k=>platforms[k].enabled);
+  persistSelectedPlatforms();
+  render();
+}
+function searchFilteredData(){
+  let directMatches=ranked().filter(p=>productMatchesQuery(p,state.q));
+  let directMatchCount=directMatches.length;
+  let alternatives=[];
+  if(state.q && directMatchCount<4){alternatives=findRelatedProducts(state.q,directMatches)}
+  let data=directMatches.length?directMatches:alternatives;
+  const selected=new Set(selectedPlatformKeys());
+  data=data.filter(p=>selected.has(p.platform));
+  alternatives=alternatives.filter(p=>selected.has(p.platform));
+  if(state.sort==="price")data.sort((a,b)=>a.price-b.price);
+  else if(state.sort==="ship")data.sort((a,b)=>a.ship-b.ship);
+  else if(state.sort==="rating")data.sort((a,b)=>b.rating-a.rating);
+  else if(state.sort==="free")data.sort((a,b)=>(b.free?1:0)-(a.free?1:0)||dealScore(b)-dealScore(a));
+  else if(state.sort==="pop")data.sort((a,b)=>b.reviews-a.reviews);
+  else data.sort((a,b)=>dealScore(b)-dealScore(a));
+  window.__csAlternatives=alternatives;
+  window._products={};
+  [...data,...alternatives].forEach(p=>window._products[p.id]=p);
+  return {data,directMatchCount,alternatives};
+}
+function platformSelectorHtml(data){
+  const selected=selectedPlatformKeys();
+  const allKeys=Object.keys(platforms).filter(k=>platforms[k].enabled);
+  const allChecked=allKeys.every(k=>selected.includes(k));
+  const cells=allKeys.map(k=>{
+    const count=data.filter(p=>p.platform===k).length;
+    return `<button type="button" class="platform-select-card ${selected.includes(k)?'checked':''}" onclick="toggleSearchPlatform('${k}')">
+      <span class="check-square">${selected.includes(k)?'✓':''}</span>
+      <span class="platform-name" style="--pc:${platforms[k].color}">${platforms[k].name}</span>
+      <small>${count} ${state.lang==="ar"?"نتيجة":"results"}</small>
+    </button>`;
+  }).join("");
+  return `<section class="search-platform-selector">
+    <div class="platform-selector-title">ⓘ ${state.lang==="ar"?"اختر المنصات للمقارنة":"Choose platforms to compare"}</div>
+    <button type="button" class="platform-select-card master ${allChecked?'checked':''}" onclick="setAllSearchPlatforms(!${allChecked})">
+      <span class="check-square">${allChecked?'✓':''}</span>
+      <span>${state.lang==="ar"?"اختيار الكل":"Select all"}</span>
+    </button>
+    ${cells}
+  </section>`;
+}
+function searchSummaryStripHtml(data,best){
+  const c=C(), label=searchLabel();
+  const bestPlatform=best?platforms[best.platform]?.name:"—";
+  return `<section class="search-summary-strip">
+    <div class="summary-cell"><small>${state.lang==="ar"?"أفضل منصة لهذا البحث":"Best platform"}</small><b>${bestPlatform}</b><span>⭐ ${(best?.rating||0).toFixed?best.rating.toFixed(1):best?.rating||"—"}</span></div>
+    <div class="summary-cell"><small>${state.lang==="ar"?"إجمالي النتائج":"Total results"}</small><b>${data.length.toLocaleString()}</b><span>${state.lang==="ar"?"من المنصات المختارة":"from selected platforms"}</span></div>
+    <div class="summary-cell"><small>🏆 ${state.lang==="ar"?"أفضل اختيار الآن":"Best pick"}</small><b>${best?productName(best):label}</b><span>${best?price(best.price):""}</span></div>
+    <div class="summary-cell"><small>${state.lang==="ar"?"السوق والعملة":"Market & currency"}</small><b>${c.flag} ${state.lang==="ar"?c.countryAr:c.countryEn}</b><span>${c.currency}</span></div>
+    <div class="summary-cell highlight"><small>${state.lang==="ar"?"متوسط التوفير":"Estimated saving"}</small><b>${best?price(Math.max(0,best.old-best.price)):"—"}</b><span>${state.lang==="ar"?"لكل اختيار ذكي":"per smart pick"}</span></div>
+  </section>`;
+}
+function searchToolbarHtml(){
+  let sortBtns=[["score","🏆 الأفضل"],["price","🏷️ أرخص سعر"],["ship","🚚 أسرع شحن"],["rating","⭐ أعلى تقييم"],["free","🎁 شحن مجاني"]].map(([k,t])=>`<button class="${state.sort===k?'active':''}" onclick="state.sort='${k}';render()">${t}</button>`).join("");
+  return `<section class="search-toolbar">
+    <div class="view-switch"><span>${state.lang==="ar"?"طرق العرض":"View"}</span>
+      <button class="${state.view==='cards'?'active':''}" onclick="state.view='cards';render()">▦ ${state.lang==="ar"?"مربعات":"Cards"}</button>
+      <button class="${state.view==='list'?'active':''}" onclick="state.view='list';render()">☰ ${state.lang==="ar"?"قائمة":"List"}</button>
+      <button class="${state.view==='compare'?'active':''}" onclick="state.view='compare';render()">⇄ ${state.lang==="ar"?"مقارنة":"Compare"}</button>
+    </div>
+    <div class="sort-switch">${sortBtns}</div>
+    <div class="filter-switch">
+      <button onclick="state.sort='score';state.view='cards';setAllSearchPlatforms(true)">↺ ${state.lang==="ar"?"إعادة تعيين":"Reset"}</button>
+      <button onclick="state.sort='free';render()">🚚 ${state.lang==="ar"?"يمكن شحنها فقط":"Shippable only"}</button>
+    </div>
+  </section>`;
+}
+function searchResultsHtml(data){
+  if(!data.length){
+    return `<section class="empty-search-state"><h2>🔎 ${state.lang==="ar"?"لا توجد نتائج مباشرة":"No direct results"}</h2><p>${state.lang==="ar"?"جرّب كلمة أخرى أو فعّل منصات أكثر من الأعلى.":"Try another keyword or enable more platforms above."}</p></section>`;
+  }
+  if(state.view==="compare"){
+    const rows=data.slice(0,6).map((p,i)=>`<tr><td>${i+1}</td><td>${productName(p)}</td><td>${platforms[p.platform]?.name||p.platform}</td><td>${price(p.price)}</td><td>${p.ship} ${L().days}</td><td>${p.rating} ⭐</td><td><button data-open-product="${p.id}">${state.lang==="ar"?"عرض":"View"}</button></td></tr>`).join("");
+    return `<section class="compare-results-table"><table><thead><tr><th>#</th><th>${state.lang==="ar"?"المنتج":"Product"}</th><th>${state.lang==="ar"?"المنصة":"Platform"}</th><th>${state.lang==="ar"?"السعر":"Price"}</th><th>${state.lang==="ar"?"الشحن":"Shipping"}</th><th>${state.lang==="ar"?"التقييم":"Rating"}</th><th></th></tr></thead><tbody>${rows}</tbody></table></section>`;
+  }
+  return `<section class="search-results-grid view-${state.view}">${data.map(card).join("")}</section>`;
+}
+function searchValueStripHtml(){
+  return `<section class="search-value-strip">
+    <div>⚖️ <b>${state.lang==="ar"?"مقارنة ذكية":"Smart compare"}</b><span>${state.lang==="ar"?"قارن بين المنصات بسهولة":"Compare platforms easily"}</span></div>
+    <div>🔔 <b>${state.lang==="ar"?"راقب السعر":"Watch price"}</b><span>${state.lang==="ar"?"تنبيه عند انخفاض السعر":"Drop alerts"}</span></div>
+    <div>⚡ <b>${state.lang==="ar"?"شحن أسرع":"Faster shipping"}</b><span>${state.lang==="ar"?"ابحث عن أسرع توصيل":"Find faster delivery"}</span></div>
+    <div>🏷️ <b>${state.lang==="ar"?"وفّر أكثر":"Save more"}</b><span>${state.lang==="ar"?"نجد لك أفضل العروض":"Better deals"}</span></div>
+    <div>🎁 <b>${state.lang==="ar"?"نقاط ومكافآت":"Rewards"}</b><span>${state.lang==="ar"?"اكسب نقاط مع كل طلب":"Earn on orders"}</span></div>
+  </section>`;
+}
+function renderSearchPage(){
+  assignBrands();
+  let l=L(),c=C();
+  document.documentElement.lang=state.lang;
+  document.documentElement.dir=state.lang==="ar"?"rtl":"ltr";
+  document.body.dir=document.documentElement.dir;
+  document.body.classList.remove("admin-mode");
+  document.body.classList.add("search-page-mode");
+  document.body.classList.toggle("searching",true);
+  const q=(state.q||"").trim();
+  const label=searchLabel();
+  const result=searchFilteredData();
+  const data=result.data;
+  const best=data.find(p=>p.isBest)||data[0];
+  renderLegalPage();
+  document.getElementById("app").innerHTML=`
+  <header class="topbar search-only-topbar"><div class="container nav">
+    <a class="brand" href="/"><div class="logo"><svg viewBox="0 0 96 96"><circle cx="42" cy="42" r="31" fill="none" stroke="#0b2b5c" stroke-width="9"/><path d="M63 63 L84 84" stroke="#0b2b5c" stroke-width="11" stroke-linecap="round"/><path d="M36 24 L59 35 L59 58 L36 69 L14 58 L14 35 Z" fill="#ff6a00"/><path d="M14 35 L36 46 L59 35M36 46V69" fill="none" stroke="#fff" stroke-width="4"/></svg></div><div><h1>ChinaSearch</h1><span>${state.lang==="ar"?"صفحة نتائج البحث الذكية":"Smart search results"}</span></div></a>
+    <nav class="navlinks"><a href="/">${state.lang==="ar"?"الرئيسية":"Home"}</a><a href="/#deals">${l.deals}</a><a href="/#platforms">${l.platforms}</a><a href="/#how">${l.how}</a></nav>
+    <div class="nav-actions"><select class="select" onchange="setCountry(this.value)">${Object.keys(SUPPORTED_COUNTRIES).map(k=>`<option value="${k}" ${state.country===k?'selected':''}>${SUPPORTED_COUNTRIES[k].flag} ${state.lang==='ar'?SUPPORTED_COUNTRIES[k].countryAr:SUPPORTED_COUNTRIES[k].countryEn}</option>`).join("")}</select><select class="select" onchange="setLang(this.value)"><option value="ar" ${state.lang==='ar'?'selected':''}>AR</option><option value="en" ${state.lang==='en'?'selected':''}>EN</option></select></div>
+  </div></header>
+  <main class="search-results-page">
+    <section class="search-page-hero">
+      <div class="container">
+        <div class="search-hero-grid">
+          <div class="search-hero-copy">
+            <h2>${state.lang==="ar"?`كل الموقع الآن يبحث عن: <span>${label}</span>`:`Whole site searching for: <span>${label}</span>`}</h2>
+            <p>${state.lang==="ar"?`نقارن المنتجات من AliExpress و Temu و SHEIN و DHgate و Banggood حسب بلدك، العملة، السعر، الشحن، التقييم، والمميزات القديمة مثل راقب السعر والمقارنة.`:`We compare AliExpress, Temu, SHEIN, DHgate and Banggood by country, currency, price, shipping, rating and price-watch features.`}</p>
+          </div>
+          <div class="search-panel search-page-input"><span class="icon">🔍</span><input class="hero-search-input" value="${q}" oninput="liveSearchInput(this.value)" placeholder="${state.lang==="ar"?"ابحث عن منتج آخر...":"Search another product..."}"><button type="button" data-search-run="1">${state.lang==="ar"?"حدّث البحث":"Update search"}</button></div>
+        </div>
+        <div class="quick-suggestions"><b>${state.lang==="ar"?"اقتراحات سريعة:":"Suggestions:"}</b>${["ايفون 15 برو","سامسونج S24","شاومي ريدمي نوت 13","ايباد","سماعات بلوتوث"].map(x=>`<button data-search-example="${x}">${x}</button>`).join("")}</div>
+        ${searchSummaryStripHtml(data,best)}
+        ${platformSelectorHtml(data)}
+      </div>
+    </section>
+    <section class="search-page-body container">
+      ${searchToolbarHtml()}
+      <div class="results-count-line">ⓘ ${data.length.toLocaleString()} ${state.lang==="ar"?"نتيجة":"results"} ${label?` · ${label}`:""}</div>
+      ${bestPickRibbonHtml(best)}
+      ${searchResultsHtml(data)}
+      ${alternativesSectionHtml(result.directMatchCount)}
+      ${searchValueStripHtml()}
+    </section>
+  </main>`;
+  renderCompareBar();
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{forceHeroMotionReady();}));
+}
+
 function render(){
+ initSearchRouteFromUrl();
+ if(isSearchRoute()){renderSearchPage();return;}
+ document.body.classList.remove('search-page-mode');
  assignBrands();
  if(isAdminRoute()){ state.admin=false; }let l=L(),c=C();document.body.classList.toggle("admin-mode",isAdminRoute());document.documentElement.lang=state.lang;setTimeout(()=>{let f=document.getElementById("mobileFilterFab");if(f)f.innerHTML="⚙️ "+l.filters},0); if(state.q)addInterest(state.q); if(state.brandFilter!=="all")addInterest(state.brandFilter); if(state.platformFilter!=="all"&&platforms[state.platformFilter])addInterest(platforms[state.platformFilter].name);document.documentElement.dir=state.lang==="ar"?"rtl":"ltr";document.body.dir=document.documentElement.dir;document.body.classList.toggle("searching",searchMode());
  let directMatches=ranked().filter(p=>productMatchesQuery(p,state.q));
