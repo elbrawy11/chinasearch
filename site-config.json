@@ -1,0 +1,45 @@
+{
+  "version": "3.8",
+  "updatedAt": "2026-05-02",
+  "publicNotice": "Affiliate links pending marketplace approval.",
+  "platforms": {
+    "aliexpress": {
+      "enabled": true,
+      "priority": 1,
+      "commission": 1.5
+    },
+    "temu": {
+      "enabled": true,
+      "priority": 2,
+      "commission": 1.2
+    },
+    "shein": {
+      "enabled": true,
+      "priority": 3,
+      "commission": 1.0
+    },
+    "dhgate": {
+      "enabled": true,
+      "priority": 4,
+      "commission": 1.7
+    },
+    "banggood": {
+      "enabled": true,
+      "priority": 5,
+      "commission": 1.4
+    }
+  },
+  "ranking": {
+    "price": 88,
+    "shipping": 72,
+    "freeShipping": 52,
+    "rating": 80,
+    "rewards": 45,
+    "defaultMode": "smart"
+  },
+  "seo": {
+    "title": "ChinaSearch | Smart China marketplace comparison",
+    "description": "Compare China marketplace deals by price, shipping, rating, country and estimated rewards.",
+    "canonical": "https://chinasearch.vercel.app/"
+  }
+}

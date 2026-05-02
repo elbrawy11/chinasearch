@@ -10,6 +10,7 @@ const files = [
   "terms.html",
   "contact.html",
   "admin.html",
+  "site-config.json",
   "robots.txt",
   "sitemap.xml",
   "manifest.json",

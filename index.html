@@ -379,6 +379,28 @@ function assignBrands(){
 }
 
 let state={view:'compact',platformFilter:'all',brandFilter:'all',compareList:[],country:localStorage.getItem("country")||"KW",lang:localStorage.getItem("lang")||"ar",sort:"score",q:"",admin:false,aff:{},compareA:"aliexpress",compareB:"temu"};
+
+window.__CS_CONFIG = null;
+async function loadSiteConfig(){
+  try{
+    const res = await fetch("/site-config.json?ts=" + Date.now(), {cache:"no-store"});
+    if(!res.ok) return null;
+    const cfg = await res.json();
+    window.__CS_CONFIG = cfg;
+    if(cfg && cfg.platforms && typeof platforms === "object"){
+      Object.keys(cfg.platforms).forEach(k=>{
+        if(platforms[k]){
+          platforms[k].enabled = !!cfg.platforms[k].enabled;
+          if(cfg.platforms[k].priority != null) platforms[k].priority = +cfg.platforms[k].priority;
+          if(cfg.platforms[k].commission != null) platforms[k].commission = +cfg.platforms[k].commission;
+        }
+      });
+      localStorage.setItem("platforms", JSON.stringify(platforms));
+    }
+    return cfg;
+  }catch(e){ console.warn("site-config.json not loaded", e); return null; }
+}
+
 function C(){return SUPPORTED_COUNTRIES[state.country]||SUPPORTED_COUNTRIES.KW}
 function L(){let base=T[state.lang]||T.en;return new Proxy(base,{get:(o,k)=>o[k]||T.en[k]||T.ar[k]||k});}
 function norm(v,min,max,inv){if(max===min)return 1;let n=(v-min)/(max-min);return inv?1-n:n}
@@ -1007,8 +1029,7 @@ document.getElementById("app").innerHTML=`
  `;
 }
 window.addEventListener('scroll',()=>{document.body.classList.toggle('show-jump', window.scrollY < 500)});
-render();
-renderLegalPage();
+loadSiteConfig().then(()=>{render();renderLegalPage();});
 window.addEventListener('hashchange',()=>{render();renderLegalPage()});
 </script>
 <div id="consentMini" class="consent-mini"><b>Privacy & personalization</b><p>ChinaSearch uses local browser storage for preferences, searches, watched products and demo recommendations. No real tracking is activated yet.</p><button onclick="localStorage.setItem('cs_consent','1');document.getElementById('consentMini').classList.remove('show')">OK</button></div>
