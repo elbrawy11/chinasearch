@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>V4.3 ChinaSearch — Deploy Proof</title>
+  <title>V4.4 ChinaSearch — Motion Fix Premium</title>
   <meta name="description" content="ChinaSearch is a smart pre-launch China marketplace comparison platform for price, shipping, ratings, country fit and estimated rewards. Affiliate links are pending marketplace approval.">
   <meta name="keywords" content="China deals, AliExpress deals, Temu deals, SHEIN deals, Banggood deals, DHgate deals, price comparison, cashback, rewards, smart shopping">
   <meta name="robots" content="index, follow">
@@ -534,6 +534,114 @@ footer{margin-top:20px!important}
   .static-deploy-proof-v43 .inner{padding:9px 14px}
   .static-deploy-proof-v43 b{font-size:12px}
   .static-deploy-proof-v43 span{font-size:11px}
+}
+
+
+/* v4.4 MOTION FIX PREMIUM - visible animated cards using translate property */
+.static-deploy-proof-v43{display:none!important}
+.hero:before{
+  animation:csHeroGridMove 18s linear infinite;
+}
+@keyframes csHeroGridMove{
+  0%{background-position:0 0,0 0}
+  100%{background-position:84px 84px,84px 84px}
+}
+.stage{
+  position:relative;
+}
+.stage::after{
+  content:"Live picks";
+  position:absolute;
+  top:14px;
+  inset-inline-end:16px;
+  z-index:5;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.18);
+  color:#fff;
+  border-radius:999px;
+  padding:7px 10px;
+  font-size:11px;
+  font-weight:950;
+  backdrop-filter:blur(12px);
+}
+.float-card{
+  translate:0 0;
+  scale:1;
+  rotate:0deg;
+  animation:csLiveTranslateA 3.6s ease-in-out infinite!important;
+  box-shadow:0 22px 55px rgba(2,6,23,.26)!important;
+}
+.float-card::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  border-radius:24px;
+  background:linear-gradient(120deg,rgba(255,106,0,.7),rgba(59,130,246,.35),rgba(34,197,94,.45),rgba(255,106,0,.7));
+  opacity:.35;
+  z-index:-1;
+  animation:csBorderGlow 3.2s ease-in-out infinite;
+}
+.float-card:nth-of-type(3){animation-name:csLiveTranslateA!important;animation-duration:3.7s!important}
+.float-card:nth-of-type(4){animation-name:csLiveTranslateB!important;animation-duration:4.1s!important}
+.float-card:nth-of-type(5){animation-name:csLiveTranslateC!important;animation-duration:4.4s!important}
+.float-card:nth-of-type(6){animation-name:csLiveTranslateB!important;animation-duration:3.9s!important}
+.float-card:nth-of-type(7){animation-name:csLiveTranslateA!important;animation-duration:4.6s!important}
+@keyframes csLiveTranslateA{
+  0%,100%{translate:0 0; scale:1}
+  50%{translate:0 -18px; scale:1.018}
+}
+@keyframes csLiveTranslateB{
+  0%,100%{translate:0 0; scale:1}
+  45%{translate:10px -13px; scale:1.014}
+}
+@keyframes csLiveTranslateC{
+  0%,100%{translate:0 0; scale:1}
+  50%{translate:-8px -16px; scale:1.016}
+}
+@keyframes csBorderGlow{
+  0%,100%{opacity:.22;filter:blur(0)}
+  50%{opacity:.52;filter:blur(1px)}
+}
+.float-card .f-img{
+  position:relative;
+}
+.float-card .f-img::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.32),transparent 70%);
+  translate:-120% 0;
+  animation:csImageSweep 3.8s ease-in-out infinite;
+}
+@keyframes csImageSweep{
+  0%,35%{translate:-130% 0}
+  70%,100%{translate:130% 0}
+}
+.motion-active-v44{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:rgba(34,197,94,.16);
+  border:1px solid rgba(134,239,172,.28);
+  color:#dcfce7;
+  border-radius:999px;
+  padding:8px 11px;
+  font-size:12px;
+  font-weight:950;
+}
+.motion-active-v44 i{
+  width:8px;height:8px;border-radius:50%;
+  background:#22c55e;
+  box-shadow:0 0 0 0 rgba(34,197,94,.85);
+  animation:csGreenPulse 1.5s ease-out infinite;
+}
+@keyframes csGreenPulse{
+  0%{box-shadow:0 0 0 0 rgba(34,197,94,.85)}
+  70%{box-shadow:0 0 0 9px rgba(34,197,94,0)}
+  100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}
+}
+@media (prefers-reduced-motion:reduce){
+  .hero:before,.float-card,.float-card::before,.float-card .f-img::after,.motion-active-v44 i{animation:none!important}
 }
 
 </style>

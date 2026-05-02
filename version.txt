@@ -1,2 +1,2 @@
-ChinaSearch V4.3 deploy proof
-If you see this at /version.txt, Vercel is serving the latest files.
+ChinaSearch V4.4 motion fix premium
+Animated cards use CSS translate so they are visible even after layout overrides.
