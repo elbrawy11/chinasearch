@@ -946,7 +946,10 @@ function productMatchesQuery(p,rawQuery){
   const hay=normalizeSearchText([p.title,p.titleAr,p.brand].filter(Boolean).join(" "));
   if(hay.includes(q)) return true;
   const intent=detectSearchIntent(rawQuery);
-  if(intent && Array.isArray(p.intents) && p.intents.includes(intent)) return true;
+  if(intent && Array.isArray(p.intents)){
+    if(p.intents.includes(intent)) return true;
+    if(intent==="phones_mobile" && (p.intents.includes("phones_accessories") || p.intents.includes("headphones_audio"))) return true;
+  }
   if(q.length>=3){const words=q.split(/\s+/).filter(w=>w.length>=3); if(words.some(w=>hay.includes(w))) return true;}
   return false;
 }
@@ -1181,13 +1184,12 @@ function setAllSearchPlatforms(checked=true){
 }
 function searchPerPage(){return state.view==="list"?8:state.view==="compare"?12:12}
 function setSearchPage(n){state.page=Math.max(1,n||1); render(); window.scrollTo({top:0,behavior:"smooth"})}
-function estimateSearchCatalogCount(list){ return Math.max(120, list.length*14 || 120) }
 function searchPageMeta(list){
-  const total=estimateSearchCatalogCount(list);
+  const total=list.length;
   const perPage=searchPerPage();
-  const pages=Math.max(10, Math.ceil(total/perPage));
+  const pages=Math.max(1, Math.ceil(total/perPage));
   state.page=Math.min(Math.max(1,state.page||1), pages);
-  const from=((state.page-1)*perPage)+1;
+  const from=total?((state.page-1)*perPage)+1:0;
   const to=Math.min(from+perPage-1, total);
   return {total, pages, from, to, page:state.page, perPage};
 }
@@ -1217,19 +1219,19 @@ function platformSelectorHtml(data){
   const allKeys=Object.keys(platforms).filter(k=>platforms[k].enabled);
   const allChecked=allKeys.every(k=>selected.includes(k));
   const cells=allKeys.map(k=>{
-    const count=Math.max(1,data.filter(p=>p.platform===k).length);
+    const count=data.filter(p=>p.platform===k).length;
     return `<button type="button" class="platform-select-card ${platformUiClass(k)} ${selected.includes(k)?'checked':''}" onclick="toggleSearchPlatform('${k}')">
       <span class="platform-check">${selected.includes(k)?'✓':''}</span>
       <span class="platform-badge-name">${platforms[k].name}</span>
-      <small>${count}+ ${state.lang==="ar"?"عرض":"offers"}</small>
+      <small>${count} ${state.lang==="ar"?"نتيجة":"results"}</small>
     </button>`;
   }).join("");
-  return `<section class="search-platform-selector">
-    <div class="platform-selector-title">ⓘ ${state.lang==="ar"?"اختر المنصات للمقارنة":"Choose platforms"}</div>
+  return `<section class="search-platform-selector pro">
+    <div class="platform-selector-title">ⓘ ${state.lang==="ar"?"اختر المنصات":"Platforms"}</div>
     <button type="button" class="platform-select-card master ${allChecked?'checked':''}" onclick="setAllSearchPlatforms(!${allChecked})">
       <span class="platform-check">${allChecked?'✓':''}</span>
-      <span class="platform-badge-name">${state.lang==="ar"?"اختيار الكل":"Select all"}</span>
-      <small>${state.lang==="ar"?"جميع المنصات":"all platforms"}</small>
+      <span class="platform-badge-name">${state.lang==="ar"?"الكل":"All"}</span>
+      <small>${allKeys.length} ${state.lang==="ar"?"منصات":"platforms"}</small>
     </button>
     ${cells}
   </section>`;
@@ -1238,25 +1240,25 @@ function searchSummaryStripHtml(data,best){
   const c=C(), label=searchLabel();
   const bestPlatform=best?platforms[best.platform]?.name:"—";
   const meta=searchPageMeta(data);
-  return `<section class="search-summary-strip compact">
-    <div class="summary-cell emphasis"><small>${state.lang==="ar"?"نتائج البحث":"Search results"}</small><b>100+</b><span>${state.lang==="ar"?`الصفحة ${meta.page} من ${meta.pages}`:`page ${meta.page} of ${meta.pages}`}</span></div>
+  return `<section class="search-summary-strip compact pro">
+    <div class="summary-cell emphasis"><small>${state.lang==="ar"?"نتائج البحث":"Search results"}</small><b>${meta.total}+</b><span>${state.lang==="ar"?`الصفحة ${meta.page} من ${meta.pages}`:`page ${meta.page} of ${meta.pages}`}</span></div>
     <div class="summary-cell"><small>${state.lang==="ar"?"أفضل منصة":"Best platform"}</small><b>${bestPlatform}</b><span>⭐ ${(best?.rating||0).toFixed?best.rating.toFixed(1):best?.rating||"—"}</span></div>
     <div class="summary-cell"><small>${state.lang==="ar"?"أفضل اختيار":"Top pick"}</small><b>${best?productName(best):label}</b><span>${best?price(best.price):""}</span></div>
     <div class="summary-cell"><small>${state.lang==="ar"?"السوق والعملة":"Market & currency"}</small><b>${c.flag} ${state.lang==="ar"?c.countryAr:c.countryEn}</b><span>${c.currency}</span></div>
   </section>`;
 }
 function searchToolbarHtml(){
-  let sortBtns=[["score","🏆 الأفضل"],["price","🏷️ أرخص سعر"],["ship","🚚 أسرع شحن"],["rating","⭐ أعلى تقييم"],["free","🎁 شحن مجاني"]].map(([k,t])=>`<button class="${state.sort===k?'active':''}" onclick="state.sort='${k}';render()">${t}</button>`).join("");
-  return `<section class="search-toolbar">
-    <div class="view-switch"><span>${state.lang==="ar"?"طرق العرض":"View"}</span>
+  let sortBtns=[["score","🏆 الأفضل"],["price","🏷️ أرخص سعر"],["ship","🚚 أسرع شحن"],["rating","⭐ أعلى تقييم"],["free","🎁 شحن مجاني"]].map(([k,t])=>`<button class="${state.sort===k?'active':''}" onclick="state.page=1;state.sort='${k}';render()">${t}</button>`).join("");
+  return `<section class="search-toolbar pro-sticky">
+    <div class="toolbar-group view-switch"><span>${state.lang==="ar"?"طرق العرض":"View"}</span>
       <button class="${state.view==='cards'?'active':''}" onclick="state.page=1;state.view='cards';render()">▦ ${state.lang==="ar"?"مربعات":"Cards"}</button>
       <button class="${state.view==='list'?'active':''}" onclick="state.page=1;state.view='list';render()">☰ ${state.lang==="ar"?"قائمة":"List"}</button>
       <button class="${state.view==='compare'?'active':''}" onclick="state.page=1;state.view='compare';render()">⇄ ${state.lang==="ar"?"مقارنة":"Compare"}</button>
     </div>
-    <div class="sort-switch">${sortBtns}</div>
-    <div class="filter-switch">
-      <button onclick="state.page=1;state.sort='score';state.view='cards';setAllSearchPlatforms(true)">↺ ${state.lang==="ar"?"إعادة تعيين":"Reset"}</button>
-      <button onclick="state.page=1;state.sort='free';render()">🚚 ${state.lang==="ar"?"يمكن شحنها فقط":"Shippable only"}</button>
+    <div class="toolbar-group sort-switch"><span>${state.lang==="ar"?"الترتيب":"Sort"}</span>${sortBtns}</div>
+    <div class="toolbar-group filter-switch">
+      <button onclick="state.page=1;state.sort='score';state.view='cards';setAllSearchPlatforms(true)">↺ ${state.lang==="ar"?"إعادة":"Reset"}</button>
+      <button onclick="state.page=1;state.sort='free';render()">🚚 ${state.lang==="ar"?"شحن فقط":"Shipping"}</button>
     </div>
   </section>`;
 }

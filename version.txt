@@ -1,6 +1,7 @@
-ChinaSearch V6.2 compact search results refinement
-- Search hero reduced ~70% height
-- Cleaner platform selectors
-- Removed crawlable text block from search page
-- Results badge now shows 100+ and page count
-- Search page polished for faster scanning
+ChinaSearch V6.3 professional search results polish
+- Platform selector redesigned with brand-inspired colors
+- Sticky organized filter toolbar
+- Real pagination based on actual expanded catalog
+- Products expanded above 180 items; mobile searches now return 100+ relevant results
+- Results start higher with reduced top whitespace
+- Product cards polished for grid/list/compare views
