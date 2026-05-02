@@ -146,7 +146,7 @@ async function bootstrapApp(){
       localStorage.setItem("lang",nextLang);
     }
   }
-  loadSiteConfig().then(()=>{render();renderLegalPage();requestAnimationFrame(() => requestAnimationFrame(()=>{syncHeroCardsWithSearch();forceHeroMotionReady();}));});
+  loadSiteConfig().then(()=>{render();renderLegalPage();requestAnimationFrame(() => requestAnimationFrame(syncHeroCardsWithSearch));});
 }
 
 
@@ -723,16 +723,6 @@ function renderLegalPage(){
 }
 
 
-
-function forceHeroMotionReady(){
-  try{
-    document.documentElement.classList.add("cs-motion-ready");
-    document.querySelectorAll(".stage .float-card").forEach((card,i)=>{
-      card.style.animationDelay = (i * 0.18) + "s";
-    });
-  }catch(e){}
-}
-
 function syncHeroCardsWithSearch(){
   try{
     const q=(state.q||"").trim().toLowerCase();
@@ -901,7 +891,7 @@ const __csOriginalRenderV47 = typeof render==="function" ? render : null;
 if(__csOriginalRenderV47){
   render=function(){
     __csOriginalRenderV47();
-    requestAnimationFrame(() => requestAnimationFrame(()=>{syncHeroCardsWithSearch();forceHeroMotionReady();}));
+    requestAnimationFrame(() => requestAnimationFrame(syncHeroCardsWithSearch));
   }
 }
 

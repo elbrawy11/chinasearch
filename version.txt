@@ -1,2 +1,2 @@
-ChinaSearch V5.3 visible hero motion
-Hero cards use translate-based grid animation and forceHeroMotionReady after render.
+ChinaSearch V5.2 stable hybrid fix
+Fixed allProducts helper, product fallback, activeProducts fallback, and stable external data loading.
