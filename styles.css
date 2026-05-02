@@ -494,3 +494,27 @@ body.searching .search-panel button[data-search-run]{
 .card[data-product-id]:hover{
   transform:translateY(-4px);
 }
+
+/* === Search Results Mode v6.0 === */
+body.searching .hero{padding:12px 0 8px!important;position:sticky;top:0;z-index:80;background:linear-gradient(135deg,#071225,#10183a 58%,#1c0f2e);box-shadow:0 8px 24px rgba(7,18,37,.35)}
+body.searching .hero::before,body.searching .hero::after{display:none!important}
+body.searching .hero-inner{grid-template-columns:1fr!important;gap:0!important;align-items:center}
+body.searching .hero .badge-line,body.searching .hero .hero-slogan,body.searching .hero h2,body.searching .hero p,body.searching .hero-helper-row,body.searching .hero-search-note,body.searching .stage,body.searching .geo-panel,body.searching .platform-tags,body.searching .stats{display:none!important}
+body.searching .search-panel{max-width:100%!important;margin:0!important}
+body.searching .benefits,body.searching .rewards-section,body.searching .live-feed,body.searching .best-platform-hero,body.searching .platform-manager,body.searching .info-grid,body.searching .steps,body.searching details,body.searching .ai-summary,body.searching .best-deal-wrap{display:none!important}
+body.searching .search-takeover{display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;padding:10px 14px!important;border-radius:14px!important;margin:12px 0!important;background:linear-gradient(135deg,#071225,#13245a)!important;flex-wrap:wrap!important}
+body.searching .search-takeover .takeover-main{flex:1;min-width:200px}
+body.searching .search-takeover .takeover-kicker,body.searching .search-takeover p,body.searching .search-takeover .takeover-best,body.searching .search-takeover .mission-platforms{display:none!important}
+body.searching .search-takeover h2{font-size:16px!important;margin:0 0 2px!important}
+body.searching .search-takeover .takeover-actions{display:flex!important;gap:6px!important;flex-wrap:wrap!important;margin:0!important}
+body.searching .search-takeover .takeover-actions button{padding:6px 10px!important;font-size:12px!important;border-radius:999px!important}
+body.searching .search-takeover .takeover-side{display:flex!important;flex-direction:row!important;align-items:center!important;gap:10px!important}
+body.searching .search-takeover .takeover-count{display:flex!important;align-items:baseline!important;gap:6px!important;padding:6px 12px!important;background:rgba(255,255,255,.1)!important;border-radius:999px!important;border:1px solid rgba(255,255,255,.15)!important}
+body.searching .search-takeover .takeover-count b{font-size:18px!important;margin:0!important}
+body.searching .search-takeover .takeover-count span{font-size:12px!important;margin:0!important}
+body.searching .best-pick-ribbon{display:flex!important;align-items:center!important;gap:10px!important;padding:8px 12px!important;background:linear-gradient(135deg,#fff7ed,#fff)!important;border:1px solid #fed7aa!important;border-radius:12px!important;margin:8px 0 12px!important;font-size:13px!important}
+body.searching .best-pick-ribbon b{color:#9a3412!important}
+body:not(.searching) .best-pick-ribbon{display:none!important}
+.alternatives-section{margin-top:22px;padding-top:10px;border-top:1px solid #e5e7eb}
+.direct-search-notice.info{background:#eff6ff!important;border-color:#bfdbfe!important;color:#1e40af!important}.direct-search-notice.warn{background:#fff7ed!important;border-color:#fed7aa!important;color:#9a3412!important}
+@media(max-width:760px){body.searching .hero{padding:8px 0!important}body.searching .search-takeover{flex-direction:column!important;align-items:stretch!important}body.searching .search-takeover .takeover-actions{overflow-x:auto!important;flex-wrap:nowrap!important;-webkit-overflow-scrolling:touch!important}}

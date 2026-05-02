@@ -914,49 +914,74 @@ function searchOverviewHtml(data,best){
 }
 
 
-function searchIntentWords(q){
-  q=normalizeSearchText(q);
-  const packs=[
-    ["mobile","phone","phones","smartphone","iphone","android","هاتف","موبايل","جوال","تليفون","تلفون"],
-    ["car","auto","vehicle","سياره","سيارة","عربيه","عربية","للسياره","للسيارة"],
-    ["watch","smartwatch","ساعة","ساعه","ساعات","smart watch"],
-    ["headphone","headphones","earbuds","airpods","سماعه","سماعة","سماعات","ايربودز","بلوتوث"],
-    ["bag","bags","حقيبه","حقيبة","شنطه","شنطة"],
-    ["shoe","shoes","sneaker","كوتشي","حذاء","جزمه","جزمة"],
-    ["charger","cable","كابل","شاحن","كيبل"],
-    ["camera","كاميرا"],
-    ["keyboard","كيبورد","لوحة مفاتيح"],
-    ["laptop","لاب توب","لابتوب"]
-  ];
-  let words=new Set(q.split(/\s+/).filter(Boolean));
-  packs.forEach(pack=>{
-    if(pack.some(w=>q.includes(normalizeSearchText(w)))) pack.forEach(w=>words.add(normalizeSearchText(w)));
-  });
-  return [...words].filter(Boolean);
+
+// ============= INTENT ENGINE v6 =============
+const INTENT_MAP = {
+  phones_mobile:{keywords:["mobile","phone","phones","smartphone","cellphone","موبايل","موبايلات","هاتف","هواتف","جوال","تلفون","تليفون"],brands:["iphone","apple","samsung","galaxy","xiaomi","redmi","huawei","honor","realme","oppo","oneplus","ايفون","سامسونج","شاومي","هواوي"],labelEn:"Mobile Phones",labelAr:"الموبايلات والهواتف الذكية"},
+  phones_accessories:{keywords:["case","cover","screen protector","holder","charger","cable","power bank","جراب","كفر","شاحن","كيبل","كابل","حامل"],brands:[],labelEn:"Phone Accessories",labelAr:"إكسسوارات الموبايل"},
+  headphones_audio:{keywords:["headphone","headphones","earbuds","earphone","airpods","speaker","سماعه","سماعة","سماعات","ايربودز","ايربود","مكبر صوت"],brands:["sony","bose","jbl","beats","anker"],labelEn:"Audio & Headphones",labelAr:"السماعات والصوتيات"},
+  watches_wearables:{keywords:["watch","smartwatch","fitness band","tracker","ساعة","ساعه","ساعات","سوار رياضي"],brands:["xiaomi","mi band","apple watch","huawei watch"],labelEn:"Watches & Wearables",labelAr:"الساعات الذكية"},
+  laptops_pc:{keywords:["laptop","notebook","macbook","keyboard","mouse","monitor","لاب توب","لابتوب","ماك","كيبورد","ماوس","شاشة"],brands:["dell","hp","lenovo","asus","apple"],labelEn:"Laptops & PC",labelAr:"اللابتوبات وملحقاتها"},
+  home_kitchen:{keywords:["lamp","kitchen","home","decor","light","led","مصباح","مطبخ","منزل","ديكور","اضاءه","اضاءة"],brands:[],labelEn:"Home & Kitchen",labelAr:"المنزل والمطبخ"},
+  fashion_clothing:{keywords:["dress","shirt","shoes","bag","fashion","clothing","فستان","حذاء","حقيبه","حقيبة","شنطه","شنطة","ملابس","ازياء","أزياء"],brands:["nike","adidas","zara"],labelEn:"Fashion & Clothing",labelAr:"الأزياء والملابس"},
+  beauty_care:{keywords:["beauty","makeup","skincare","cosmetic","perfume","تجميل","مكياج","عطر","عناية"],brands:[],labelEn:"Beauty & Care",labelAr:"الجمال والعناية"},
+  auto_car:{keywords:["car","auto","vehicle","سياره","سيارة","عربيه","عربية"],brands:[],labelEn:"Automotive",labelAr:"السيارات وملحقاتها"},
+  toys_kids:{keywords:["toy","toys","kids","children","game","لعبه","لعبة","العاب","ألعاب","اطفال","أطفال"],brands:[],labelEn:"Toys & Kids",labelAr:"الألعاب والأطفال"}
+};
+function detectSearchIntent(rawQuery){
+  const q=normalizeSearchText(rawQuery); if(!q) return null;
+  for(const intentKey of Object.keys(INTENT_MAP)){
+    const intent=INTENT_MAP[intentKey], terms=[...intent.keywords,...intent.brands];
+    for(const term of terms){
+      const t=normalizeSearchText(term);
+      if(q===t || q.includes(t) || (t.length>=4 && t.startsWith(q) && q.length>=3)) return intentKey;
+    }
+  }
+  return null;
 }
+function intentLabel(intentKey){const intent=INTENT_MAP[intentKey];return intent?(state.lang==="ar"?intent.labelAr:intent.labelEn):null}
+function productMatchesQuery(p,rawQuery){
+  if(!rawQuery||!rawQuery.trim()) return true;
+  const q=normalizeSearchText(rawQuery);
+  const hay=normalizeSearchText([p.title,p.titleAr,p.brand].filter(Boolean).join(" "));
+  if(hay.includes(q)) return true;
+  const intent=detectSearchIntent(rawQuery);
+  if(intent && Array.isArray(p.intents) && p.intents.includes(intent)) return true;
+  if(q.length>=3){const words=q.split(/\s+/).filter(w=>w.length>=3); if(words.some(w=>hay.includes(w))) return true;}
+  return false;
+}
+function findRelatedProducts(rawQuery,exclude){
+  const intent=detectSearchIntent(rawQuery); if(!intent) return [];
+  const nearMap={phones_mobile:["phones_accessories","headphones_audio"],phones_accessories:["phones_mobile"],headphones_audio:["phones_accessories"],watches_wearables:["phones_accessories"],laptops_pc:["phones_accessories"],auto_car:["phones_accessories"]};
+  const nearIntents=nearMap[intent]||[]; if(!nearIntents.length) return [];
+  const excludeIds=new Set((exclude||[]).map(p=>p.id));
+  return allProducts().filter(p=>!excludeIds.has(p.id)&&Array.isArray(p.intents)&&p.intents.some(i=>nearIntents.includes(i))).slice(0,6);
+}
+function searchLabel(){const q=(state.q||"").trim(); if(!q) return state.lang==="ar"?"كل العروض":"all deals"; const intent=detectSearchIntent(q); return intent?intentLabel(intent):q;}
+function heroTitleHtml(){let l=L(); if(searchMode()){const q=(state.q||"").trim(), intent=detectSearchIntent(q), label=intent?intentLabel(intent):q; return state.lang==="ar"?`نتائج البحث في<br><span class="accent">${label}</span>`:`Showing results for<br><span class="accent">${label}</span>`;} return `${l.title}<br><span class="accent">${l.accent}</span>`;}
+function heroSubtitleText(){let l=L(),c=C(); if(searchMode()){const q=(state.q||"").trim(), intent=detectSearchIntent(q), label=intent?intentLabel(intent):`"${q}"`; return state.lang==="ar"?`هذه الصفحة الآن مخصصة لـ ${label}. نقارن المنصات والأسعار والشحن في ${c.countryAr} لنرشّح لك الأفضل.`:`This page is now focused on ${label}. We compare platforms, prices and shipping in ${c.countryEn} to surface the best.`;} return l.heroBetter;}
+function directSearchNoticeHtml(directCount){
+  if(!searchMode()||directCount>=4) return "";
+  const q=(state.q||"").trim(), intent=detectSearchIntent(q), label=intent?intentLabel(intent):q, hasAlternatives=(window.__csAlternatives||[]).length>0;
+  if(directCount>0) return `<div class="direct-search-notice info">💡 ${state.lang==="ar"?`وجدنا ${directCount} نتيجة مطابقة لـ ${label}. قد تجد منتجات قريبة أيضًا في الأسفل.`:`Found ${directCount} matches for ${label}. You may also find related items below.`}</div>`;
+  if(hasAlternatives) return `<div class="direct-search-notice info">🔍 ${state.lang==="ar"?`لا توجد نتائج مباشرة لـ ${label} حاليًا. نعرض لك أقرب فئة متاحة.`:`No direct matches for ${label} yet. Showing closest available category.`}</div>`;
+  return `<div class="direct-search-notice warn">🔎 ${state.lang==="ar"?`لم نجد ${label} في كتالوجنا الحالي. جرّب كلمات مختلفة أو تصفح الفئات الأخرى.`:`${label} not in our current catalog. Try different keywords or browse other categories.`}</div>`;
+}
+function bestPickRibbonHtml(best){
+  if(!best||!searchMode()) return "";
+  let l=L();
+  return `<div class="best-pick-ribbon">🏆 <b>${state.lang==="ar"?"أفضل اختيار:":"Best pick:"}</b><span>${productName(best)} · ${platforms[best.platform]?.name||""} · ${price(best.price)} · 🚚 ${best.ship} ${l.days}</span><button class="primary" style="margin-inline-start:auto;padding:6px 12px;font-size:12px" data-open-product="${best.id}">${state.lang==="ar"?"عرض":"View"}</button></div>`;
+}
+function alternativesSectionHtml(directCount){
+  const alts=window.__csAlternatives||[]; if(!searchMode()||!alts.length||directCount>=4) return "";
+  const altIntent=detectSearchIntent(state.q), altLabel=altIntent?intentLabel(altIntent):state.q;
+  return `<section class="alternatives-section"><div class="section-head"><div><h2>${state.lang==="ar"?"بدائل قد تعجبك":"You might also like"}</h2><p>${state.lang==="ar"?`منتجات قريبة من ${altLabel}`:`Products related to ${altLabel}`}</p></div></div><div class="grid">${alts.map(card).join("")}</div></section>`;
+}
+
 function searchMode(){return !!(state.q||"").trim();}
-function searchLabel(){
-  const q=(state.q||"").trim();
-  return q || (state.lang==="ar"?"كل العروض":"all deals");
-}
-function heroTitleHtml(){
-  let l=L(), q=searchLabel();
-  if(searchMode()){
-    return state.lang==="ar"
-      ? `نفتش لك عن<br><span class="accent">أفضل ${q}</span>`
-      : `Searching everywhere for<br><span class="accent">best ${q}</span>`;
-  }
-  return `${l.title}<br><span class="accent">${l.accent}</span>`;
-}
-function heroSubtitleText(){
-  let l=L(), q=searchLabel(), c=C();
-  if(searchMode()){
-    return state.lang==="ar"
-      ? `حوّلنا الموقع بالكامل لرحلة بحث عن "${q}". نقارن المنصات، الأسعار، الشحن، التقييم، والملاءمة في ${c.countryAr} بدل ما نرمي لك نتائج عامة.`
-      : `The whole page is now focused on “${q}”: platforms, price, shipping, rating and country fit are ranked for you.`;
-  }
-  return l.heroBetter;
-}
+
+
+
 function searchMissionHtml(data,best){
   if(!searchMode()) return "";
   let q=searchLabel(), c=C();
@@ -1015,10 +1040,7 @@ function getSearchInputValue(){
 }
 
 function scrollToFocusedResults(){
-  requestAnimationFrame(()=>{
-    const target=document.getElementById("searchFocus") || document.getElementById("deals");
-    if(target) target.scrollIntoView({behavior:"smooth",block:"start"});
-  });
+  requestAnimationFrame(()=>requestAnimationFrame(()=>window.scrollTo({top:0,behavior:"smooth"})));
 }
 
 function executeSearch(source="button"){
@@ -1115,22 +1137,22 @@ document.addEventListener("keydown",(e)=>{
 });
 
 
-function directSearchNoticeHtml(directCount){
-  if(!searchMode()) return "";
-  if(directCount>0) return "";
-  return `<div class="direct-search-notice">⚠️ ${state.lang==="ar"?"لم نجد تطابقًا مباشرًا قويًا، لذلك نعرض أقرب بدائل من كل المنصات بدل صفحة فاضية.":"No strong direct match found, so we are showing closest alternatives instead of an empty page."}</div>`;
-}
+
 
 function render(){
  assignBrands();
  if(isAdminRoute()){ state.admin=false; }let l=L(),c=C();document.body.classList.toggle("admin-mode",isAdminRoute());document.documentElement.lang=state.lang;setTimeout(()=>{let f=document.getElementById("mobileFilterFab");if(f)f.innerHTML="⚙️ "+l.filters},0); if(state.q)addInterest(state.q); if(state.brandFilter!=="all")addInterest(state.brandFilter); if(state.platformFilter!=="all"&&platforms[state.platformFilter])addInterest(platforms[state.platformFilter].name);document.documentElement.dir=state.lang==="ar"?"rtl":"ltr";document.body.dir=document.documentElement.dir;document.body.classList.toggle("searching",searchMode());
- let data=ranked().filter(p=>productMatchesQuery(p,state.q));
- let directMatchCount=data.length;
- if(state.q && !data.length){ data=ranked().slice(0,12); }
- if(!data.length){ data=allProducts().map(p=>({...p,score:p.score||.7})); }
+ let directMatches=ranked().filter(p=>productMatchesQuery(p,state.q));
+ let directMatchCount=directMatches.length;
+ let alternatives=[];
+ if(state.q && directMatchCount<4){ alternatives=findRelatedProducts(state.q,directMatches); }
+ let data=directMatches;
+ if(!data.length && alternatives.length){ data=alternatives; }
+ if(!data.length && !alternatives.length){ data=[]; }
+ window.__csAlternatives=alternatives;
  if(state.sort==="price")data.sort((a,b)=>a.price-b.price);else if(state.sort==="ship")data.sort((a,b)=>a.ship-b.ship);else if(state.sort==="rating")data.sort((a,b)=>b.rating-a.rating);else if(state.sort==="free")data.sort((a,b)=>(b.free?1:0)-(a.free?1:0)||b.score-a.score);else if(state.sort==="pop")data.sort((a,b)=>b.reviews-a.reviews);else data.sort((a,b)=>b.score-a.score);
  window._products={};data.forEach(p=>window._products[p.id]=p);
- let best=data.find(p=>p.isBest)||data[0],cheap=data.find(p=>p.isCheap)||data[1],fast=data.find(p=>p.isFast)||data[2],rated=data.find(p=>p.isTopRated)||data[3],free=data.find(p=>p.free)||data[4],bp=bestPlatformKey(),bpStats=platformStats(bp),bpScore=bestPlatformScore(bp);
+ let best=data.find(p=>p.isBest)||data[0],cheap=data.find(p=>p.isCheap)||data[1]||best,fast=data.find(p=>p.isFast)||data[2]||best,rated=data.find(p=>p.isTopRated)||data[3]||best,free=data.find(p=>p.free)||data[4]||best,bp=bestPlatformKey(),bpStats=platformStats(bp),bpScore=bestPlatformScore(bp);
  let filterBtns=[["score",l.best],["price",l.cheap],["rating",l.rating],["ship",l.fast],["free",l.free],["pop",l.popular]].map(x=>`<button class="chip ${state.sort===x[0]?'active':''}" onclick="state.sort='${x[0]}';render()">${x[1]}</button>`).join("");
  renderLegalPage();
 document.getElementById("app").innerHTML=`
@@ -1201,9 +1223,9 @@ document.getElementById("app").innerHTML=`
  <section class="container section" style="padding-top:18px;padding-bottom:10px">
   <div class="live-feed"><div class="ticker">${liveFeedItems().concat(liveFeedItems()).map(x=>`<span>⚡ ${x}</span>`).join("")}</div></div>
  </section>
-<section class="section"><div class="container best-deal"><div>${card(best)}</div><div class="best-copy"><h2>🔥 ${l.bestDeal}</h2><p>${l.bestDealSub}</p><div class="reason"><b>🤖 ${l.whyChosen}</b><ul><li>${l.rankReason}</li><li>${l.dealScore}: ${Math.round(best.score*100)}/100</li><li>${platforms[best.platform].name} · ${price(best.price)} · ${best.ship} ${l.days}</li></ul></div></div></div></section>
+<section class="section best-deal-wrap"><div class="container best-deal"><div>${best?card(best):""}</div><div class="best-copy"><h2>🔥 ${l.bestDeal}</h2><p>${l.bestDealSub}</p><div class="reason"><b>🤖 ${l.whyChosen}</b><ul><li>${l.rankReason}</li><li>${l.dealScore}: ${Math.round(best.score*100)}/100</li><li>${platforms[best.platform].name} · ${price(best.price)} · ${best.ship} ${l.days}</li></ul></div></div></div></section>
  <div class="filters"><div class="container filter-row"><b>${l.filter}</b>${filterBtns}</div></div>
- <main id="deals" class="container section">${searchMode()?"":welcomeBackHtml()}${searchSectionTitleHtml(data,best)}${searchMissionHtml(data,best)}${directSearchNoticeHtml(directMatchCount)}${searchMode()?"":recommendedHtml()}${aiSummaryHtml(best)}${platformWinnerHtml(data)}<div class="match-box"><div><b>🤖 ${bestMatchTitle()}</b><span>${matchMessage()}</span></div><div class="match-score">${best?Math.round((best.score||.85)*100):88}<small>/100</small></div></div><div class="advanced-toolbar">
+ <main id="deals" class="container section">${searchMode()?"":welcomeBackHtml()}${searchSectionTitleHtml(data,best)}${searchMissionHtml(data,best)}${directSearchNoticeHtml(directMatchCount)}${bestPickRibbonHtml(best)}${searchMode()?"":recommendedHtml()}${aiSummaryHtml(best)}${platformWinnerHtml(data)}<div class="match-box"><div><b>🤖 ${bestMatchTitle()}</b><span>${matchMessage()}</span></div><div class="match-score">${best?Math.round((best.score||.85)*100):88}<small>/100</small></div></div><div class="advanced-toolbar">
    <div class="toolbar-grid">
     <div class="field"><label>${l.viewMode}</label><div class="view-toggle">${[["cards","grid",l.cards],["list","list",l.list],["compact","compact",l.compact],["compare","compare",l.compare]].map(v=>`<button class="view-btn ${state.view===v[0]?'active':''}" onclick="state.view='${v[0]}';render()">${icon(v[1])}<span>${v[2]}</span></button>`).join("")}</div></div>
     <div class="field"><label>${l.platformFilter}</label><select onchange="state.platformFilter=this.value;state.brandFilter='all';render()"><option value="all">${l.allPlatforms}</option>${Object.keys(platforms).filter(k=>platforms[k].enabled).map(k=>`<option value="${k}" ${state.platformFilter===k?'selected':''}>${platforms[k].name}</option>`).join("")}</select></div>
@@ -1212,7 +1234,7 @@ document.getElementById("app").innerHTML=`
    </div>
    <div class="intent-chips"><button class="intent-chip" onclick="setIntent('cheap')">${icon('money')}<span>${l.intentCheap}</span></button><button class="intent-chip" onclick="setIntent('fast')">${icon('rocket')}<span>${l.intentFast}</span></button><button class="intent-chip" onclick="setIntent('free')">${icon('free')}<span>${l.intentFree}</span></button><button class="intent-chip" onclick="setIntent('quality')">${icon('quality')}<span>${l.intentQuality}</span></button><button class="save-search-btn" onclick="saveSearch()">💾 ${l.saveSearch}</button><button class="reset-btn" onclick="resetFilters()">↺ ${l.resetFilters}</button></div>
   </div>
-  <div class="grid view-${state.view} search-grid">${data.map(card).join("")}</div><div class="notice">ℹ️ ${searchMode()?(state.lang==="ar"?"هذه نتائج البحث الحالي. غيّر كلمة البحث أو الفلاتر لتتغير الصفحة بالكامل.":"These results are focused on your current search. Change the query or filters to transform the page."):l.resultsNote}</div>${searchMode()?"":smartListHtml()}${searchMode()?"":alertCenterHtml()}${trustPanelHtml()}</main>${scoreExplainHtml()}
+  <div class="grid view-${state.view} search-grid">${data.map(card).join("")}</div><div class="notice">ℹ️ ${searchMode()?(state.lang==="ar"?"هذه نتائج البحث الحالي. غيّر كلمة البحث أو الفلاتر لتتغير الصفحة بالكامل.":"These results are focused on your current search. Change the query or filters to transform the page."):l.resultsNote}</div>${alternativesSectionHtml(directMatchCount)}${searchMode()?"":smartListHtml()}${searchMode()?"":alertCenterHtml()}${trustPanelHtml()}</main>${scoreExplainHtml()}
  <section id="platforms" class="container section"><div class="best-platform-hero"><div class="best-platform-content"><span class="pill">🏆 ${l.bestPlatform}</span><div class="platform-title-big"><span class="icon" style="background:${platforms[bp].color}">${platforms[bp].name[0]}</span><div><b>${platforms[bp].name}</b><p>${l.bestPlatformSub}</p></div></div><div class="best-platform-actions"><a class="primary" href="#deals">${l.bestPlatformCta}</a><a class="ghost" href="/how-it-works.html">${l.howWorks||l.how}</a></div></div><div class="best-platform-score"><div class="score-box"><div class="score-row"><b>${l.dealScore}</b><b>${bpScore}/100</b></div><div class="bar"><span style="width:${bpScore}%"></span></div></div><div class="score-box"><b>${l.bestPlatformWhy}</b><div class="score-row"><span>⭐ Rating</span><span>${bpStats.avgRating.toFixed(1)}</span></div><div class="score-row"><span>🚚 Shipping</span><span>${bpStats.avgShip.toFixed(1)} ${l.days}</span></div><div class="score-row"><span>💰 ${l.commission}</span><span>${platforms[bp].commission}%</span></div></div></div></div></section>
  
 <section id="platforms" class="container section">

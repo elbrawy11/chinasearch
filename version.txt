@@ -1,2 +1,2 @@
-ChinaSearch V5.9 search orchestrator fix
-Search now has event delegation, live desktop takeover, Enter/button handling, clickable product cards, and clearer search state.
+ChinaSearch V6.0 intent search engine
+Products expanded to 60, intents added, true intent detection, focused search results mode, alternatives and sticky compact search enabled.
