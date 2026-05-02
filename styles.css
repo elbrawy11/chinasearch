@@ -334,3 +334,128 @@ body.route-page .page-view{display:block}
   .platform-counts{grid-template-columns:1fr}
   .search-results-main h2{font-size:22px}
 }
+
+/* v5.8 full search takeover experience */
+body.searching .welcome-back,
+body.searching .personal-section{display:none!important}
+.search-takeover{
+  display:grid;
+  grid-template-columns:minmax(0,1.1fr) 360px;
+  gap:18px;
+  margin:18px 0 22px;
+  padding:22px;
+  border-radius:30px;
+  background:
+    radial-gradient(circle at 10% 0,rgba(255,106,0,.14),transparent 28%),
+    radial-gradient(circle at 90% 20%,rgba(37,99,235,.14),transparent 30%),
+    linear-gradient(135deg,#071225,#111f42);
+  color:white;
+  box-shadow:0 26px 80px rgba(2,6,23,.20);
+}
+.takeover-kicker{
+  display:inline-flex;
+  width:max-content;
+  color:#fed7aa;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:999px;
+  padding:7px 11px;
+  font-size:12px;
+  font-weight:950;
+  margin-bottom:10px;
+}
+.takeover-main h2{
+  margin:0;
+  font-size:34px;
+  line-height:1.15;
+  letter-spacing:-.7px;
+}
+.takeover-main p{
+  color:#cbd5e1;
+  margin:10px 0 14px;
+  line-height:1.8;
+}
+.takeover-best{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:18px;
+  padding:11px 13px;
+}
+.takeover-best span{color:#fdba74;font-weight:950}
+.takeover-best b{color:white}
+.takeover-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:14px;
+}
+.takeover-actions button{
+  border:1px solid rgba(255,255,255,.16);
+  background:rgba(255,255,255,.10);
+  color:white;
+  border-radius:999px;
+  padding:9px 12px;
+  font-weight:950;
+  cursor:pointer;
+}
+.takeover-actions .clear-search{
+  background:#fff;
+  color:#0f172a;
+}
+.takeover-side{display:grid;gap:12px}
+.takeover-count{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:linear-gradient(135deg,#ff6a00,#ff3d2e);
+  border-radius:22px;
+  padding:16px;
+}
+.takeover-count b{font-size:38px}
+.takeover-count span{font-size:12px;font-weight:950}
+.mission-platforms{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+.mission-platform{
+  border:1px solid rgba(255,255,255,.14);
+  border-inline-start:4px solid var(--pc);
+  background:rgba(255,255,255,.08);
+  border-radius:16px;
+  padding:10px;
+  display:grid;
+  gap:3px;
+}
+.mission-platform b{font-size:12px}
+.mission-platform span{font-size:11px;color:#cbd5e1}
+.mission-platform small{font-size:12px;color:#fff;font-weight:950}
+.search-head{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:22px;
+  padding:14px 16px;
+  box-shadow:0 10px 26px rgba(15,23,42,.04);
+}
+.search-grid{
+  margin-top:12px;
+}
+body.searching .hero{
+  padding-bottom:26px!important;
+}
+body.searching .hero .search-panel{
+  box-shadow:0 34px 90px rgba(255,106,0,.22)!important;
+}
+body.searching .hero-slogan{
+  background:rgba(255,106,0,.18)!important;
+  border-color:rgba(255,255,255,.20)!important;
+}
+@media(max-width:760px){
+  .search-takeover{grid-template-columns:1fr;padding:16px;border-radius:24px}
+  .takeover-main h2{font-size:25px}
+  .mission-platforms{grid-template-columns:1fr}
+}

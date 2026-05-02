@@ -881,11 +881,13 @@ function runSearch(){
   try{
     const input=document.querySelector(".hero-search-input");
     if(input) state.q=input.value.trim();
+    if(!state.q) return;
     if(typeof hideExitHook==="function") hideExitHook();
+    state.view = "cards";
     rememberSearch();
     render();
     requestAnimationFrame(()=>{
-      const target=document.getElementById("deals");
+      const target=document.getElementById("searchFocus") || document.getElementById("deals");
       if(target) target.scrollIntoView({behavior:"smooth",block:"start"});
     });
   }catch(e){
@@ -898,10 +900,10 @@ function applySearchExample(value){
 }
 function productMatchesQuery(p,q){
   if(!q) return true;
-  q=normalizeSearchText(q);
+  const words=searchIntentWords(q);
   const hay=normalizeSearchText([p.title,p.titleAr,p.cat,p.brand,platforms[p.platform]?.name].filter(Boolean).join(" "));
-  if(hay.includes(q)) return true;
-  const words=q.split(/\s+/).filter(Boolean);
+  const direct=normalizeSearchText(q);
+  if(hay.includes(direct)) return true;
   return words.some(w=>hay.includes(w));
 }
 
@@ -927,11 +929,103 @@ function searchOverviewHtml(data,best){
   </section>`;
 }
 
+
+function searchIntentWords(q){
+  q=normalizeSearchText(q);
+  const packs=[
+    ["mobile","phone","phones","smartphone","iphone","android","هاتف","موبايل","جوال","تليفون","تلفون"],
+    ["car","auto","vehicle","سياره","سيارة","عربيه","عربية","للسياره","للسيارة"],
+    ["watch","smartwatch","ساعة","ساعه","ساعات","smart watch"],
+    ["headphone","headphones","earbuds","airpods","سماعه","سماعة","سماعات","ايربودز","بلوتوث"],
+    ["bag","bags","حقيبه","حقيبة","شنطه","شنطة"],
+    ["shoe","shoes","sneaker","كوتشي","حذاء","جزمه","جزمة"],
+    ["charger","cable","كابل","شاحن","كيبل"],
+    ["camera","كاميرا"],
+    ["keyboard","كيبورد","لوحة مفاتيح"],
+    ["laptop","لاب توب","لابتوب"]
+  ];
+  let words=new Set(q.split(/\s+/).filter(Boolean));
+  packs.forEach(pack=>{
+    if(pack.some(w=>q.includes(normalizeSearchText(w)))) pack.forEach(w=>words.add(normalizeSearchText(w)));
+  });
+  return [...words].filter(Boolean);
+}
+function searchMode(){return !!(state.q||"").trim();}
+function searchLabel(){
+  const q=(state.q||"").trim();
+  return q || (state.lang==="ar"?"كل العروض":"all deals");
+}
+function heroTitleHtml(){
+  let l=L(), q=searchLabel();
+  if(searchMode()){
+    return state.lang==="ar"
+      ? `نفتش لك عن<br><span class="accent">أفضل ${q}</span>`
+      : `Searching everywhere for<br><span class="accent">best ${q}</span>`;
+  }
+  return `${l.title}<br><span class="accent">${l.accent}</span>`;
+}
+function heroSubtitleText(){
+  let l=L(), q=searchLabel(), c=C();
+  if(searchMode()){
+    return state.lang==="ar"
+      ? `حوّلنا الموقع بالكامل لرحلة بحث عن "${q}". نقارن المنصات، الأسعار، الشحن، التقييم، والملاءمة في ${c.countryAr} بدل ما نرمي لك نتائج عامة.`
+      : `The whole page is now focused on “${q}”: platforms, price, shipping, rating and country fit are ranked for you.`;
+  }
+  return l.heroBetter;
+}
+function searchMissionHtml(data,best){
+  if(!searchMode()) return "";
+  let q=searchLabel(), c=C();
+  let platformRows=Object.keys(platforms).filter(k=>platforms[k].enabled).map(k=>{
+    let list=data.filter(p=>p.platform===k);
+    let bestP=list.slice().sort((a,b)=>dealScore(b)-dealScore(a))[0];
+    return `<div class="mission-platform" style="--pc:${platforms[k].color}">
+      <b>${platforms[k].name}</b>
+      <span>${list.length} ${state.lang==="ar"?"نتيجة":"results"}</span>
+      <small>${bestP?price(bestP.price):"—"}</small>
+    </div>`;
+  }).join("");
+  let bestText=best?`${productName(best)} · ${platforms[best.platform]?.name||""} · ${price(best.price)} · 🚚 ${best.ship} ${L().days}`:"—";
+  return `<section id="searchFocus" class="search-takeover">
+    <div class="takeover-main">
+      <span class="takeover-kicker">🔎 ${state.lang==="ar"?"وضع البحث الذكي":"Smart search mode"}</span>
+      <h2>${state.lang==="ar"?`كل الموقع الآن يبحث عن: ${q}`:`The whole site is focused on: ${q}`}</h2>
+      <p>${state.lang==="ar"?`نقارن ${data.length} نتيجة عبر المنصات المتاحة حسب ${c.countryAr}، العملة ${c.currency}، سرعة الشحن، السعر، التقييم، ومدى قوة الصفقة.`:`Comparing ${data.length} results across marketplaces using country, currency, shipping, price, rating and deal strength.`}</p>
+      <div class="takeover-best"><span>🏆 ${state.lang==="ar"?"أفضل اختيار حاليًا":"Current best pick"}</span><b>${bestText}</b></div>
+      <div class="takeover-actions">
+        <button onclick="state.sort='score';render();document.getElementById('searchFocus')?.scrollIntoView({behavior:'smooth'})">🏆 ${state.lang==="ar"?"أفضل صفقة":"Best deal"}</button>
+        <button onclick="state.sort='price';render();document.getElementById('searchFocus')?.scrollIntoView({behavior:'smooth'})">💰 ${state.lang==="ar"?"الأرخص":"Cheapest"}</button>
+        <button onclick="state.sort='ship';render();document.getElementById('searchFocus')?.scrollIntoView({behavior:'smooth'})">🚚 ${state.lang==="ar"?"أسرع شحن":"Fastest"}</button>
+        <button onclick="state.sort='rating';render();document.getElementById('searchFocus')?.scrollIntoView({behavior:'smooth'})">⭐ ${state.lang==="ar"?"أعلى تقييم":"Top rated"}</button>
+        <button class="clear-search" onclick="state.q='';render();window.scrollTo({top:0,behavior:'smooth'})">✕ ${state.lang==="ar"?"مسح البحث":"Clear"}</button>
+      </div>
+    </div>
+    <div class="takeover-side">
+      <div class="takeover-count"><b>${data.length}</b><span>${state.lang==="ar"?"نتيجة مناسبة":"matched results"}</span></div>
+      <div class="mission-platforms">${platformRows}</div>
+    </div>
+  </section>`;
+}
+function searchSectionTitleHtml(data,best){
+  let c=C(), q=searchLabel();
+  if(searchMode()){
+    return `<div class="section-head search-head">
+      <div>
+        <h2>${state.lang==="ar"?`نتائج ${q}`:`Results for ${q}`}</h2>
+        <p>${state.lang==="ar"?`دي نتائج مخصصة للبحث الحالي وليست عروض عامة. الترتيب يتغير حسب بلدك، فلترك، والمنصة.`:`These are focused results for your current search, not generic deals.`}</p>
+      </div>
+      <span class="pill" style="background:#fff;color:#111;border-color:#e5e7eb">${data.length} ${state.lang==="ar"?"نتيجة في":"results in"} ${c.flag} ${state.lang==='ar'?c.countryAr:c.countryEn}</span>
+    </div>`;
+  }
+  return `<div class="section-head"><div><h2>${L().deals}</h2><p>${L().resultsNote}</p></div><span class="pill" style="background:#fff;color:#111;border-color:#e5e7eb">${L().bestToday}: ${c.flag} ${state.lang==='ar'?c.countryAr:c.countryEn}</span></div>`;
+}
+
 function render(){
  assignBrands();
- if(isAdminRoute()){ state.admin=false; }let l=L(),c=C();document.body.classList.toggle("admin-mode",isAdminRoute());document.documentElement.lang=state.lang;setTimeout(()=>{let f=document.getElementById("mobileFilterFab");if(f)f.innerHTML="⚙️ "+l.filters},0); if(state.q)addInterest(state.q); if(state.brandFilter!=="all")addInterest(state.brandFilter); if(state.platformFilter!=="all"&&platforms[state.platformFilter])addInterest(platforms[state.platformFilter].name);document.documentElement.dir=state.lang==="ar"?"rtl":"ltr";document.body.dir=document.documentElement.dir;
+ if(isAdminRoute()){ state.admin=false; }let l=L(),c=C();document.body.classList.toggle("admin-mode",isAdminRoute());document.documentElement.lang=state.lang;setTimeout(()=>{let f=document.getElementById("mobileFilterFab");if(f)f.innerHTML="⚙️ "+l.filters},0); if(state.q)addInterest(state.q); if(state.brandFilter!=="all")addInterest(state.brandFilter); if(state.platformFilter!=="all"&&platforms[state.platformFilter])addInterest(platforms[state.platformFilter].name);document.documentElement.dir=state.lang==="ar"?"rtl":"ltr";document.body.dir=document.documentElement.dir;document.body.classList.toggle("searching",searchMode());
  let data=ranked().filter(p=>productMatchesQuery(p,state.q));
- if(state.q && !data.length){ data=ranked(); }
+ let directMatchCount=data.length;
+ if(state.q && !data.length){ data=ranked().slice(0,12); }
  if(!data.length){ data=allProducts().map(p=>({...p,score:p.score||.7})); }
  if(state.sort==="price")data.sort((a,b)=>a.price-b.price);else if(state.sort==="ship")data.sort((a,b)=>a.ship-b.ship);else if(state.sort==="rating")data.sort((a,b)=>b.rating-a.rating);else if(state.sort==="free")data.sort((a,b)=>(b.free?1:0)-(a.free?1:0)||b.score-a.score);else if(state.sort==="pop")data.sort((a,b)=>b.reviews-a.reviews);else data.sort((a,b)=>b.score-a.score);
  window._products={};data.forEach(p=>window._products[p.id]=p);
@@ -959,7 +1053,7 @@ document.getElementById("app").innerHTML=`
   <rect x="63" y="16" width="18" height="18" rx="4" fill="#e11d2e"/>
   <path d="M68 20 v10 M76 20 v10 M68 25 h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
 </svg></div><div><h1>ChinaSearch</h1><span>${l.sub.substring(0,68)}...</span></div></a><nav class="navlinks"><a class="active">${l.home}</a><a href="#deals">${l.deals}</a><a href="#platforms">${l.platforms}</a><a href="#how">${l.how}</a><a href="#faq">${l.faq}</a></nav><div class="nav-actions"><select class="select" onchange="setCountry(this.value)">${Object.keys(SUPPORTED_COUNTRIES).map(k=>`<option value="${k}" ${state.country===k?'selected':''}>${SUPPORTED_COUNTRIES[k].flag} ${state.lang==='ar'?SUPPORTED_COUNTRIES[k].countryAr:SUPPORTED_COUNTRIES[k].countryEn}</option>`).join("")}</select><select class="select" onchange="setLang(this.value)"><option value="ar" ${state.lang==='ar'?'selected':''}>AR</option><option value="en" ${state.lang==='en'?'selected':''}>EN</option><option value="fr">FR</option><option value="de">DE</option><option value="es">ES</option><option value="pt">PT</option><option value="ru">RU</option></select><button class="notif-btn" onclick="toggleNotifications()">🔔<span class="notif-dot"></span></button><a class="primary" href="#deals">${l.start}</a></div></div></header>
- <section class="hero"><div class="container hero-inner"><div><div class="badge-line"><span class="pill">✅ ${l.trusted}</span><span class="pill">🌍 ${c.region}</span><span class="pill">💱 ${c.currency}</span></div><div class="hero-slogan">✨ ${l.heroPunch}</div><h2>${l.title}<br><span class="accent">${l.accent}</span></h2><p>${l.heroBetter}</p><div class="hero-helper-row"><span class="hero-helper-chip">🤖 ${l.aiAssistant}</span><span class="hero-helper-chip">🌍 ${l.geoTitle}</span><span class="hero-helper-chip">🏆 ${l.dealScore}</span></div><div class="search-panel"><span class="icon">🔍</span><input class="hero-search-input" value="${state.q}" oninput="state.q=this.value;requestAnimationFrame(syncHeroCardsWithSearch)" onkeydown="if(event.key==='Enter')runSearch()" placeholder="${l.search}"><button onclick="runSearch()">${l.searchBtn}</button></div><div class="hero-search-note"><span class="hint">⚡ ${l.bestMatchTitle}</span><span class="hint">💱 ${l.currency}: ${c.currency}</span><span class="hint">🚚 ${l.fast}</span></div>
+ <section class="hero"><div class="container hero-inner"><div><div class="badge-line"><span class="pill">✅ ${l.trusted}</span><span class="pill">🌍 ${c.region}</span><span class="pill">💱 ${c.currency}</span></div><div class="hero-slogan">✨ ${searchMode()?(state.lang==="ar"?"بحث مباشر عبر كل المنصات":"Live marketplace search"):l.heroPunch}</div><h2>${heroTitleHtml()}</h2><p>${heroSubtitleText()}</p><div class="hero-helper-row"><span class="hero-helper-chip">🤖 ${l.aiAssistant}</span><span class="hero-helper-chip">🌍 ${l.geoTitle}</span><span class="hero-helper-chip">🏆 ${l.dealScore}</span></div><div class="search-panel"><span class="icon">🔍</span><input class="hero-search-input" value="${state.q}" oninput="state.q=this.value;requestAnimationFrame(syncHeroCardsWithSearch)" onkeydown="if(event.key==='Enter')runSearch()" placeholder="${searchMode()?(state.lang==='ar'?'ابحث عن بديل أو نوع آخر...':'Search another product...'):l.search}"><button onclick="runSearch()">${searchMode()?(state.lang==='ar'?'حدّث البحث':'Update search'):l.searchBtn}</button></div><div class="hero-search-note"><span class="hint">⚡ ${l.bestMatchTitle}</span><span class="hint">💱 ${l.currency}: ${c.currency}</span><span class="hint">🚚 ${l.fast}</span></div>
 <div class="search-examples">
   <button class="search-example" onclick="applySearchExample(this.innerText)">🔎 ${l.ex1}</button>
   <button class="search-example" onclick="applySearchExample(this.innerText)">⌚ ${l.ex2}</button>
@@ -1008,7 +1102,7 @@ document.getElementById("app").innerHTML=`
  </section>
 <section class="section"><div class="container best-deal"><div>${card(best)}</div><div class="best-copy"><h2>🔥 ${l.bestDeal}</h2><p>${l.bestDealSub}</p><div class="reason"><b>🤖 ${l.whyChosen}</b><ul><li>${l.rankReason}</li><li>${l.dealScore}: ${Math.round(best.score*100)}/100</li><li>${platforms[best.platform].name} · ${price(best.price)} · ${best.ship} ${l.days}</li></ul></div></div></div></section>
  <div class="filters"><div class="container filter-row"><b>${l.filter}</b>${filterBtns}</div></div>
- <main id="deals" class="container section">${welcomeBackHtml()}<div class="section-head"><div><h2>${l.deals}</h2><p>${l.resultsNote}</p></div><span class="pill" style="background:#fff;color:#111;border-color:#e5e7eb">${l.bestToday}: ${c.flag} ${state.lang==='ar'?c.countryAr:c.countryEn}</span></div>${searchOverviewHtml(data,best)}${recommendedHtml()}${aiSummaryHtml(best)}${platformWinnerHtml(data)}<div class="match-box"><div><b>🤖 ${bestMatchTitle()}</b><span>${matchMessage()}</span></div><div class="match-score">${best?Math.round((best.score||.85)*100):88}<small>/100</small></div></div><div class="advanced-toolbar">
+ <main id="deals" class="container section">${searchMode()?"":welcomeBackHtml()}${searchSectionTitleHtml(data,best)}${searchMissionHtml(data,best)}${searchMode()?"":recommendedHtml()}${aiSummaryHtml(best)}${platformWinnerHtml(data)}<div class="match-box"><div><b>🤖 ${bestMatchTitle()}</b><span>${matchMessage()}</span></div><div class="match-score">${best?Math.round((best.score||.85)*100):88}<small>/100</small></div></div><div class="advanced-toolbar">
    <div class="toolbar-grid">
     <div class="field"><label>${l.viewMode}</label><div class="view-toggle">${[["cards","grid",l.cards],["list","list",l.list],["compact","compact",l.compact],["compare","compare",l.compare]].map(v=>`<button class="view-btn ${state.view===v[0]?'active':''}" onclick="state.view='${v[0]}';render()">${icon(v[1])}<span>${v[2]}</span></button>`).join("")}</div></div>
     <div class="field"><label>${l.platformFilter}</label><select onchange="state.platformFilter=this.value;state.brandFilter='all';render()"><option value="all">${l.allPlatforms}</option>${Object.keys(platforms).filter(k=>platforms[k].enabled).map(k=>`<option value="${k}" ${state.platformFilter===k?'selected':''}>${platforms[k].name}</option>`).join("")}</select></div>
@@ -1017,7 +1111,7 @@ document.getElementById("app").innerHTML=`
    </div>
    <div class="intent-chips"><button class="intent-chip" onclick="setIntent('cheap')">${icon('money')}<span>${l.intentCheap}</span></button><button class="intent-chip" onclick="setIntent('fast')">${icon('rocket')}<span>${l.intentFast}</span></button><button class="intent-chip" onclick="setIntent('free')">${icon('free')}<span>${l.intentFree}</span></button><button class="intent-chip" onclick="setIntent('quality')">${icon('quality')}<span>${l.intentQuality}</span></button><button class="save-search-btn" onclick="saveSearch()">💾 ${l.saveSearch}</button><button class="reset-btn" onclick="resetFilters()">↺ ${l.resetFilters}</button></div>
   </div>
-  <div class="grid view-${state.view}">${data.map(card).join("")}</div><div class="notice">ℹ️ ${l.resultsNote}</div>${smartListHtml()}${alertCenterHtml()}${trustPanelHtml()}</main>${scoreExplainHtml()}
+  <div class="grid view-${state.view} search-grid">${data.map(card).join("")}</div><div class="notice">ℹ️ ${searchMode()?(state.lang==="ar"?"هذه نتائج البحث الحالي. غيّر كلمة البحث أو الفلاتر لتتغير الصفحة بالكامل.":"These results are focused on your current search. Change the query or filters to transform the page."):l.resultsNote}</div>${searchMode()?"":smartListHtml()}${searchMode()?"":alertCenterHtml()}${trustPanelHtml()}</main>${scoreExplainHtml()}
  <section id="platforms" class="container section"><div class="best-platform-hero"><div class="best-platform-content"><span class="pill">🏆 ${l.bestPlatform}</span><div class="platform-title-big"><span class="icon" style="background:${platforms[bp].color}">${platforms[bp].name[0]}</span><div><b>${platforms[bp].name}</b><p>${l.bestPlatformSub}</p></div></div><div class="best-platform-actions"><a class="primary" href="#deals">${l.bestPlatformCta}</a><a class="ghost" href="/how-it-works.html">${l.howWorks||l.how}</a></div></div><div class="best-platform-score"><div class="score-box"><div class="score-row"><b>${l.dealScore}</b><b>${bpScore}/100</b></div><div class="bar"><span style="width:${bpScore}%"></span></div></div><div class="score-box"><b>${l.bestPlatformWhy}</b><div class="score-row"><span>⭐ Rating</span><span>${bpStats.avgRating.toFixed(1)}</span></div><div class="score-row"><span>🚚 Shipping</span><span>${bpStats.avgShip.toFixed(1)} ${l.days}</span></div><div class="score-row"><span>💰 ${l.commission}</span><span>${platforms[bp].commission}%</span></div></div></div></div></section>
  
 <section id="platforms" class="container section">
