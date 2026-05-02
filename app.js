@@ -289,7 +289,7 @@ let exitShown=false;
 function showExitHook(){if(exitShown || sessionStorage.getItem("exitClosed"))return;exitShown=true;let l=L();let hook=document.getElementById("exitHook");hook.innerHTML=`<h3>👀 ${l.exitTitle}</h3><p>${l.exitText}</p><div class="exit-actions"><button class="exit-primary" onclick="document.getElementById('deals').scrollIntoView();hideExitHook()">${l.exitBtn}</button><button class="exit-secondary" onclick="sessionStorage.setItem('exitClosed','1');hideExitHook()">${l.exitClose}</button></div>`;hook.classList.add("show")}
 function hideExitHook(){document.getElementById("exitHook").classList.remove("show")}
 document.addEventListener("mouseleave",e=>{if(e.clientY<=0)showExitHook()});
-setTimeout(()=>{if(window.scrollY<350)showExitHook()},45000);
+setTimeout(()=>{if(!state.q&&window.scrollY<350)showExitHook()},90000);
 
 function availableBrands(){
  let list=products.filter(p=>state.platformFilter==='all'||p.platform===state.platformFilter).map(p=>p.brand).filter(Boolean);
@@ -518,7 +518,7 @@ function interestTagsHtml(){
 function welcomeBackHtml(){
  let l=L(), recent=JSON.parse(localStorage.getItem("recentSearches")||"[]")[0], viewed=JSON.parse(localStorage.getItem("viewedProducts")||"[]").length;
  if(!recent && !viewed)return "";
- return `<div class="welcome-back"><div><h2>👋 ${l.welcomeBack}</h2><p>${l.welcomeBackText}${recent?` — ${recent}`:""}</p></div><div class="welcome-actions">${recent?`<button class="primary" onclick="state.q='${recent.replace(/'/g,"")}';render();document.getElementById('deals').scrollIntoView()">${l.continueLastSearch}</button>`:""}<button class="save-search-btn" onclick="followSearch()">💾 ${l.followThisSearch}</button></div></div>`;
+ return `<div class="welcome-back"><div><h2>👋 ${l.welcomeBack}</h2><p>${l.welcomeBackText}${recent?` — ${recent}`:""}</p></div><div class="welcome-actions">${recent?`<button class="primary" onclick="state.q='${recent.replace(/'/g,"")}';runSearch()">${l.continueLastSearch}</button>`:""}<button class="save-search-btn" onclick="followSearch()">💾 ${l.followThisSearch}</button></div></div>`;
 }
 function recommendedHtml(){
  let l=L(), items=personalizedProducts();
@@ -868,12 +868,20 @@ function syncHeroCardsWithSearch(){
 
 
 function normalizeSearchText(s){
-  return (s||"").toString().replace(/[🔎⌚🚚⚡⭐💰🎁]/g,"").trim().toLowerCase();
+  return (s||"").toString()
+    .replace(/[🔎⌚🚚⚡⭐💰🎁]/g,"")
+    .replace(/[إأآ]/g,"ا")
+    .replace(/ة/g,"ه")
+    .replace(/ى/g,"ي")
+    .replace(/[\u064B-\u065F\u0670]/g,"")
+    .trim()
+    .toLowerCase();
 }
 function runSearch(){
   try{
     const input=document.querySelector(".hero-search-input");
     if(input) state.q=input.value.trim();
+    if(typeof hideExitHook==="function") hideExitHook();
     rememberSearch();
     render();
     requestAnimationFrame(()=>{
@@ -891,9 +899,32 @@ function applySearchExample(value){
 function productMatchesQuery(p,q){
   if(!q) return true;
   q=normalizeSearchText(q);
-  const hay=[p.title,p.titleAr,p.cat,p.brand,platforms[p.platform]?.name].filter(Boolean).join(" ").toLowerCase();
+  const hay=normalizeSearchText([p.title,p.titleAr,p.cat,p.brand,platforms[p.platform]?.name].filter(Boolean).join(" "));
   if(hay.includes(q)) return true;
-  return q.split(/\s+/).filter(Boolean).some(w=>hay.includes(w));
+  const words=q.split(/\s+/).filter(Boolean);
+  return words.some(w=>hay.includes(w));
+}
+
+
+function searchOverviewHtml(data,best){
+  let l=L(), c=C(), q=(state.q||"").trim();
+  let counts=Object.keys(platforms).filter(k=>platforms[k].enabled).map(k=>{
+    let count=data.filter(p=>p.platform===k).length;
+    return `<span class="platform-count" style="--pc:${platforms[k].color}"><b>${platforms[k].name}</b><em>${count}</em></span>`;
+  }).join("");
+  let bestLine=best?`${productName(best)} · ${platforms[best.platform]?.name||""} · ${price(best.price)}`:(state.lang==="ar"?"لا توجد نتيجة مباشرة":"No direct match");
+  return `<section class="search-results-panel">
+    <div class="search-results-main">
+      <div class="search-kicker">${q ? (state.lang==="ar"?"نتائج البحث":"Search results") : (state.lang==="ar"?"أفضل نتيجة حسب بلدك وفلترك الحالي":"Best result for your country and filters")}</div>
+      <h2>${q ? `“${q}”` : `${c.flag} ${state.lang==='ar'?c.countryAr:c.countryEn}`}</h2>
+      <p>${state.lang==="ar"?"نرتب النتائج الآن بناءً على الدولة، العملة، المنصة، البراند، والسعر/الشحن/التقييم.":"Results are ranked by country, currency, platform, brand, price, shipping and rating."}</p>
+      <div class="best-inline"><span>🏆 ${state.lang==="ar"?"الأفضل الآن":"Best now"}</span><b>${bestLine}</b></div>
+    </div>
+    <div class="search-results-side">
+      <div class="result-count"><b>${data.length}</b><span>${state.lang==="ar"?"نتيجة":"results"}</span></div>
+      <div class="platform-counts">${counts}</div>
+    </div>
+  </section>`;
 }
 
 function render(){
@@ -901,6 +932,7 @@ function render(){
  if(isAdminRoute()){ state.admin=false; }let l=L(),c=C();document.body.classList.toggle("admin-mode",isAdminRoute());document.documentElement.lang=state.lang;setTimeout(()=>{let f=document.getElementById("mobileFilterFab");if(f)f.innerHTML="⚙️ "+l.filters},0); if(state.q)addInterest(state.q); if(state.brandFilter!=="all")addInterest(state.brandFilter); if(state.platformFilter!=="all"&&platforms[state.platformFilter])addInterest(platforms[state.platformFilter].name);document.documentElement.dir=state.lang==="ar"?"rtl":"ltr";document.body.dir=document.documentElement.dir;
  let data=ranked().filter(p=>productMatchesQuery(p,state.q));
  if(state.q && !data.length){ data=ranked(); }
+ if(!data.length){ data=allProducts().map(p=>({...p,score:p.score||.7})); }
  if(state.sort==="price")data.sort((a,b)=>a.price-b.price);else if(state.sort==="ship")data.sort((a,b)=>a.ship-b.ship);else if(state.sort==="rating")data.sort((a,b)=>b.rating-a.rating);else if(state.sort==="free")data.sort((a,b)=>(b.free?1:0)-(a.free?1:0)||b.score-a.score);else if(state.sort==="pop")data.sort((a,b)=>b.reviews-a.reviews);else data.sort((a,b)=>b.score-a.score);
  window._products={};data.forEach(p=>window._products[p.id]=p);
  let best=data.find(p=>p.isBest)||data[0],cheap=data.find(p=>p.isCheap)||data[1],fast=data.find(p=>p.isFast)||data[2],rated=data.find(p=>p.isTopRated)||data[3],free=data.find(p=>p.free)||data[4],bp=bestPlatformKey(),bpStats=platformStats(bp),bpScore=bestPlatformScore(bp);
@@ -927,7 +959,7 @@ document.getElementById("app").innerHTML=`
   <rect x="63" y="16" width="18" height="18" rx="4" fill="#e11d2e"/>
   <path d="M68 20 v10 M76 20 v10 M68 25 h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
 </svg></div><div><h1>ChinaSearch</h1><span>${l.sub.substring(0,68)}...</span></div></a><nav class="navlinks"><a class="active">${l.home}</a><a href="#deals">${l.deals}</a><a href="#platforms">${l.platforms}</a><a href="#how">${l.how}</a><a href="#faq">${l.faq}</a></nav><div class="nav-actions"><select class="select" onchange="setCountry(this.value)">${Object.keys(SUPPORTED_COUNTRIES).map(k=>`<option value="${k}" ${state.country===k?'selected':''}>${SUPPORTED_COUNTRIES[k].flag} ${state.lang==='ar'?SUPPORTED_COUNTRIES[k].countryAr:SUPPORTED_COUNTRIES[k].countryEn}</option>`).join("")}</select><select class="select" onchange="setLang(this.value)"><option value="ar" ${state.lang==='ar'?'selected':''}>AR</option><option value="en" ${state.lang==='en'?'selected':''}>EN</option><option value="fr">FR</option><option value="de">DE</option><option value="es">ES</option><option value="pt">PT</option><option value="ru">RU</option></select><button class="notif-btn" onclick="toggleNotifications()">🔔<span class="notif-dot"></span></button><a class="primary" href="#deals">${l.start}</a></div></div></header>
- <section class="hero"><div class="container hero-inner"><div><div class="badge-line"><span class="pill">✅ ${l.trusted}</span><span class="pill">🌍 ${c.region}</span><span class="pill">💱 ${c.currency}</span></div><div class="hero-slogan">✨ ${l.heroPunch}</div><h2>${l.title}<br><span class="accent">${l.accent}</span></h2><p>${l.heroBetter}</p><div class="hero-helper-row"><span class="hero-helper-chip">🤖 ${l.aiAssistant}</span><span class="hero-helper-chip">🌍 ${l.geoTitle}</span><span class="hero-helper-chip">🏆 ${l.dealScore}</span></div><div class="search-panel"><span class="icon">🔍</span><input class="hero-search-input" value="${state.q}" oninput="state.q=this.value;render()" onkeydown="if(event.key==='Enter')runSearch()" placeholder="${l.search}"><button onclick="runSearch()">${l.searchBtn}</button></div><div class="hero-search-note"><span class="hint">⚡ ${l.bestMatchTitle}</span><span class="hint">💱 ${l.currency}: ${c.currency}</span><span class="hint">🚚 ${l.fast}</span></div>
+ <section class="hero"><div class="container hero-inner"><div><div class="badge-line"><span class="pill">✅ ${l.trusted}</span><span class="pill">🌍 ${c.region}</span><span class="pill">💱 ${c.currency}</span></div><div class="hero-slogan">✨ ${l.heroPunch}</div><h2>${l.title}<br><span class="accent">${l.accent}</span></h2><p>${l.heroBetter}</p><div class="hero-helper-row"><span class="hero-helper-chip">🤖 ${l.aiAssistant}</span><span class="hero-helper-chip">🌍 ${l.geoTitle}</span><span class="hero-helper-chip">🏆 ${l.dealScore}</span></div><div class="search-panel"><span class="icon">🔍</span><input class="hero-search-input" value="${state.q}" oninput="state.q=this.value;requestAnimationFrame(syncHeroCardsWithSearch)" onkeydown="if(event.key==='Enter')runSearch()" placeholder="${l.search}"><button onclick="runSearch()">${l.searchBtn}</button></div><div class="hero-search-note"><span class="hint">⚡ ${l.bestMatchTitle}</span><span class="hint">💱 ${l.currency}: ${c.currency}</span><span class="hint">🚚 ${l.fast}</span></div>
 <div class="search-examples">
   <button class="search-example" onclick="applySearchExample(this.innerText)">🔎 ${l.ex1}</button>
   <button class="search-example" onclick="applySearchExample(this.innerText)">⌚ ${l.ex2}</button>
@@ -976,7 +1008,7 @@ document.getElementById("app").innerHTML=`
  </section>
 <section class="section"><div class="container best-deal"><div>${card(best)}</div><div class="best-copy"><h2>🔥 ${l.bestDeal}</h2><p>${l.bestDealSub}</p><div class="reason"><b>🤖 ${l.whyChosen}</b><ul><li>${l.rankReason}</li><li>${l.dealScore}: ${Math.round(best.score*100)}/100</li><li>${platforms[best.platform].name} · ${price(best.price)} · ${best.ship} ${l.days}</li></ul></div></div></div></section>
  <div class="filters"><div class="container filter-row"><b>${l.filter}</b>${filterBtns}</div></div>
- <main id="deals" class="container section">${welcomeBackHtml()}<div class="section-head"><div><h2>${l.deals}</h2><p>${l.resultsNote}</p></div><span class="pill" style="background:#fff;color:#111;border-color:#e5e7eb">${l.bestToday}: ${c.flag} ${state.lang==='ar'?c.countryAr:c.countryEn}</span></div>${recommendedHtml()}${aiSummaryHtml(best)}${platformWinnerHtml(data)}<div class="match-box"><div><b>🤖 ${bestMatchTitle()}</b><span>${matchMessage()}</span></div><div class="match-score">${best?Math.round((best.score||.85)*100):88}<small>/100</small></div></div><div class="advanced-toolbar">
+ <main id="deals" class="container section">${welcomeBackHtml()}<div class="section-head"><div><h2>${l.deals}</h2><p>${l.resultsNote}</p></div><span class="pill" style="background:#fff;color:#111;border-color:#e5e7eb">${l.bestToday}: ${c.flag} ${state.lang==='ar'?c.countryAr:c.countryEn}</span></div>${searchOverviewHtml(data,best)}${recommendedHtml()}${aiSummaryHtml(best)}${platformWinnerHtml(data)}<div class="match-box"><div><b>🤖 ${bestMatchTitle()}</b><span>${matchMessage()}</span></div><div class="match-score">${best?Math.round((best.score||.85)*100):88}<small>/100</small></div></div><div class="advanced-toolbar">
    <div class="toolbar-grid">
     <div class="field"><label>${l.viewMode}</label><div class="view-toggle">${[["cards","grid",l.cards],["list","list",l.list],["compact","compact",l.compact],["compare","compare",l.compare]].map(v=>`<button class="view-btn ${state.view===v[0]?'active':''}" onclick="state.view='${v[0]}';render()">${icon(v[1])}<span>${v[2]}</span></button>`).join("")}</div></div>
     <div class="field"><label>${l.platformFilter}</label><select onchange="state.platformFilter=this.value;state.brandFilter='all';render()"><option value="all">${l.allPlatforms}</option>${Object.keys(platforms).filter(k=>platforms[k].enabled).map(k=>`<option value="${k}" ${state.platformFilter===k?'selected':''}>${platforms[k].name}</option>`).join("")}</select></div>

@@ -1,2 +1,2 @@
-ChinaSearch V5.6 search and card click fix
-Search button now runs render/scroll, product cards are clickable, Quick View modal display is forced.
+ChinaSearch V5.7 search results UX fix
+Search no longer rerenders on every keystroke, results panel added, product cards and Quick View interaction improved.

@@ -251,3 +251,86 @@ body.route-page .page-view{display:block}
 .quick-modal .quick-shell{max-width:1160px;width:min(1160px,calc(100vw - 24px));max-height:min(92vh,920px);overflow:auto;background:#fff;border-radius:30px;box-shadow:0 35px 100px rgba(2,6,23,.36);position:relative}
 .hero-search-input:focus{outline:none}
 .search-panel:focus-within{box-shadow:0 30px 80px rgba(255,106,0,.18)!important}
+
+/* v5.7 search results UX fix */
+.search-results-panel{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 340px;
+  gap:16px;
+  align-items:stretch;
+  margin:16px 0 18px;
+  padding:18px;
+  border:1px solid #e5e7eb;
+  border-radius:26px;
+  background:linear-gradient(135deg,#ffffff,#f8fafc);
+  box-shadow:0 14px 36px rgba(15,23,42,.06);
+}
+.search-kicker{
+  color:#ff4d00;
+  font-size:12px;
+  font-weight:950;
+  margin-bottom:5px;
+}
+.search-results-main h2{
+  margin:0;
+  font-size:27px;
+  line-height:1.25;
+}
+.search-results-main p{
+  color:#64748b;
+  margin:8px 0 12px;
+  line-height:1.75;
+}
+.best-inline{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+  padding:10px 12px;
+  background:#fff7ed;
+  border:1px solid #fed7aa;
+  border-radius:16px;
+}
+.best-inline span{font-weight:950;color:#9a3412}
+.best-inline b{color:#0f172a}
+.search-results-side{display:grid;gap:10px}
+.result-count{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 14px;
+  border-radius:18px;
+  background:#071225;
+  color:white;
+}
+.result-count b{font-size:28px}
+.result-count span{color:#cbd5e1;font-size:12px;font-weight:900}
+.platform-counts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.platform-count{
+  border:1px solid #e5e7eb;
+  border-inline-start:4px solid var(--pc);
+  background:white;
+  border-radius:14px;
+  padding:9px 10px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+.platform-count b{font-size:12px;color:#334155}
+.platform-count em{
+  font-style:normal;
+  background:#f1f5f9;
+  color:#0f172a;
+  border-radius:999px;
+  padding:3px 8px;
+  font-size:11px;
+  font-weight:950;
+}
+.exit-hook.show{z-index:30;max-width:380px}
+.grid.view-compact .card,.grid.view-cards .card,.grid .card{cursor:pointer}
+@media(max-width:760px){
+  .search-results-panel{grid-template-columns:1fr;padding:14px;border-radius:22px}
+  .platform-counts{grid-template-columns:1fr}
+  .search-results-main h2{font-size:22px}
+}
