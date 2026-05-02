@@ -270,6 +270,169 @@ footer{margin-top:20px!important}
   .stats{grid-template-columns:1fr!important}
 }
 
+
+/* v4.0 Live floating cards + geo-enhanced first visit */
+.stage{perspective:1200px}
+.float-card{
+  overflow:hidden;
+  animation:csCardDriftA 7.5s ease-in-out infinite;
+  will-change:transform, box-shadow;
+  transform-origin:center center;
+}
+.float-card::after{
+  content:"";
+  position:absolute;
+  inset:-40% auto -40% -70%;
+  width:45%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);
+  transform:skewX(-18deg);
+  animation:csShine 6.8s linear infinite;
+  pointer-events:none;
+  opacity:.75;
+}
+.float-card:hover{
+  transform:translateY(-4px) scale(1.015);
+  box-shadow:0 24px 60px rgba(15,23,42,.18)!important;
+}
+.float-card .float-badge{
+  box-shadow:0 8px 18px rgba(15,23,42,.12);
+}
+.float-card .float-badge::after{
+  content:"";
+  display:inline-block;
+  width:7px;
+  height:7px;
+  margin-inline-start:6px;
+  border-radius:50%;
+  background:rgba(255,255,255,.92);
+  box-shadow:0 0 0 0 rgba(255,255,255,.8);
+  animation:csPulseDot 2s ease-out infinite;
+  vertical-align:middle;
+}
+.stage .float-card:nth-child(3){animation-name:csCardDriftA; animation-delay:0s}
+.stage .float-card:nth-child(4){animation-name:csCardDriftB; animation-delay:.8s}
+.stage .float-card:nth-child(5){animation-name:csCardDriftC; animation-delay:1.5s}
+.stage .float-card:nth-child(6){animation-name:csCardDriftB; animation-delay:2.1s}
+.stage .float-card:nth-child(7){animation-name:csCardDriftA; animation-delay:2.8s}
+@keyframes csCardDriftA{
+  0%,100%{transform:translate3d(0,0,0) rotate(0deg)}
+  25%{transform:translate3d(0,-5px,0) rotate(-.5deg)}
+  50%{transform:translate3d(0,-10px,0) rotate(.4deg)}
+  75%{transform:translate3d(0,-4px,0) rotate(-.3deg)}
+}
+@keyframes csCardDriftB{
+  0%,100%{transform:translate3d(0,0,0) rotate(0deg)}
+  30%{transform:translate3d(0,-7px,0) rotate(.45deg)}
+  60%{transform:translate3d(0,-3px,0) rotate(-.45deg)}
+}
+@keyframes csCardDriftC{
+  0%,100%{transform:translate3d(0,0,0) scale(1)}
+  50%{transform:translate3d(0,-8px,0) scale(1.01)}
+}
+@keyframes csShine{
+  0%{transform:translateX(-180%) skewX(-18deg)}
+  100%{transform:translateX(420%) skewX(-18deg)}
+}
+@keyframes csPulseDot{
+  0%{box-shadow:0 0 0 0 rgba(255,255,255,.8)}
+  70%{box-shadow:0 0 0 8px rgba(255,255,255,0)}
+  100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}
+}
+@media (prefers-reduced-motion:reduce){
+  .float-card,.float-card::after,.float-card .float-badge::after{animation:none!important}
+}
+
+
+/* v4.1 Hero Dominance + Premium Quick View + Stronger Geo */
+.hero{padding:62px 0 44px!important}
+.hero-inner{grid-template-columns:minmax(0,1.1fr) minmax(330px,.9fr)!important;gap:34px!important}
+.hero h2{font-size:clamp(40px,5vw,64px)!important;max-width:780px}
+.hero p{font-size:17px!important;max-width:720px}
+.hero-helper-row{display:flex;flex-wrap:wrap;gap:9px;margin:0 0 14px}
+.hero-helper-chip{display:inline-flex;align-items:center;gap:7px;padding:8px 11px;border-radius:999px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);color:#f8fafc;font-size:12px;font-weight:900}
+.search-panel{max-width:760px!important;padding:9px!important;border-radius:24px!important;box-shadow:0 28px 70px rgba(2,6,23,.28)!important}
+.search-panel input{padding:18px 8px!important;font-size:17px!important}
+.search-panel button{padding:16px 20px!important;min-width:150px;border-radius:18px!important}
+.hero-search-note{display:flex;flex-wrap:wrap;gap:9px;margin:12px 0 8px}
+.hero-search-note .hint{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);padding:8px 11px;border-radius:14px;color:#dbeafe;font-size:12px;font-weight:800}
+.platform-tags{margin-top:16px!important}
+.geo-panel{margin-top:16px!important;border-radius:24px!important}
+.stage{align-self:center}
+.float-card{backdrop-filter:blur(12px)}
+
+.quick-shell{width:min(1160px,calc(100vw - 24px));max-height:min(92vh,920px);overflow:auto;background:#fff;border-radius:30px;box-shadow:0 35px 100px rgba(2,6,23,.36);position:relative}
+.quick-shell::-webkit-scrollbar{width:10px}.quick-shell::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:999px}
+.quick-topbar{position:sticky;top:0;z-index:4;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;background:rgba(255,255,255,.94);backdrop-filter:blur(16px);border-bottom:1px solid #e2e8f0}
+.quick-top-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.quick-platform-chip,.quick-score-chip,.quick-country-chip{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border-radius:999px;font-size:12px;font-weight:950;border:1px solid #e2e8f0;background:#f8fafc;color:#0f172a}
+.quick-score-chip{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+.quick-country-chip{background:#ecfeff;border-color:#a5f3fc;color:#155e75}
+.quick-close-pro{border:1px solid #e2e8f0;background:#fff;border-radius:999px;padding:10px 14px;font-size:13px;font-weight:900;cursor:pointer}
+.quick-layout-pro{display:grid;grid-template-columns:minmax(320px,.86fr) minmax(0,1.14fr)}
+.quick-media-side{position:relative;background:radial-gradient(circle at 20% 0,rgba(255,106,0,.18),transparent 28%),radial-gradient(circle at 100% 0,rgba(37,99,235,.16),transparent 30%),linear-gradient(180deg,#071225,#12234c);padding:18px;color:white}
+.quick-media-main{border-radius:24px;overflow:hidden;background:#fff;box-shadow:0 14px 36px rgba(0,0,0,.18)}
+.quick-media-main img{width:100%;height:320px;object-fit:cover;display:block}
+.quick-media-caption{margin-top:14px}
+.quick-media-caption h2{margin:0 0 6px;font-size:26px;line-height:1.2}
+.quick-media-caption p{margin:0;color:#dbeafe;line-height:1.65;font-size:13px}
+.quick-mini-rail{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.quick-mini-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:12px}
+.quick-mini-card span{display:block;font-size:11px;color:#dbeafe}
+.quick-mini-card b{display:block;margin-top:6px;font-size:17px}
+.quick-content-pro{padding:18px 18px 96px}
+.quick-headline{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:10px}
+.quick-headline h3{margin:0;font-size:30px;line-height:1.2;letter-spacing:-.5px}
+.quick-headline p{margin:6px 0 0;color:#64748b;font-size:14px}
+.quick-price-row{display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;margin:10px 0 6px}
+.quick-price-row strong{font-size:34px;color:#ef4444}
+.quick-price-row del{font-size:15px;color:#94a3b8}
+.quick-highlight-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
+.quick-highlight-card{background:linear-gradient(180deg,#fff,#f8fafc);border:1px solid #e2e8f0;border-radius:18px;padding:12px;text-align:center}
+.quick-highlight-card span{display:block;font-size:11px;color:#64748b}
+.quick-highlight-card b{display:block;font-size:17px;color:#0f172a;margin-top:5px}
+.quick-two-col{display:grid;grid-template-columns:1.1fr .9fr;gap:14px;margin-top:12px}
+.quick-panel-pro{background:#fff;border:1px solid #e2e8f0;border-radius:22px;padding:16px;box-shadow:0 10px 30px rgba(15,23,42,.05)}
+.quick-panel-pro h4{margin:0 0 10px;font-size:17px}
+.quick-ai-box{background:linear-gradient(135deg,#eff6ff,#fff7ed);border:1px solid #bfdbfe;border-radius:18px;padding:14px}
+.quick-ai-box b{display:block;color:#1d4ed8;margin-bottom:7px}
+.quick-ai-box p{margin:0;color:#334155;line-height:1.75;font-size:13px}
+.quick-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.quick-metric{background:#f8fafc;border:1px solid #e2e8f0;border-radius:16px;padding:12px}
+.quick-metric span{display:block;color:#64748b;font-size:11px}
+.quick-metric b{display:block;margin-top:5px;color:#0f172a}
+.quick-confidence{margin-top:12px}
+.quick-confidence .bar{height:12px;background:#e2e8f0;border-radius:999px;overflow:hidden}
+.quick-confidence .bar i{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#3b82f6,#ff6a00);border-radius:999px}
+.quick-confidence .meta{display:flex;justify-content:space-between;gap:10px;margin-top:7px;font-size:12px;color:#64748b}
+.quick-trust-list{display:grid;gap:8px}
+.quick-trust-item{background:#f8fafc;border:1px solid #e2e8f0;border-radius:16px;padding:10px 12px;font-size:13px;color:#334155;font-weight:800}
+.quick-similar-grid{display:grid;grid-template-columns:1fr;gap:10px}
+.quick-similar-card{display:grid;grid-template-columns:68px 1fr auto;gap:10px;align-items:center;background:#f8fafc;border:1px solid #e2e8f0;border-radius:16px;padding:9px}
+.quick-similar-card img{width:68px;height:68px;border-radius:14px;object-fit:cover}
+.quick-similar-card b{display:block;font-size:13px;color:#0f172a;line-height:1.3}
+.quick-similar-card span{display:block;font-size:11px;color:#64748b}
+.quick-similar-card button{border:0;background:#e0f2fe;color:#075985;border-radius:11px;padding:9px 11px;font-size:12px;font-weight:900;cursor:pointer}
+.quick-action-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.quick-action-row .secondary-action,.quick-action-row .cta{flex:1 1 180px}
+.quick-sticky-bar{position:sticky;bottom:0;z-index:3;display:flex;gap:10px;flex-wrap:wrap;padding:14px 18px;background:rgba(255,255,255,.95);backdrop-filter:blur(16px);border-top:1px solid #e2e8f0}
+.quick-sticky-bar .cta{flex:1 1 220px}.quick-sticky-bar .secondary-action{flex:1 1 160px}
+.quick-safe-note{font-size:12px;color:#64748b;line-height:1.7;margin-top:12px}
+@media(max-width:980px){
+  .hero-inner{grid-template-columns:1fr!important}
+  .quick-layout-pro{grid-template-columns:1fr}
+  .quick-two-col,.quick-highlight-grid,.quick-metrics,.quick-mini-rail{grid-template-columns:1fr 1fr}
+}
+@media(max-width:640px){
+  .hero-helper-row,.hero-search-note{gap:7px}
+  .search-panel{display:grid!important;grid-template-columns:auto 1fr;gap:8px}
+  .search-panel button{grid-column:1/-1;width:100%}
+  .quick-shell{border-radius:24px}
+  .quick-highlight-grid,.quick-metrics,.quick-two-col,.quick-mini-rail{grid-template-columns:1fr}
+  .quick-media-main img{height:250px}
+  .quick-headline h3{font-size:24px}
+  .quick-sticky-bar{padding:12px}
+}
+
 </style>
 </head>
 <body>
@@ -373,7 +536,7 @@ const platformBase={
 };
 let platforms=JSON.parse(localStorage.getItem("platforms")||"null")||platformBase;
 const T={
- ar:{home:"الرئيسية",deals:"العروض",platforms:"المنصات",how:"الشرح",faq:"FAQ",why:"لماذا نحن",start:"ابدأ",title:"قارن أسعار منتجات الصين قبل ما تشتري",accent:"اختيار أذكى حسب بلدك",sub:"نقارن لك بين AliExpress و Temu و SHEIN و DHgate و Banggood بناءً على بلدك، لغتك، عملتك، سرعة الشحن، التقييمات، ونقدم لك أفضل صفقة تلقائيًا.",trusted:"يثق بنا أكثر من 10,000 متسوق ذكي",products:"منتجات",markets:"منصات",updated:"تحديث يومي",search:"ابحث عن المنتج الذي تريده",searchBtn:"بحث",geoTitle:"نخصص النتائج تلقائيًا لتناسب منطقتك",geoText:"الأسعار، العملة، اللغة، الشحن، وترتيب المنتجات تتغير حسب بلدك.",country:"البلد",language:"اللغة",currency:"العملة",bestToday:"أفضل صفقة لك اليوم في",claim:"احصل على الصفقة الآن",benefit1:"مقارنة السعر فورًا",benefit1s:"نقارن آلاف العروض في ثانية",benefit2:"أسرع شحن حسب بلدك",benefit2s:"نختار أسرع طرق الشحن لك",benefit3:"ترتيب ذكي للعروض",benefit3s:"يعتمد على بلدك وتفضيلاتك",benefit4:"شحن مجاني عند التوفر",benefit4s:"نبرز العروض التي تشحن مجانًا",bestDeal:"أفضل صفقة لك اليوم",bestDealSub:"اختيار تلقائي حسب بلدك وعملتك وسرعة الشحن وتقييم المنتج.",whyChosen:"لماذا اخترناه لك؟",rankReason:"يجمع بين سعر مناسب، تقييم قوي، وشحن جيد لمنطقتك.",dealScore:"درجة الصفقة",filter:"الترتيب",best:"الأفضل",cheap:"الأرخص",rating:"أعلى تقييم",fast:"أسرع شحن",free:"شحن مجاني",popular:"الأكثر طلبًا",bestChoice:"أفضل اختيار",cheapest:"الأرخص",fastest:"الأسرع",freeShipping:"شحن مجاني",save:"توفر",avg:"مقارنة بمتوسط السعر",popularRegion:"اختيار رائج في منطقتك",limited:"كمية محدودة",get:"🔥 احصل على أفضل سعر الآن",days:"أيام",resultsNote:"تتغير النتائج والأسعار تلقائيًا حسب بلدك، عملتك، وسرعة الشحن المتاحة.",whyTitle:"لماذا ChinaSearch؟",whySub:"منصة مصممة لتقليل وقت البحث وإظهار أفضل اختيار بسرعة.",w1:"موثوق وشفاف",w1p:"نعرض التقييمات والسعر والشحن بوضوح.",w2:"توفير أكثر",w2p:"نقارن العروض ونبرز الأرخص والأفضل.",w3:"نتائج فورية",w3p:"بحث سريع وترتيب ذكي في نفس الصفحة.",w4:"مصمم لكل منطقة",w4p:"يدعم الشرق الأوسط، أوروبا، روسيا، شمال أفريقيا، وأمريكا اللاتينية.",platformTitle:"المنصات المدعومة",platformSub:"نعرض مقارنة عامة بين المنصات المتاحة حسب السعر، الشحن، التقييم، ومناسبة الدولة.",bestPlatform:"أفضل منصة لبلدك اليوم",bestPlatformSub:"نقارن المنصات حسب بلدك، سرعة الشحن، تقييم المنتجات، والأسعار المتوسطة.",bestPlatformWhy:"لماذا هذه المنصة؟",bestPlatformCta:"شاهد أفضل عروضها",compareTitle:"مقارنة عامة بين المنصات",exitTitle:"قبل ما تخرج… جرّب مقارنة منتج واحد",exitText:"قد تجد سعرًا أقل أو شحنًا أسرع خلال 5 ثواني فقط.",exitBtn:"جرّب الآن",exitClose:"لاحقًا",admin:"لوحة التحكم",aff:"معرّفات الأفلييت",mode:"وضع البيانات",mock:"بيانات تجريبية",live:"جاهز للـ API",stats:"الإحصائيات",addPlatform:"إضافة منصة",newPlatform:"اسم منصة جديدة",commission:"العمولة",priority:"الأولوية",enabled:"مفعلة",disabled:"متوقفة",howTitle:"كيف يعمل؟",s1:"ابحث",s1p:"اكتب المنتج أو الفئة التي تريدها.",s2:"نقارن تلقائيًا",s2p:"السعر، الشحن، التقييم، والشحن المجاني.",s3:"اختر الأفضل",s3p:"انتقل للمتجر الأنسب عبر رابط الأفلييت.",q1:"هل ChinaSearch متجر؟",a1:"لا، هو منصة اكتشاف ومقارنة. الشراء يتم من المتاجر الأصلية.",q2:"هل تختلف النتائج حسب الدولة؟",a2:"نعم، العملة والشحن والترتيب تتغير حسب الدولة والمنطقة.",q3:"هل يمكن تحديث المنصات لاحقًا؟",a3:"نعم، إدارة المنصات تتم من لوحة إدارة خاصة وغير ظاهرة للمستخدم العادي.",q4:"هل يوجد ذكاء اصطناعي؟",a4:"النسخة الحالية AI-ready وتعرض شرحًا ذكيًا للاختيار، ويمكن ربط API لاحقًا.",rewardsTitle:"ChinaSearch Rewards",
+ ar:{home:"الرئيسية",deals:"العروض",platforms:"المنصات",how:"الشرح",faq:"FAQ",why:"لماذا نحن",start:"ابدأ",title:"قارن أسعار منتجات الصين قبل ما تشتري",accent:"اختيار أذكى حسب بلدك",sub:"نقارن لك بين AliExpress و Temu و SHEIN و DHgate و Banggood بناءً على بلدك، لغتك، عملتك، سرعة الشحن، التقييمات، ونقدم لك أفضل صفقة تلقائيًا.",trusted:"يثق بنا أكثر من 10,000 متسوق ذكي",products:"منتجات",markets:"منصات",updated:"تحديث يومي",search:"ابحث عن المنتج الذي تريده",searchBtn:"بحث",geoTitle:"نخصص النتائج تلقائيًا لتناسب منطقتك",geoText:"الأسعار، العملة، اللغة، الشحن، وترتيب المنتجات تتغير حسب بلدك ويتم تحديث ترشيحات البداية تلقائيًا.",country:"البلد",language:"اللغة",currency:"العملة",bestToday:"أفضل صفقة لك اليوم في",claim:"احصل على الصفقة الآن",benefit1:"مقارنة السعر فورًا",benefit1s:"نقارن آلاف العروض في ثانية",benefit2:"أسرع شحن حسب بلدك",benefit2s:"نختار أسرع طرق الشحن لك",benefit3:"ترتيب ذكي للعروض",benefit3s:"يعتمد على بلدك وتفضيلاتك",benefit4:"شحن مجاني عند التوفر",benefit4s:"نبرز العروض التي تشحن مجانًا",bestDeal:"أفضل صفقة لك اليوم",bestDealSub:"اختيار تلقائي حسب بلدك وعملتك وسرعة الشحن وتقييم المنتج.",whyChosen:"لماذا اخترناه لك؟",rankReason:"يجمع بين سعر مناسب، تقييم قوي، وشحن جيد لمنطقتك.",dealScore:"درجة الصفقة",filter:"الترتيب",best:"الأفضل",cheap:"الأرخص",rating:"أعلى تقييم",fast:"أسرع شحن",free:"شحن مجاني",popular:"الأكثر طلبًا",bestChoice:"أفضل اختيار",cheapest:"الأرخص",fastest:"الأسرع",freeShipping:"شحن مجاني",save:"توفر",avg:"مقارنة بمتوسط السعر",popularRegion:"اختيار رائج في منطقتك",limited:"كمية محدودة",get:"🔥 احصل على أفضل سعر الآن",days:"أيام",resultsNote:"تتغير النتائج والأسعار تلقائيًا حسب بلدك، عملتك، وسرعة الشحن المتاحة.",whyTitle:"لماذا ChinaSearch؟",whySub:"منصة مصممة لتقليل وقت البحث وإظهار أفضل اختيار بسرعة.",w1:"موثوق وشفاف",w1p:"نعرض التقييمات والسعر والشحن بوضوح.",w2:"توفير أكثر",w2p:"نقارن العروض ونبرز الأرخص والأفضل.",w3:"نتائج فورية",w3p:"بحث سريع وترتيب ذكي في نفس الصفحة.",w4:"مصمم لكل منطقة",w4p:"يدعم الشرق الأوسط، أوروبا، روسيا، شمال أفريقيا، وأمريكا اللاتينية.",platformTitle:"المنصات المدعومة",platformSub:"نعرض مقارنة عامة بين المنصات المتاحة حسب السعر، الشحن، التقييم، ومناسبة الدولة.",bestPlatform:"أفضل منصة لبلدك اليوم",bestPlatformSub:"نقارن المنصات حسب بلدك، سرعة الشحن، تقييم المنتجات، والأسعار المتوسطة.",bestPlatformWhy:"لماذا هذه المنصة؟",bestPlatformCta:"شاهد أفضل عروضها",compareTitle:"مقارنة عامة بين المنصات",exitTitle:"قبل ما تخرج… جرّب مقارنة منتج واحد",exitText:"قد تجد سعرًا أقل أو شحنًا أسرع خلال 5 ثواني فقط.",exitBtn:"جرّب الآن",exitClose:"لاحقًا",admin:"لوحة التحكم",aff:"معرّفات الأفلييت",mode:"وضع البيانات",mock:"بيانات تجريبية",live:"جاهز للـ API",stats:"الإحصائيات",addPlatform:"إضافة منصة",newPlatform:"اسم منصة جديدة",commission:"العمولة",priority:"الأولوية",enabled:"مفعلة",disabled:"متوقفة",howTitle:"كيف يعمل؟",s1:"ابحث",s1p:"اكتب المنتج أو الفئة التي تريدها.",s2:"نقارن تلقائيًا",s2p:"السعر، الشحن، التقييم، والشحن المجاني.",s3:"اختر الأفضل",s3p:"انتقل للمتجر الأنسب عبر رابط الأفلييت.",q1:"هل ChinaSearch متجر؟",a1:"لا، هو منصة اكتشاف ومقارنة. الشراء يتم من المتاجر الأصلية.",q2:"هل تختلف النتائج حسب الدولة؟",a2:"نعم، العملة والشحن والترتيب تتغير حسب الدولة والمنطقة.",q3:"هل يمكن تحديث المنصات لاحقًا؟",a3:"نعم، إدارة المنصات تتم من لوحة إدارة خاصة وغير ظاهرة للمستخدم العادي.",q4:"هل يوجد ذكاء اصطناعي؟",a4:"النسخة الحالية AI-ready وتعرض شرحًا ذكيًا للاختيار، ويمكن ربط API لاحقًا.",rewardsTitle:"ChinaSearch Rewards",
 rewardsSub:"وفر مرتين: مرة باختيار أفضل سعر، ومرة بجمع نقاط عند الشراء من خلال روابطنا.",
 rewardStep1:"ابحث وقارن",
 rewardStep2:"اشتري من الرابط",
@@ -407,7 +570,7 @@ redirectTrust:"سيتم تحويلك إلى المتجر الأصلي لإتما
 quickWhy:"لماذا هذا العرض؟",qr1:"أرخص من المتوسط",qr2:"شحن مناسب لمنطقتك",qr3:"تقييم قوي مقارنة بالبدائل",qr4:"مكافآت تقديرية عند الشراء",
 compareBetter:"قارن هذا المنتج ببدائل أرخص أو أسرع",
 aiSummaryTitle:"تحليل سريع من ChinaSearch AI",aiSummaryDefault:"حسب بلدك وفلترك الحالي، نرشح لك أفضل المنتجات التي توازن بين السعر، الشحن، التقييم، والمكافآت.",watchPrice:"راقب السعر",watched:"تمت المراقبة",mySmartList:"قائمتي الذكية",viewedProducts:"منتجات شاهدتها",watchedProducts:"منتجات تراقبها",recentSearches:"آخر عمليات البحث",comparisonDrawer:"مقارنة المنتجات",close:"إغلاق",priceConfidence:"ثقة السعر",platformTrust:"ثقة المنصة",aiBest:"الأفضل حسب AI",adminApiStatus:"حالة النظام",mockActive:"Mock Data نشط",lastSync:"آخر مزامنة",cacheReady:"الكاش جاهز",affiliateTester:"اختبار روابط الأفلييت",reasonCheap:"أرخص من المتوسط",reasonFast:"شحن مناسب",reasonRating:"تقييم قوي",reasonRewards:"مكافآت متاحة",resetFilters:"إعادة ضبط الفلاتر",showSmartList:"عرض القائمة",hideSmartList:"إخفاء القائمة",marketAverage:"متوسط السوق",yourSaving:"توفيرك",rewardEstimate:"المكافأة المتوقعة",trustNoteFull:"ChinaSearch لا يبيع المنتجات مباشرة — سنحولك إلى المتجر الأصلي لإتمام الشراء.",dealPassport:"جواز الصفقة",passportPrice:"السعر",passportShipping:"الشحن",passportRating:"التقييم",passportReward:"المكافأة",excellent:"ممتاز",good:"جيد",high:"عالية",available:"متاحة",platformWinner:"المنصة الفائزة لهذا البحث",platformWinnerReason:"اخترناها لأنها الأفضل توازنًا بين السعر، الشحن، التقييم، والمكافآت حسب بلدك الحالي.",saveSearch:"احفظ هذا البحث",savedSearch:"تم حفظ البحث",filters:"الفلاتر",mobileFilters:"فلترة النتائج",applyFilters:"تطبيق الفلاتر",trustTitle:"الثقة والشفافية",trust1:"لا نبيع مباشرة",trust1p:"نحوّلك إلى المتجر الأصلي.",trust2:"روابط أفلييت",trust2p:"قد نحصل على عمولة بدون زيادة السعر.",trust3:"درجة الصفقة",trust3p:"تحسب من السعر والشحن والتقييم.",trust4:"مكافآت تقديرية",trust4p:"تتأكد بعد اعتماد الشريك.",proAdmin:"لوحة التحكم الاحترافية",proAdminSub:"إدارة المنصات، الأفلييت، البيانات، الترتيب، والتحليلات بعيدًا عن واجهة الزائر.",backToSite:"العودة للموقع",adminAccess:"رابط الإدارة",adminAccessText:"افتح لوحة التحكم من خلال ?admin=1 أو #admin فقط. الزائر العادي لن يرى أدوات الإدارة.",clicks:"الضغطات",activePlatforms:"منصات مفعلة",apiStatus:"حالة API",cacheStatus:"الكاش",liveReady:"جاهز للربط",bestForCountry:"الأفضل لبلدك",howScoreWorks:"كيف نحسب Deal Score؟",scoreIntro:"نحسب درجة الصفقة بناءً على عوامل تساعد المستخدم على اتخاذ قرار أسرع وأكثر ثقة.",factorPrice:"السعر",factorShipping:"الشحن",factorRating:"التقييم",factorPopularity:"الشعبية",factorRegion:"مناسبة الدولة",quickCompare:"مقارنة سريعة",countryFit:"مناسب لبلدك",scoreRing:"درجة ذكية",notifications:"الإشعارات",welcomeBack:"مرحبًا بعودتك",welcomeBackText:"جهزنا لك عروضًا مبنية على آخر بحث واهتماماتك السابقة.",continueLastSearch:"استكمال آخر بحث",recommendedForYou:"مقترح لك",basedOnInterests:"بناءً على اهتماماتك",yourInterests:"اهتماماتك",followThisSearch:"تابع هذا البحث",followingSearch:"يتم متابعة البحث",emailAlerts:"تنبيهات السعر على البريد",emailPlaceholder:"اكتب بريدك الإلكتروني",activateEmailAlerts:"تفعيل تنبيهات البريد",emailDemoNote:"واجهة جاهزة — الإرسال الحقيقي يحتاج ربط Backend مثل Supabase + Resend/Brevo.",pushAlerts:"تنبيهات الموبايل",activatePush:"فعّل تنبيهات الصفقات",pushDemoNote:"واجهة تجريبية — التنبيهات الحقيقية تحتاج OneSignal أو Firebase.",priceDropped:"انخفض سعر منتج تتابعه",freeShippingAppeared:"ظهر شحن مجاني لبحثك الأخير",betterPlatformToday:"منصة أفضل متاحة اليوم",similarDealFound:"وجدنا بديلًا مشابهًا أرخص",savedInterest:"تم حفظ اهتمامك",about:"من نحن",howWorks:"كيف يعمل الموقع",affiliateDisclosure:"توضيح الأفلييت",privacy:"سياسة الخصوصية",terms:"شروط الاستخدام",contact:"تواصل معنا",legalUpdated:"آخر تحديث",backHome:"العودة للموقع",trustPages:"صفحات الثقة",contactName:"الاسم",contactEmail:"البريد الإلكتروني",contactMessage:"رسالتك",sendMessage:"إرسال الرسالة",contactDemo:"نموذج تجريبي الآن — سنربطه بالبريد أو Backend لاحقًا.",footer:"منصة ذكية تساعدك في العثور على أفضل عروض المنتجات من الصين بسهولة وذكاء."},
- en:{home:"Home",deals:"Deals",platforms:"Platforms",how:"How",faq:"FAQ",why:"Why us",start:"Start searching",title:"Find the best China deals in one place",accent:"Smart picks by country",sub:"Compare AliExpress, Temu, SHEIN, DHgate and Banggood based on your country, language, currency, shipping speed, ratings and best-deal logic.",trusted:"Trusted by 10,000+ smart shoppers",products:"Products",markets:"Marketplaces",updated:"Updated daily",search:"Search for any product",searchBtn:"Search",geoTitle:"Results adapt automatically to your region",geoText:"Prices, currency, language, shipping and ranking change by country.",country:"Country",language:"Language",currency:"Currency",bestToday:"Best deal for you today in",claim:"Claim best deal now",benefit1:"Instant price comparison",benefit1s:"Compare thousands of offers fast",benefit2:"Fastest shipping by country",benefit2s:"Prioritizes shipping routes for you",benefit3:"Smart deal ranking",benefit3s:"Based on region and preferences",benefit4:"Free shipping when available",benefit4s:"Highlights free-shipping offers",bestDeal:"Best Deal For You Today",bestDealSub:"Auto-picked by country, currency, shipping speed and product rating.",whyChosen:"Why this pick?",rankReason:"It balances a fair price, strong rating and region-friendly shipping.",dealScore:"Deal Score",filter:"Sort",best:"Best",cheap:"Cheapest",rating:"Highest rating",fast:"Fastest shipping",free:"Free shipping",popular:"Most popular",bestChoice:"Best Choice",cheapest:"Cheapest",fastest:"Fastest",freeShipping:"Free Shipping",save:"You save",avg:"vs average price",popularRegion:"Popular in your region",limited:"Limited stock",get:"🔥 Get Best Price Now",days:"days",resultsNote:"Results and prices change automatically by your country, currency and available shipping speed.",whyTitle:"Why ChinaSearch?",whySub:"Built to reduce search time and surface the best choice quickly.",w1:"Transparent",w1p:"Ratings, prices and shipping are clear.",w2:"Save more",w2p:"Compare offers and highlight the cheapest and best.",w3:"Instant results",w3p:"Fast search and smart ranking in one page.",w4:"Region-ready",w4p:"Supports Middle East, Europe, Russia, North Africa and Latin America.",platformTitle:"Manage and compare platforms",platformSub:"Enable, disable or prioritize platforms for revenue and results.",bestPlatform:"Best platform for your country today",bestPlatformSub:"We compare platforms by your country, shipping speed, product ratings and average prices.",bestPlatformWhy:"Why this platform?",bestPlatformCta:"See its best deals",compareTitle:"Platform vs Platform",exitTitle:"Before you leave — compare one product",exitText:"You may find a lower price or faster shipping in 5 seconds.",exitBtn:"Try now",exitClose:"Later",admin:"Admin",aff:"Affiliate IDs",mode:"Data Mode",mock:"Mock Data",live:"API Ready",stats:"Stats",addPlatform:"Add platform",newPlatform:"New platform name",commission:"Commission",priority:"Priority",enabled:"Enabled",disabled:"Disabled",howTitle:"How it works",s1:"Search",s1p:"Type the product or category you want.",s2:"Auto-compare",s2p:"Price, shipping, rating and free shipping.",s3:"Choose best",s3p:"Go to the best marketplace via affiliate link.",q1:"Is ChinaSearch a store?",a1:"No, it is a discovery and comparison platform. Purchases happen on original stores.",q2:"Do results differ by country?",a2:"Yes, currency, shipping and ranking adapt by country and region.",q3:"Can I add or remove a platform?",a3:"Yes, the admin panel lets you enable, disable or add platforms.",q4:"Is there AI?",a4:"This version is AI-ready and shows smart explanation text. A real API can be connected later.",rewardsTitle:"ChinaSearch Rewards",
+ en:{home:"Home",deals:"Deals",platforms:"Platforms",how:"How",faq:"FAQ",why:"Why us",start:"Start searching",title:"Find the best China deals in one place",accent:"Smart picks by country",sub:"Compare AliExpress, Temu, SHEIN, DHgate and Banggood based on your country, language, currency, shipping speed, ratings and best-deal logic.",trusted:"Trusted by 10,000+ smart shoppers",products:"Products",markets:"Marketplaces",updated:"Updated daily",search:"Search for any product",searchBtn:"Search",geoTitle:"Results adapt automatically to your region",geoText:"Prices, currency, language, shipping and ranking change by country, and the hero picks adapt on first visit.",country:"Country",language:"Language",currency:"Currency",bestToday:"Best deal for you today in",claim:"Claim best deal now",benefit1:"Instant price comparison",benefit1s:"Compare thousands of offers fast",benefit2:"Fastest shipping by country",benefit2s:"Prioritizes shipping routes for you",benefit3:"Smart deal ranking",benefit3s:"Based on region and preferences",benefit4:"Free shipping when available",benefit4s:"Highlights free-shipping offers",bestDeal:"Best Deal For You Today",bestDealSub:"Auto-picked by country, currency, shipping speed and product rating.",whyChosen:"Why this pick?",rankReason:"It balances a fair price, strong rating and region-friendly shipping.",dealScore:"Deal Score",filter:"Sort",best:"Best",cheap:"Cheapest",rating:"Highest rating",fast:"Fastest shipping",free:"Free shipping",popular:"Most popular",bestChoice:"Best Choice",cheapest:"Cheapest",fastest:"Fastest",freeShipping:"Free Shipping",save:"You save",avg:"vs average price",popularRegion:"Popular in your region",limited:"Limited stock",get:"🔥 Get Best Price Now",days:"days",resultsNote:"Results and prices change automatically by your country, currency and available shipping speed.",whyTitle:"Why ChinaSearch?",whySub:"Built to reduce search time and surface the best choice quickly.",w1:"Transparent",w1p:"Ratings, prices and shipping are clear.",w2:"Save more",w2p:"Compare offers and highlight the cheapest and best.",w3:"Instant results",w3p:"Fast search and smart ranking in one page.",w4:"Region-ready",w4p:"Supports Middle East, Europe, Russia, North Africa and Latin America.",platformTitle:"Manage and compare platforms",platformSub:"Enable, disable or prioritize platforms for revenue and results.",bestPlatform:"Best platform for your country today",bestPlatformSub:"We compare platforms by your country, shipping speed, product ratings and average prices.",bestPlatformWhy:"Why this platform?",bestPlatformCta:"See its best deals",compareTitle:"Platform vs Platform",exitTitle:"Before you leave — compare one product",exitText:"You may find a lower price or faster shipping in 5 seconds.",exitBtn:"Try now",exitClose:"Later",admin:"Admin",aff:"Affiliate IDs",mode:"Data Mode",mock:"Mock Data",live:"API Ready",stats:"Stats",addPlatform:"Add platform",newPlatform:"New platform name",commission:"Commission",priority:"Priority",enabled:"Enabled",disabled:"Disabled",howTitle:"How it works",s1:"Search",s1p:"Type the product or category you want.",s2:"Auto-compare",s2p:"Price, shipping, rating and free shipping.",s3:"Choose best",s3p:"Go to the best marketplace via affiliate link.",q1:"Is ChinaSearch a store?",a1:"No, it is a discovery and comparison platform. Purchases happen on original stores.",q2:"Do results differ by country?",a2:"Yes, currency, shipping and ranking adapt by country and region.",q3:"Can I add or remove a platform?",a3:"Yes, the admin panel lets you enable, disable or add platforms.",q4:"Is there AI?",a4:"This version is AI-ready and shows smart explanation text. A real API can be connected later.",rewardsTitle:"ChinaSearch Rewards",
 rewardsSub:"Save twice: find the best deal and collect points when buying through our links.",
 rewardStep1:"Search & compare",
 rewardStep2:"Buy through link",
@@ -481,6 +644,97 @@ function assignBrands(){
 }
 
 let state={view:'compact',platformFilter:'all',brandFilter:'all',compareList:[],country:localStorage.getItem("country")||"KW",lang:localStorage.getItem("lang")||"ar",sort:"score",q:"",admin:false,aff:{},compareA:"aliexpress",compareB:"temu"};
+
+
+function inferCountryFromClient(){
+  try{
+    const tz=(Intl.DateTimeFormat().resolvedOptions().timeZone||"").toLowerCase();
+    const lang=(navigator.language||navigator.userLanguage||"").toLowerCase();
+    const map=[
+      ["kuwait","KW"],["riyadh","SA"],["jeddah","SA"],["dubai","AE"],["abu_dhabi","AE"],["cairo","EG"],["casablanca","MA"],["algiers","DZ"],
+      ["berlin","DE"],["paris","FR"],["madrid","ES"],["london","GB"],["moscow","RU"],["sao_paulo","BR"],["mexico_city","MX"],
+      ["new_york","US"],["chicago","US"],["los_angeles","US"],["denver","US"],["phoenix","US"],["detroit","US"]
+    ];
+    for(const [key,code] of map){ if(tz.includes(key)) return code; }
+    if(lang.startsWith("de")) return "DE";
+    if(lang.startsWith("fr")) return "FR";
+    if(lang.startsWith("es")) return "ES";
+    if(lang.startsWith("pt")) return "BR";
+    if(lang.startsWith("ru")) return "RU";
+    if(lang.startsWith("en")) return "US";
+    if(lang.startsWith("ar")) return "KW";
+  }catch(e){}
+  return "KW";
+}
+function mapSupportedCountry(code){
+  const c=(code||"").toUpperCase();
+  if(SUPPORTED_COUNTRIES[c]) return c;
+  const regionMap={
+    QA:"SA",BH:"SA",OM:"AE",JO:"SA",LB:"SA",IQ:"KW",TR:"DE",IT:"DE",NL:"DE",BE:"DE",PL:"DE",
+    PT:"ES",AR:"BR",CL:"BR",CO:"MX",PE:"MX",UY:"BR",TN:"MA"
+  };
+  return regionMap[c]||"KW";
+}
+async function fetchCountryByIP(){
+  if(localStorage.getItem("country_user_locked")) return null;
+  try{
+    const ctrl=new AbortController();
+    const timer=setTimeout(()=>ctrl.abort(),1800);
+    const res=await fetch("https://ipwho.is/", {signal:ctrl.signal});
+    clearTimeout(timer);
+    if(!res.ok) return null;
+    const data=await res.json();
+    if(data && data.success!==false){
+      const code=mapSupportedCountry(data.country_code||"");
+      return code;
+    }
+  }catch(e){}
+  return null;
+}
+function autoDetectGeoOnFirstVisit(){
+  try{
+    if(!localStorage.getItem("country")){
+      const guessedCountry=inferCountryFromClient();
+      state.country=guessedCountry;
+      localStorage.setItem("country",guessedCountry);
+    }
+    if(!localStorage.getItem("lang") && !localStorage.getItem("lang_user_locked")){
+      const countryCfg=SUPPORTED_COUNTRIES[state.country]||SUPPORTED_COUNTRIES.KW;
+      const fallbackLang=countryCfg.lang||"ar";
+      state.lang=fallbackLang;
+      localStorage.setItem("lang",fallbackLang);
+    }
+  }catch(e){}
+}
+function setCountry(v){
+  state.country=v;
+  localStorage.setItem("country",v);
+  localStorage.setItem("country_user_locked","1");
+  render();
+}
+function setLang(v){
+  state.lang=v;
+  localStorage.setItem("lang",v);
+  localStorage.setItem("lang_user_locked","1");
+  render();
+}
+async function bootstrapApp(){
+  autoDetectGeoOnFirstVisit();
+  const ipCountry=await fetchCountryByIP();
+  if(ipCountry){
+    state.country=ipCountry;
+    localStorage.setItem("country",ipCountry);
+    if(!localStorage.getItem("lang_user_locked")){
+      const countryCfg=SUPPORTED_COUNTRIES[ipCountry]||SUPPORTED_COUNTRIES.KW;
+      const nextLang=countryCfg.lang||state.lang||"ar";
+      state.lang=nextLang;
+      localStorage.setItem("lang",nextLang);
+    }
+  }
+  loadSiteConfig().then(()=>{render();renderLegalPage();});
+}
+
+
 
 window.__CS_CONFIG = null;
 async function loadSiteConfig(){
@@ -595,17 +849,25 @@ function toggleCompare(id){
  else if(state.compareList.length<3)state.compareList.push(id);
  render();
 }
-function openQuick(id){
- rememberViewed(id);
- let p=window._products[id],l=L();
- if(!p)return;
- let avg=activeProducts().reduce((s,x)=>s+x.price,0)/Math.max(1,activeProducts().length);
- let saving=Math.max(0,avg-p.price);
- let box=document.getElementById("quickModal");
- box.innerHTML=`<div class="quick-box"><button class="quick-close" onclick="closeQuick()">×</button><div class="quick-img"><img src="${p.img}" alt="${productName(p)}"></div><div class="quick-content"><div class="badges">${badge(p)}<span class="tag free">${p.brand}</span></div><h2>${productName(p)}</h2><div class="price-row"><strong>${price(p.price)}</strong><del>${price(p.old)}</del><span class="discount">-${p.discount}%</span></div><div class="rating-line"><span class="stars">★★★★★</span><span>${p.rating} · ${p.reviews.toLocaleString()}</span></div><div class="shipping-line"><span>🚚 ${p.ship} ${l.days}</span><span>🎁 +${rewardPoints(p)} ${l.points}</span><span>🏆 ${dealScore(p)}/100</span></div><div class="quick-market"><div><span>${l.marketAverage}</span><b>${price(avg)}</b></div><div><span>${l.yourSaving}</span><b>${price(saving)}</b></div><div><span>${l.rewardEstimate}</span><b>+${rewardPoints(p)} ${l.points}</b></div></div><div class="quick-decision-strip"><div class="quick-decision"><span>${l.factorPrice}</span><b>${price(p.price)}</b></div><div class="quick-decision"><span>${l.factorShipping}</span><b>${p.ship} ${l.days}</b></div><div class="quick-decision"><span>${l.factorRating}</span><b>${p.rating}/5</b></div><div class="quick-decision"><span>${l.countryFit}</span><b>${l.high}</b></div></div>${dealPassportHtml(p)}${scoreBreakdownHtml(p)}<div class="ai-assistant-box"><b>🤖 ${l.aiAssistant}</b><p>${p.aiSummary||l.aiQuick}</p></div><h3>${l.quickWhy}</h3><div class="quick-reasons"><div class="quick-reason">💰 ${l.qr1}</div><div class="quick-reason">🚚 ${l.qr2}</div><div class="quick-reason">⭐ ${l.qr3}</div><div class="quick-reason">🎁 ${l.qr4}</div></div><p>${l.compareBetter}</p><div class="quick-actions"><button class="cta" onclick="click('${p.id}')">${l.goOffer}</button><button class="secondary-action" onclick="watchPrice('${p.id}')">${isWatched(p.id)?l.watched:l.watchPrice}</button><button class="secondary-action" onclick="toggleCompare('${p.id}');closeQuick()">${l.similar}</button><button class="secondary-action" onclick="navigator.clipboard&&navigator.clipboard.writeText('${p.url}')">${l.copyLink}</button></div><span class="trust-line">${l.trustNoteFull}</span><div class="quick-sticky-cta"><button class="cta" onclick="click('${p.id}')">${l.goOffer}</button></div></div></div>`;
- box.classList.add("show");
+
+function quickSimilarHtml(p){
+  let l=L();
+  let sims=visibleProducts().filter(x=>x.id!==p.id).sort((a,b)=>dealScore(b)-dealScore(a));
+  sims=sims.filter(x=>x.brand===p.brand || x.platform!==p.platform).slice(0,3);
+  if(!sims.length) return "";
+  return `<div class="quick-panel-pro"><h4>${l.similar}</h4><div class="quick-similar-grid">${sims.map(x=>`<div class="quick-similar-card"><img src="${x.img}" alt="${productName(x)}"><div><b>${productName(x)}</b><span>${platforms[x.platform].name} · ${price(x.price)}</span></div><button onclick="openQuick('${x.id}')">${l.quickView}</button></div>`).join("")}</div></div>`;
 }
-function closeQuick(){document.getElementById("quickModal").classList.remove("show")}
+
+
+function openQuick(id){
+ let p=allProducts().find(x=>x.id===id),l=L(),avg=activeProducts().reduce((s,x)=>s+x.price,0)/Math.max(1,activeProducts().length),saving=Math.max(0,avg-p.price),c=C(),score=dealScore(p),pts=rewardPoints(p),fit=Math.min(98,Math.max(74,score+4)),plat=platforms[p.platform];
+ let box=document.getElementById("quickModal");
+ box.innerHTML=`<div class="quick-shell"><div class="quick-topbar"><div class="quick-top-left"><span class="quick-platform-chip" style="border-color:${plat.color};color:${plat.color}">🛍️ ${plat.name}</span><span class="quick-score-chip">🏆 ${l.dealScore}: ${score}/100</span><span class="quick-country-chip">🌍 ${c.flag} ${state.lang==='ar'?c.countryAr:c.countryEn}</span></div><button class="quick-close-pro" onclick="closeQuick()">✕ ${l.close}</button></div><div class="quick-layout-pro"><div class="quick-media-side"><div class="quick-media-main"><img src="${p.img}" alt="${productName(p)}"></div><div class="quick-media-caption"><h2>${productName(p)}</h2><p>${p.aiSummary||l.aiQuick}</p></div><div class="quick-mini-rail"><div class="quick-mini-card"><span>${l.bestForCountry}</span><b>${state.lang==='ar'?c.countryAr:c.countryEn}</b></div><div class="quick-mini-card"><span>${l.platformTrust}</span><b>${l.excellent}</b></div><div class="quick-mini-card"><span>${l.rewardEstimate}</span><b>+${pts} ${l.points}</b></div><div class="quick-mini-card"><span>${l.priceConfidence}</span><b>${fit}%</b></div></div></div><div class="quick-content-pro"><div class="badges">${badge(p)}<span class="tag free">${p.brand}</span><span class="country-badge">🌍 ${l.bestForCountry}</span></div><div class="quick-headline"><div><h3>${productName(p)}</h3><p>${l.redirectTrust}</p></div></div><div class="quick-price-row"><strong>${price(p.price)}</strong><del>${price(p.old)}</del><span class="discount">-${p.discount}%</span></div><div class="rating-line"><span class="stars">★★★★★</span><span>${p.rating} · ${p.reviews.toLocaleString()}</span></div><div class="shipping-line"><span>🚚 ${p.ship} ${l.days}</span><span>🎁 +${pts} ${l.points}</span><span>🏷️ ${plat.name}</span></div><div class="quick-highlight-grid"><div class="quick-highlight-card"><span>${l.marketAverage}</span><b>${price(avg)}</b></div><div class="quick-highlight-card"><span>${l.yourSaving}</span><b>${price(saving)}</b></div><div class="quick-highlight-card"><span>${l.rewardEstimate}</span><b>+${pts} ${l.points}</b></div><div class="quick-highlight-card"><span>${l.countryFit}</span><b>${fit}%</b></div></div><div class="quick-two-col"><div class="quick-panel-pro">${dealPassportHtml(p)}${scoreBreakdownHtml(p)}<div class="quick-action-row"><button class="cta" onclick="click('${p.id}')">${l.goOffer}</button><button class="secondary-action" onclick="watchPrice('${p.id}')">${isWatched(p.id)?l.watched:l.watchPrice}</button><button class="secondary-action" onclick="toggleCompare('${p.id}');closeQuick()">${l.similar}</button><button class="secondary-action" onclick="navigator.clipboard&&navigator.clipboard.writeText('${p.url}')">${l.copyLink}</button></div><div class="quick-safe-note">${l.trustNoteFull}</div></div><div class="quick-panel-pro"><div class="quick-ai-box"><b>🤖 ${l.aiSummaryTitle||l.aiAssistant}</b><p>${p.aiSummary||l.aiQuick}</p></div><div class="quick-metrics"><div class="quick-metric"><span>${l.factorPrice}</span><b>${price(p.price)}</b></div><div class="quick-metric"><span>${l.factorShipping}</span><b>${p.ship} ${l.days}</b></div><div class="quick-metric"><span>${l.factorRating}</span><b>${p.rating}/5</b></div></div><div class="quick-confidence"><h4>${l.quickWhy}</h4><div class="bar"><i style="width:${fit}%"></i></div><div class="meta"><span>💰 ${l.qr1}</span><span>🚚 ${l.qr2}</span><span>⭐ ${l.qr3}</span></div></div><div style="margin-top:12px" class="quick-trust-list"><div class="quick-trust-item">✅ ${l.platformWinnerReason}</div><div class="quick-trust-item">🎁 ${l.qr4}</div><div class="quick-trust-item">🔒 ${l.trust1p||l.trustNoteFull}</div></div></div></div>${quickSimilarHtml(p)}</div></div><div class="quick-sticky-bar"><button class="cta" onclick="click('${p.id}')">${l.goOffer}</button><button class="secondary-action" onclick="watchPrice('${p.id}')">${isWatched(p.id)?l.watched:l.watchPrice}</button><button class="secondary-action" onclick="toggleCompare('${p.id}');closeQuick()">${l.compareNow||l.compare}</button></div></div>`;
+ box.classList.add("show");
+ document.body.style.overflow="hidden";
+}
+
+function closeQuick(){document.getElementById("quickModal").classList.remove("show");document.body.style.overflow=""}
 
 
 function matchMessage(){
@@ -721,7 +983,7 @@ function trustPanelHtml(){
 }
 function openMobileFilters(){
  let l=L(), sheet=document.getElementById("mobileFilterSheet");
- sheet.innerHTML=`<div class="mobile-sheet-head"><h3>${l.mobileFilters}</h3><button class="secondary-action" onclick="closeMobileFilters()">${l.close}</button></div><div class="toolbar-grid" style="display:grid;grid-template-columns:1fr;gap:10px"><div class="field"><label>${l.platformFilter}</label><select onchange="state.platformFilter=this.value;state.brandFilter='all';render();openMobileFilters()"><option value="all">${l.allPlatforms}</option>${Object.keys(platforms).filter(k=>platforms[k].enabled).map(k=>`<option value="${k}" ${state.platformFilter===k?'selected':''}>${platforms[k].name}</option>`).join("")}</select></div><div class="field"><label>${l.brandFilter}</label><select onchange="state.brandFilter=this.value;render();openMobileFilters()"><option value="all">${l.allBrands}</option>${availableBrands().map(b=>`<option value="${b}" ${state.brandFilter===b?'selected':''}>${b}</option>`).join("")}</select></div><div class="field"><label>${l.country}</label><select onchange="state.country=this.value;localStorage.setItem('country',this.value);render();openMobileFilters()">${Object.keys(SUPPORTED_COUNTRIES).map(k=>`<option value="${k}" ${state.country===k?'selected':''}>${SUPPORTED_COUNTRIES[k].flag} ${state.lang==='ar'?SUPPORTED_COUNTRIES[k].countryAr:SUPPORTED_COUNTRIES[k].countryEn}</option>`).join("")}</select></div><button class="reset-btn" onclick="resetFilters();closeMobileFilters()">${l.resetFilters}</button><button class="cta" onclick="closeMobileFilters()">${l.applyFilters}</button></div>`;
+ sheet.innerHTML=`<div class="mobile-sheet-head"><h3>${l.mobileFilters}</h3><button class="secondary-action" onclick="closeMobileFilters()">${l.close}</button></div><div class="toolbar-grid" style="display:grid;grid-template-columns:1fr;gap:10px"><div class="field"><label>${l.platformFilter}</label><select onchange="state.platformFilter=this.value;state.brandFilter='all';render();openMobileFilters()"><option value="all">${l.allPlatforms}</option>${Object.keys(platforms).filter(k=>platforms[k].enabled).map(k=>`<option value="${k}" ${state.platformFilter===k?'selected':''}>${platforms[k].name}</option>`).join("")}</select></div><div class="field"><label>${l.brandFilter}</label><select onchange="state.brandFilter=this.value;render();openMobileFilters()"><option value="all">${l.allBrands}</option>${availableBrands().map(b=>`<option value="${b}" ${state.brandFilter===b?'selected':''}>${b}</option>`).join("")}</select></div><div class="field"><label>${l.country}</label><select onchange="setCountry(this.value);openMobileFilters()">${Object.keys(SUPPORTED_COUNTRIES).map(k=>`<option value="${k}" ${state.country===k?'selected':''}>${SUPPORTED_COUNTRIES[k].flag} ${state.lang==='ar'?SUPPORTED_COUNTRIES[k].countryAr:SUPPORTED_COUNTRIES[k].countryEn}</option>`).join("")}</select></div><button class="reset-btn" onclick="resetFilters();closeMobileFilters()">${l.resetFilters}</button><button class="cta" onclick="closeMobileFilters()">${l.applyFilters}</button></div>`;
  sheet.classList.add("show");
 }
 function closeMobileFilters(){document.getElementById("mobileFilterSheet").classList.remove("show")}
@@ -1030,8 +1292,8 @@ document.getElementById("app").innerHTML=`
   <path d="M27 29 L49 40" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
   <rect x="63" y="16" width="18" height="18" rx="4" fill="#e11d2e"/>
   <path d="M68 20 v10 M76 20 v10 M68 25 h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
-</svg></div><div><h1>ChinaSearch</h1><span>${l.sub.substring(0,68)}...</span></div></a><nav class="navlinks"><a class="active">${l.home}</a><a href="#deals">${l.deals}</a><a href="#platforms">${l.platforms}</a><a href="#how">${l.how}</a><a href="#faq">${l.faq}</a></nav><div class="nav-actions"><select class="select" onchange="state.country=this.value;localStorage.setItem('country',this.value);render()">${Object.keys(SUPPORTED_COUNTRIES).map(k=>`<option value="${k}" ${state.country===k?'selected':''}>${SUPPORTED_COUNTRIES[k].flag} ${state.lang==='ar'?SUPPORTED_COUNTRIES[k].countryAr:SUPPORTED_COUNTRIES[k].countryEn}</option>`).join("")}</select><select class="select" onchange="state.lang=this.value;localStorage.setItem('lang',this.value);render()"><option value="ar" ${state.lang==='ar'?'selected':''}>AR</option><option value="en" ${state.lang==='en'?'selected':''}>EN</option><option value="fr">FR</option><option value="de">DE</option><option value="es">ES</option><option value="pt">PT</option><option value="ru">RU</option></select><button class="notif-btn" onclick="toggleNotifications()">🔔<span class="notif-dot"></span></button><a class="primary" href="#deals">${l.start}</a></div></div></header>
- <section class="hero"><div class="container hero-inner"><div><div class="badge-line"><span class="pill">✅ ${l.trusted}</span><span class="pill">🌍 ${c.region}</span><span class="pill">💱 ${c.currency}</span></div><div class="hero-slogan">✨ ${l.heroPunch}</div><h2>${l.title}<br><span class="accent">${l.accent}</span></h2><p>${l.heroBetter}</p><div class="search-panel"><span class="icon">🔍</span><input value="${state.q}" oninput="state.q=this.value;render()" placeholder="${l.search}"><button onclick="rememberSearch();document.getElementById('deals').scrollIntoView()">${l.searchBtn}</button></div>
+</svg></div><div><h1>ChinaSearch</h1><span>${l.sub.substring(0,68)}...</span></div></a><nav class="navlinks"><a class="active">${l.home}</a><a href="#deals">${l.deals}</a><a href="#platforms">${l.platforms}</a><a href="#how">${l.how}</a><a href="#faq">${l.faq}</a></nav><div class="nav-actions"><select class="select" onchange="setCountry(this.value)">${Object.keys(SUPPORTED_COUNTRIES).map(k=>`<option value="${k}" ${state.country===k?'selected':''}>${SUPPORTED_COUNTRIES[k].flag} ${state.lang==='ar'?SUPPORTED_COUNTRIES[k].countryAr:SUPPORTED_COUNTRIES[k].countryEn}</option>`).join("")}</select><select class="select" onchange="setLang(this.value)"><option value="ar" ${state.lang==='ar'?'selected':''}>AR</option><option value="en" ${state.lang==='en'?'selected':''}>EN</option><option value="fr">FR</option><option value="de">DE</option><option value="es">ES</option><option value="pt">PT</option><option value="ru">RU</option></select><button class="notif-btn" onclick="toggleNotifications()">🔔<span class="notif-dot"></span></button><a class="primary" href="#deals">${l.start}</a></div></div></header>
+ <section class="hero"><div class="container hero-inner"><div><div class="badge-line"><span class="pill">✅ ${l.trusted}</span><span class="pill">🌍 ${c.region}</span><span class="pill">💱 ${c.currency}</span></div><div class="hero-slogan">✨ ${l.heroPunch}</div><h2>${l.title}<br><span class="accent">${l.accent}</span></h2><p>${l.heroBetter}</p><div class="hero-helper-row"><span class="hero-helper-chip">🤖 ${l.aiAssistant}</span><span class="hero-helper-chip">🌍 ${l.geoTitle}</span><span class="hero-helper-chip">🏆 ${l.dealScore}</span></div><div class="search-panel"><span class="icon">🔍</span><input value="${state.q}" oninput="state.q=this.value;render()" placeholder="${l.search}"><button onclick="rememberSearch();document.getElementById('deals').scrollIntoView()">${l.searchBtn}</button></div><div class="hero-search-note"><span class="hint">⚡ ${l.bestMatchTitle}</span><span class="hint">💱 ${l.currency}: ${c.currency}</span><span class="hint">🚚 ${l.fast}</span></div>
 <div class="search-examples">
   <button class="search-example" onclick="state.q=this.innerText;render();document.getElementById('deals').scrollIntoView()">🔎 ${l.ex1}</button>
   <button class="search-example" onclick="state.q=this.innerText;render();document.getElementById('deals').scrollIntoView()">⌚ ${l.ex2}</button>
@@ -1085,7 +1347,7 @@ document.getElementById("app").innerHTML=`
     <div class="field"><label>${l.viewMode}</label><div class="view-toggle">${[["cards","grid",l.cards],["list","list",l.list],["compact","compact",l.compact],["compare","compare",l.compare]].map(v=>`<button class="view-btn ${state.view===v[0]?'active':''}" onclick="state.view='${v[0]}';render()">${icon(v[1])}<span>${v[2]}</span></button>`).join("")}</div></div>
     <div class="field"><label>${l.platformFilter}</label><select onchange="state.platformFilter=this.value;state.brandFilter='all';render()"><option value="all">${l.allPlatforms}</option>${Object.keys(platforms).filter(k=>platforms[k].enabled).map(k=>`<option value="${k}" ${state.platformFilter===k?'selected':''}>${platforms[k].name}</option>`).join("")}</select></div>
     <div class="field"><label>${l.brandFilter}</label><select onchange="state.brandFilter=this.value;render()"><option value="all">${l.allBrands}</option>${availableBrands().map(b=>`<option value="${b}" ${state.brandFilter===b?'selected':''}>${b}</option>`).join("")}</select></div>
-    <div class="field"><label>${l.country}</label><select onchange="state.country=this.value;localStorage.setItem('country',this.value);render()">${Object.keys(SUPPORTED_COUNTRIES).map(k=>`<option value="${k}" ${state.country===k?'selected':''}>${SUPPORTED_COUNTRIES[k].flag} ${state.lang==='ar'?SUPPORTED_COUNTRIES[k].countryAr:SUPPORTED_COUNTRIES[k].countryEn}</option>`).join("")}</select></div>
+    <div class="field"><label>${l.country}</label><select onchange="setCountry(this.value)">${Object.keys(SUPPORTED_COUNTRIES).map(k=>`<option value="${k}" ${state.country===k?'selected':''}>${SUPPORTED_COUNTRIES[k].flag} ${state.lang==='ar'?SUPPORTED_COUNTRIES[k].countryAr:SUPPORTED_COUNTRIES[k].countryEn}</option>`).join("")}</select></div>
    </div>
    <div class="intent-chips"><button class="intent-chip" onclick="setIntent('cheap')">${icon('money')}<span>${l.intentCheap}</span></button><button class="intent-chip" onclick="setIntent('fast')">${icon('rocket')}<span>${l.intentFast}</span></button><button class="intent-chip" onclick="setIntent('free')">${icon('free')}<span>${l.intentFree}</span></button><button class="intent-chip" onclick="setIntent('quality')">${icon('quality')}<span>${l.intentQuality}</span></button><button class="save-search-btn" onclick="saveSearch()">💾 ${l.saveSearch}</button><button class="reset-btn" onclick="resetFilters()">↺ ${l.resetFilters}</button></div>
   </div>
@@ -1131,7 +1393,7 @@ document.getElementById("app").innerHTML=`
  `;
 }
 window.addEventListener('scroll',()=>{document.body.classList.toggle('show-jump', window.scrollY < 500)});
-loadSiteConfig().then(()=>{render();renderLegalPage();});
+bootstrapApp();
 window.addEventListener('hashchange',()=>{render();renderLegalPage()});
 </script>
 <div id="consentMini" class="consent-mini"><b>Privacy & personalization</b><p>ChinaSearch uses local browser storage for preferences, searches, watched products and demo recommendations. No real tracking is activated yet.</p><button onclick="localStorage.setItem('cs_consent','1');document.getElementById('consentMini').classList.remove('show')">OK</button></div>
