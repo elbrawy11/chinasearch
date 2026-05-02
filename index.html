@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>V4.2 ChinaSearch — Compare China Deals by Price, Shipping & Rewards</title>
+  <title>V4.3 ChinaSearch — Deploy Proof</title>
   <meta name="description" content="ChinaSearch is a smart pre-launch China marketplace comparison platform for price, shipping, ratings, country fit and estimated rewards. Affiliate links are pending marketplace approval.">
   <meta name="keywords" content="China deals, AliExpress deals, Temu deals, SHEIN deals, Banggood deals, DHgate deals, price comparison, cashback, rewards, smart shopping">
   <meta name="robots" content="index, follow">
@@ -499,9 +499,54 @@ footer{margin-top:20px!important}
   box-shadow:0 12px 26px rgba(255,106,0,.22);
 }
 
+
+/* v4.3 STATIC DEPLOY PROOF - visible without JavaScript */
+.static-deploy-proof-v43{
+  position:relative;
+  z-index:99999;
+  background:linear-gradient(90deg,#ff3d2e,#ff6a00,#ff9f1c);
+  color:white;
+  border-bottom:1px solid rgba(255,255,255,.28);
+  box-shadow:0 14px 34px rgba(255,106,0,.23);
+  font-family:inherit;
+}
+.static-deploy-proof-v43 .inner{
+  max-width:1230px;
+  margin:auto;
+  padding:10px 22px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.static-deploy-proof-v43 b{font-size:14px}
+.static-deploy-proof-v43 span{font-size:12px;opacity:.95}
+.static-deploy-proof-v43 code{
+  background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.24);
+  border-radius:999px;
+  padding:5px 8px;
+  color:white;
+  font-weight:900;
+}
+@media(max-width:620px){
+  .static-deploy-proof-v43 .inner{padding:9px 14px}
+  .static-deploy-proof-v43 b{font-size:12px}
+  .static-deploy-proof-v43 span{font-size:11px}
+}
+
 </style>
 </head>
 <body>
+
+<div class="static-deploy-proof-v43">
+  <div class="inner">
+    <b>✅ V4.3 وصل للموقع — لو شايف الشريط ده يبقى النشر شغال صح</b>
+    <span>Deploy proof: <code>ChinaSearch V4.3</code></span>
+  </div>
+</div>
+
   <div class="site-view">
   <div id="app"></div>
   

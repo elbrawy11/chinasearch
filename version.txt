@@ -1,0 +1,2 @@
+ChinaSearch V4.3 deploy proof
+If you see this at /version.txt, Vercel is serving the latest files.
