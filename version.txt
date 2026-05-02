@@ -1,2 +1,2 @@
-ChinaSearch V4.4 motion fix premium
-Animated cards use CSS translate so they are visible even after layout overrides.
+ChinaSearch V4.5 continuous motion polish
+Cards use top/margin animation so motion continues even if transform is overridden.

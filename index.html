@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>V4.4 ChinaSearch — Motion Fix Premium</title>
+  <title>V4.5 ChinaSearch — Continuous Motion Polish</title>
   <meta name="description" content="ChinaSearch is a smart pre-launch China marketplace comparison platform for price, shipping, ratings, country fit and estimated rewards. Affiliate links are pending marketplace approval.">
   <meta name="keywords" content="China deals, AliExpress deals, Temu deals, SHEIN deals, Banggood deals, DHgate deals, price comparison, cashback, rewards, smart shopping">
   <meta name="robots" content="index, follow">
@@ -642,6 +642,153 @@ footer{margin-top:20px!important}
 }
 @media (prefers-reduced-motion:reduce){
   .hero:before,.float-card,.float-card::before,.float-card .f-img::after,.motion-active-v44 i{animation:none!important}
+}
+
+
+/* v4.5 CONTINUOUS MOTION POLISH - motion does not depend on transform only */
+.motion-active-v44{display:none!important}
+.motion-active-v45{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:rgba(34,197,94,.16);
+  border:1px solid rgba(134,239,172,.32);
+  color:#dcfce7;
+  border-radius:999px;
+  padding:8px 11px;
+  font-size:12px;
+  font-weight:950;
+}
+.motion-active-v45 i{
+  width:8px;height:8px;border-radius:50%;
+  background:#22c55e;
+  box-shadow:0 0 0 0 rgba(34,197,94,.8);
+  animation:csV45Pulse 1.25s ease-out infinite;
+}
+@keyframes csV45Pulse{
+  0%{box-shadow:0 0 0 0 rgba(34,197,94,.8)}
+  75%{box-shadow:0 0 0 10px rgba(34,197,94,0)}
+  100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}
+}
+
+/* Always-moving hero cards: top + margin + shadow, so old transform overrides cannot stop it */
+.stage .float-card{
+  position:relative!important;
+  top:0;
+  margin-top:0;
+  animation-name:csV45BobA, csV45Glow!important;
+  animation-duration:2.7s, 2.2s!important;
+  animation-timing-function:ease-in-out, ease-in-out!important;
+  animation-iteration-count:infinite, infinite!important;
+  animation-direction:alternate, alternate!important;
+  will-change:top, margin-top, box-shadow, filter;
+}
+.stage .float-card:nth-of-type(3){
+  animation-name:csV45BobA, csV45Glow!important;
+  animation-duration:2.55s, 2.15s!important;
+}
+.stage .float-card:nth-of-type(4){
+  animation-name:csV45BobB, csV45Glow!important;
+  animation-duration:2.9s, 2.35s!important;
+}
+.stage .float-card:nth-of-type(5){
+  animation-name:csV45BobC, csV45Glow!important;
+  animation-duration:3.05s, 2.5s!important;
+}
+.stage .float-card:nth-of-type(6){
+  animation-name:csV45BobB, csV45Glow!important;
+  animation-duration:2.65s, 2.25s!important;
+}
+.stage .float-card:nth-of-type(7){
+  animation-name:csV45BobA, csV45Glow!important;
+  animation-duration:3.15s, 2.45s!important;
+}
+@keyframes csV45BobA{
+  from{top:0;margin-top:0;filter:saturate(1)}
+  to{top:-18px;margin-top:-2px;filter:saturate(1.08)}
+}
+@keyframes csV45BobB{
+  from{top:2px;margin-inline-start:0;filter:saturate(1)}
+  to{top:-15px;margin-inline-start:8px;filter:saturate(1.1)}
+}
+@keyframes csV45BobC{
+  from{top:0;margin-inline-start:0;filter:saturate(1)}
+  to{top:-20px;margin-inline-start:-7px;filter:saturate(1.12)}
+}
+@keyframes csV45Glow{
+  from{box-shadow:0 20px 48px rgba(2,6,23,.22),0 0 0 0 rgba(255,106,0,0)}
+  to{box-shadow:0 30px 70px rgba(2,6,23,.30),0 0 0 5px rgba(255,106,0,.08)}
+}
+.stage .float-card .f-img{
+  position:relative;
+}
+.stage .float-card .f-img:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:2;
+  background:linear-gradient(115deg,transparent 22%,rgba(255,255,255,.34),transparent 58%);
+  transform:translateX(-140%);
+  animation:csV45Sweep 2.9s linear infinite;
+}
+@keyframes csV45Sweep{
+  0%{transform:translateX(-140%)}
+  100%{transform:translateX(140%)}
+}
+.stage:after{
+  content:"Live picks scanning";
+  animation:csV45StagePill 1.4s ease-in-out infinite alternate;
+}
+@keyframes csV45StagePill{
+  from{opacity:.72}
+  to{opacity:1;box-shadow:0 0 0 4px rgba(34,197,94,.08)}
+}
+
+/* make platform chips also feel alive but subtle */
+.platform-tag{
+  position:relative;
+  overflow:hidden;
+}
+.platform-tag:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.32),transparent);
+  transform:translateX(-130%);
+  animation:csV45TagSweep 4.2s linear infinite;
+}
+@keyframes csV45TagSweep{
+  0%,30%{transform:translateX(-130%)}
+  70%,100%{transform:translateX(130%)}
+}
+
+/* Better spacing after visible deploy marker is removed */
+.static-deploy-proof-v43{display:none!important}
+.hero-helper-row{margin-bottom:16px!important}
+.search-panel{position:relative}
+.search-panel:after{
+  content:"";
+  position:absolute;
+  inset:-4px;
+  border-radius:28px;
+  pointer-events:none;
+  background:linear-gradient(90deg,rgba(255,106,0,.35),rgba(59,130,246,.18),rgba(255,106,0,.35));
+  z-index:-1;
+  filter:blur(10px);
+  opacity:.72;
+  animation:csV45SearchGlow 2.4s ease-in-out infinite alternate;
+}
+@keyframes csV45SearchGlow{
+  from{opacity:.38;filter:blur(12px)}
+  to{opacity:.88;filter:blur(16px)}
+}
+
+/* Cleaner product grid polish */
+.card:hover .image img{transform:scale(1.055)}
+.card{transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease}
+.card:hover{border-color:rgba(255,106,0,.35)}
+@media (prefers-reduced-motion:reduce){
+  .stage .float-card,.stage .float-card .f-img:before,.motion-active-v45 i,.platform-tag:after,.search-panel:after,.stage:after{animation:none!important}
 }
 
 </style>
