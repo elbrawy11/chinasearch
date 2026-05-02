@@ -146,7 +146,7 @@ async function bootstrapApp(){
       localStorage.setItem("lang",nextLang);
     }
   }
-  loadSiteConfig().then(()=>{render();renderLegalPage();requestAnimationFrame(() => requestAnimationFrame(syncHeroCardsWithSearch));});
+  loadSiteConfig().then(()=>{render();renderLegalPage();requestAnimationFrame(() => requestAnimationFrame(()=>{syncHeroCardsWithSearch();forceHeroMotionReady();startHeroCardMotionEngine();}));});
 }
 
 
@@ -723,6 +723,117 @@ function renderLegalPage(){
 }
 
 
+
+function forceHeroMotionReady(){
+  try{
+    document.documentElement.classList.add("cs-motion-ready");
+    document.querySelectorAll(".stage .float-card").forEach((card,i)=>{
+      card.style.animationDelay = (i * 0.18) + "s";
+      card.dataset.motionIndex = i;
+    });
+    startHeroCardMotionEngine();
+  }catch(e){}
+}
+
+
+
+/* v5.5 Motion Engine - leak-safe, GPU-only */
+let __csHeroMotionRAF = null;
+let __csHeroMotionActive = false;
+
+function stopHeroCardMotionEngine(){
+  if(__csHeroMotionRAF){
+    cancelAnimationFrame(__csHeroMotionRAF);
+    __csHeroMotionRAF = null;
+  }
+  __csHeroMotionActive = false;
+  // Cleanup willChange to free GPU memory
+  document.querySelectorAll(".stage .float-card").forEach(card=>{
+    card.style.willChange = "";
+  });
+}
+
+function startHeroCardMotionEngine(){
+  // Always cancel previous loop first to prevent leaks
+  stopHeroCardMotionEngine();
+
+  const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduceMotion) return;
+
+  // Set willChange once, not every frame
+  document.querySelectorAll(".stage .float-card").forEach(card=>{
+    card.style.willChange = "transform";
+  });
+
+  __csHeroMotionActive = true;
+
+  const animate = (time)=>{
+    if(!__csHeroMotionActive) return;
+
+    const cards = document.querySelectorAll(".stage .float-card");
+
+    // Auto-stop if no cards (e.g. legal page) — prevents zombie loop
+    if(!cards.length){
+      stopHeroCardMotionEngine();
+      return;
+    }
+
+    // Check mobile once per frame, not per card
+    const isMobile = window.innerWidth <= 760;
+
+    cards.forEach((card,i)=>{
+      if(isMobile){
+        if(card.style.transform) card.style.transform = "";
+        return;
+      }
+      const amp = [18,14,20,16,12][i%5];
+      const side = [0,7,-8,5,-4][i%5];
+      const speed = [0.0020,0.00175,0.00155,0.0019,0.00165][i%5];
+      const phase = i * 0.85;
+      const y = Math.sin(time*speed + phase) * amp;
+      const x = Math.cos(time*speed*0.72 + phase) * side;
+      const rot = Math.sin(time*speed*0.55 + phase) * 1.7;
+      // Only transform changes - GPU-accelerated, no repaint
+      card.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) rotate(${rot.toFixed(2)}deg)`;
+    });
+
+    __csHeroMotionRAF = requestAnimationFrame(animate);
+  };
+  __csHeroMotionRAF = requestAnimationFrame(animate);
+}
+
+function forceHeroMotionReady(){
+  try{
+    document.documentElement.classList.add("cs-motion-ready");
+    document.querySelectorAll(".stage .float-card").forEach((card,i)=>{
+      card.dataset.motionIndex = i;
+    });
+    // Removed: startHeroCardMotionEngine() - now called explicitly after render
+  }catch(e){
+    console.warn("forceHeroMotionReady failed", e);
+  }
+}
+
+// Stop motion when tab is hidden (saves battery)
+document.addEventListener("visibilitychange",()=>{
+  if(document.hidden){
+    stopHeroCardMotionEngine();
+  } else if(document.querySelector(".stage .float-card")){
+    startHeroCardMotionEngine();
+  }
+});
+
+// Restart motion on resize crossing mobile/desktop boundary
+let __csResizeTimer;
+window.addEventListener("resize",()=>{
+  clearTimeout(__csResizeTimer);
+  __csResizeTimer = setTimeout(()=>{
+    if(document.querySelector(".stage .float-card")){
+      startHeroCardMotionEngine();
+    }
+  }, 250);
+});
+
 function syncHeroCardsWithSearch(){
   try{
     const q=(state.q||"").trim().toLowerCase();
@@ -883,17 +994,16 @@ document.getElementById("app").innerHTML=`
   <a href="/contact.html">${l.contact}</a>
 </div></div><div><h4>${l.deals}</h4><a href="#deals">${l.best}</a><a>${l.cheap}</a><a>${l.fast}</a></div><div><h4>${l.platforms}</h4>${Object.keys(platforms).slice(0,4).map(k=>`<a>${platforms[k].name}</a>`).join("")}</div><div><h4>${l.country}</h4><a>${c.flag} ${state.lang==='ar'?c.countryAr:c.countryEn}</a><a>${c.currency}</a><a>${c.region}</a></div></div></footer>
  `;
+
+  // Trigger motion engine after DOM is painted
+  requestAnimationFrame(() => requestAnimationFrame(()=>{
+    syncHeroCardsWithSearch();
+    forceHeroMotionReady();
+    startHeroCardMotionEngine();
+  }));
 }
 window.addEventListener('scroll',()=>{document.body.classList.toggle('show-jump', window.scrollY < 500)});
 
-
-const __csOriginalRenderV47 = typeof render==="function" ? render : null;
-if(__csOriginalRenderV47){
-  render=function(){
-    __csOriginalRenderV47();
-    requestAnimationFrame(() => requestAnimationFrame(syncHeroCardsWithSearch));
-  }
-}
 
 bootstrapApp();
 window.addEventListener('hashchange',()=>{render();renderLegalPage()});

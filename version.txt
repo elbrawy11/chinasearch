@@ -1,2 +1,2 @@
-ChinaSearch V5.2 stable hybrid fix
-Fixed allProducts helper, product fallback, activeProducts fallback, and stable external data loading.
+ChinaSearch V5.5 leak-safe motion engine
+Motion engine is requestAnimationFrame based, cancels previous loops, stops when hidden/no cards, and uses transform only.
