@@ -25,7 +25,8 @@ const files = [
   "icon-512.png",
   "og-image.png",
   "404.html",
-  "_headers"
+  "_headers",
+  "vercel.json"
 ];
 
 fs.rmSync("dist", { recursive: true, force: true });

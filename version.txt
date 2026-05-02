@@ -1,8 +1,5 @@
-ChinaSearch V6.5 search architecture fix
-- Floating search orb hidden on /search.html
-- Nav Search link opens /search.html without forcing a default query
-- /search.html empty state added with focused search and popular searches
-- Search page DOM cleaned from unused homepage-only elements
-- search-page-mode applied early in search.html
-- Consent mini is hidden by default and shown only once when needed
-- Large visible crawlable info remains removed/collapsed
+ChinaSearch V6.6 deployment fixed full package
+- Fixed index.html and search.html asset references from v=6.4 to v=6.6
+- Added vercel.json with buildCommand and outputDirectory=dist
+- Includes the V6.5 architecture fixes: search empty state, hidden orb on search page, cleaned search DOM, consent fix
+- Use this package for a clean redeploy
