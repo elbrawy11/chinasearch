@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ChinaSearch — Compare China Deals by Price, Shipping & Rewards</title>
+  <title>V4.2 ChinaSearch — Compare China Deals by Price, Shipping & Rewards</title>
   <meta name="description" content="ChinaSearch is a smart pre-launch China marketplace comparison platform for price, shipping, ratings, country fit and estimated rewards. Affiliate links are pending marketplace approval.">
   <meta name="keywords" content="China deals, AliExpress deals, Temu deals, SHEIN deals, Banggood deals, DHgate deals, price comparison, cashback, rewards, smart shopping">
   <meta name="robots" content="index, follow">
@@ -431,6 +431,72 @@ footer{margin-top:20px!important}
   .quick-media-main img{height:250px}
   .quick-headline h3{font-size:24px}
   .quick-sticky-bar{padding:12px}
+}
+
+
+/* v4.2 VISIBLE PREMIUM CHECK - if you see orange launch ribbon, latest version is live */
+.launch-ribbon-v42{
+  position:relative;
+  z-index:6;
+  margin:0 0 14px;
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  padding:10px 14px;
+  border-radius:999px;
+  background:linear-gradient(90deg,rgba(255,106,0,.96),rgba(255,61,46,.96));
+  color:white;
+  font-weight:950;
+  font-size:13px;
+  box-shadow:0 16px 38px rgba(255,106,0,.28);
+  border:1px solid rgba(255,255,255,.22);
+}
+.launch-ribbon-v42::after{
+  content:"LIVE";
+  font-size:10px;
+  background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.22);
+  padding:4px 7px;
+  border-radius:999px;
+}
+.hero{
+  background:
+    radial-gradient(circle at 12% 12%,rgba(255,106,0,.38),transparent 32%),
+    radial-gradient(circle at 86% 18%,rgba(56,189,248,.26),transparent 34%),
+    radial-gradient(circle at 40% 85%,rgba(139,92,246,.18),transparent 30%),
+    linear-gradient(135deg,#050b1a,#0f1a3d 52%,#201034)!important;
+}
+.search-panel{
+  border:3px solid rgba(255,106,0,.28)!important;
+  transform:translateZ(0);
+}
+.search-panel:focus-within{
+  border-color:rgba(255,106,0,.78)!important;
+  box-shadow:0 30px 80px rgba(255,106,0,.22)!important;
+}
+.stage{
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:30px;
+  padding:16px!important;
+  background:rgba(255,255,255,.045);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);
+}
+.float-card{
+  border:2px solid rgba(255,255,255,.92)!important;
+}
+.quick-shell:before{
+  content:"V4.2 Premium Quick View";
+  position:absolute;
+  top:58px;
+  inset-inline-start:18px;
+  z-index:5;
+  background:linear-gradient(90deg,#ff6a00,#ff3d2e);
+  color:white;
+  border-radius:999px;
+  padding:7px 11px;
+  font-size:11px;
+  font-weight:950;
+  box-shadow:0 12px 26px rgba(255,106,0,.22);
 }
 
 </style>
