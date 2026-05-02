@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>V4.5 ChinaSearch — Continuous Motion Polish</title>
+  <title>V4.6 ChinaSearch — Final Hero Search Motion</title>
   <meta name="description" content="ChinaSearch is a smart pre-launch China marketplace comparison platform for price, shipping, ratings, country fit and estimated rewards. Affiliate links are pending marketplace approval.">
   <meta name="keywords" content="China deals, AliExpress deals, Temu deals, SHEIN deals, Banggood deals, DHgate deals, price comparison, cashback, rewards, smart shopping">
   <meta name="robots" content="index, follow">
@@ -791,6 +791,149 @@ footer{margin-top:20px!important}
   .stage .float-card,.stage .float-card .f-img:before,.motion-active-v45 i,.platform-tag:after,.search-panel:after,.stage:after{animation:none!important}
 }
 
+
+/* v4.6 FINAL HERO + SEARCH-LINKED MOTION */
+/* remove all previous deploy proof / version debug ribbons from production */
+.static-deploy-proof-v43,
+.motion-active-v44,
+.motion-active-v45,
+.launch-ribbon-v42{display:none!important}
+
+/* header polish: lower height, cleaner visual rhythm */
+.topbar{min-height:auto!important}
+.nav{padding:8px 0!important;gap:9px!important}
+.brand img,.logo-img{width:54px!important;height:54px!important}
+.brand b{font-size:24px!important;line-height:1!important}
+.brand span{font-size:12px!important;max-width:300px!important}
+.navlinks{padding:4px!important}
+.navlinks a{padding:8px 10px!important;font-size:12px!important}
+.nav-actions .select{height:38px!important;min-height:38px!important}
+.nav-actions .primary,.nav-actions .ghost,.notif-btn{height:38px!important;min-height:38px!important}
+
+/* hero: premium but less oversized */
+.hero{padding:44px 0 34px!important}
+.hero h2{
+  font-size:clamp(34px,4.15vw,54px)!important;
+  line-height:1.04!important;
+  letter-spacing:-1.2px!important;
+  max-width:720px!important;
+}
+.hero p{
+  font-size:15.5px!important;
+  line-height:1.72!important;
+  max-width:690px!important;
+}
+.hero-helper-row{margin:0 0 13px!important}
+.hero-helper-chip{
+  font-size:11.5px!important;
+  padding:7px 10px!important;
+}
+.search-panel{
+  max-width:735px!important;
+  padding:8px!important;
+  border-radius:22px!important;
+}
+.search-panel input{
+  font-size:16px!important;
+  padding:15px 8px!important;
+}
+.search-panel button{
+  padding:14px 18px!important;
+  min-width:135px!important;
+}
+
+/* search-linked hero cards: continuous motion + visible responsiveness */
+.stage{
+  position:relative;
+  isolation:isolate;
+}
+.stage::before{
+  content:"";
+  position:absolute;
+  inset:6px;
+  border-radius:30px;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at var(--scan-x,18%) 12%,rgba(255,106,0,.18),transparent 24%),
+    radial-gradient(circle at 88% var(--scan-y,22%),rgba(59,130,246,.16),transparent 26%);
+  animation:csV46StageScan 4.8s ease-in-out infinite alternate;
+}
+@keyframes csV46StageScan{
+  0%{--scan-x:10%;--scan-y:18%;opacity:.55}
+  100%{--scan-x:78%;--scan-y:72%;opacity:.95}
+}
+.stage::after{
+  content:"Search-linked live picks";
+  position:absolute;
+  top:14px;
+  inset-inline-end:16px;
+  z-index:10;
+  background:rgba(34,197,94,.16);
+  border:1px solid rgba(134,239,172,.32);
+  color:#dcfce7;
+  border-radius:999px;
+  padding:7px 11px;
+  font-size:11px;
+  font-weight:950;
+  backdrop-filter:blur(12px);
+  animation:csV46PillPulse 1.2s ease-in-out infinite alternate;
+}
+@keyframes csV46PillPulse{
+  from{opacity:.72;box-shadow:0 0 0 0 rgba(34,197,94,.12)}
+  to{opacity:1;box-shadow:0 0 0 5px rgba(34,197,94,.10)}
+}
+.stage .float-card{
+  position:relative!important;
+  top:0;
+  margin-top:0;
+  animation-name:csV46BobA, csV46Glow!important;
+  animation-duration:2.3s, 2.1s!important;
+  animation-timing-function:ease-in-out, ease-in-out!important;
+  animation-iteration-count:infinite, infinite!important;
+  animation-direction:alternate, alternate!important;
+  will-change:top, margin-inline-start, box-shadow, filter;
+  border:2px solid rgba(255,255,255,.82)!important;
+}
+.stage .float-card:nth-of-type(3){animation-name:csV46BobA, csV46Glow!important;animation-duration:2.25s,2.05s!important}
+.stage .float-card:nth-of-type(4){animation-name:csV46BobB, csV46Glow!important;animation-duration:2.55s,2.25s!important}
+.stage .float-card:nth-of-type(5){animation-name:csV46BobC, csV46Glow!important;animation-duration:2.75s,2.38s!important}
+.stage .float-card:nth-of-type(6){animation-name:csV46BobD, csV46Glow!important;animation-duration:2.45s,2.2s!important}
+.stage .float-card:nth-of-type(7){animation-name:csV46BobA, csV46Glow!important;animation-duration:2.85s,2.45s!important}
+@keyframes csV46BobA{from{top:0;margin-inline-start:0;filter:saturate(1)}to{top:-20px;margin-inline-start:0;filter:saturate(1.12)}}
+@keyframes csV46BobB{from{top:1px;margin-inline-start:0;filter:saturate(1)}to{top:-16px;margin-inline-start:10px;filter:saturate(1.14)}}
+@keyframes csV46BobC{from{top:0;margin-inline-start:0;filter:saturate(1)}to{top:-22px;margin-inline-start:-9px;filter:saturate(1.16)}}
+@keyframes csV46BobD{from{top:2px;margin-inline-start:0;filter:saturate(1)}to{top:-18px;margin-inline-start:7px;filter:saturate(1.13)}}
+@keyframes csV46Glow{
+  from{box-shadow:0 18px 44px rgba(2,6,23,.22),0 0 0 0 rgba(255,106,0,0)}
+  to{box-shadow:0 32px 80px rgba(2,6,23,.31),0 0 0 6px rgba(255,106,0,.10)}
+}
+.stage .float-card .f-img{position:relative}
+.stage .float-card .f-img::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  background:linear-gradient(112deg,transparent 18%,rgba(255,255,255,.38),transparent 58%);
+  transform:translateX(-145%);
+  animation:csV46ImageSweep 2.55s linear infinite;
+}
+@keyframes csV46ImageSweep{0%{transform:translateX(-145%)}100%{transform:translateX(145%)}}
+
+/* Product card polish */
+.card:hover{transform:translateY(-4px)!important;box-shadow:0 22px 55px rgba(15,23,42,.12)!important}
+.card .image img{transition:transform .35s ease}
+.card:hover .image img{transform:scale(1.055)}
+@media(max-width:760px){
+  .hero{padding:30px 0 24px!important}
+  .hero h2{font-size:31px!important;letter-spacing:-.5px!important}
+  .nav{padding:8px 0!important}
+  .stage::after{font-size:10px;top:10px;inset-inline-end:10px}
+}
+@media (prefers-reduced-motion:reduce){
+  .stage::before,.stage::after,.stage .float-card,.stage .float-card .f-img::before{animation:none!important}
+}
+
 </style>
 </head>
 <body>
@@ -1097,7 +1240,7 @@ async function bootstrapApp(){
       localStorage.setItem("lang",nextLang);
     }
   }
-  loadSiteConfig().then(()=>{render();renderLegalPage();});
+  loadSiteConfig().then(()=>{render();renderLegalPage();setTimeout(syncHeroCardsWithSearch,60);});
 }
 
 
@@ -1629,6 +1772,38 @@ function renderLegalPage(){
  window.scrollTo({top:0,behavior:"smooth"});
 }
 
+
+function syncHeroCardsWithSearch(){
+  try{
+    const q=(state.q||"").trim().toLowerCase();
+    let picks=allProducts();
+    if(q){
+      picks=picks.filter(p=>(productName(p)+" "+p.brand+" "+platforms[p.platform].name).toLowerCase().includes(q));
+      if(!picks.length) picks=allProducts();
+    }
+    picks=picks.sort((a,b)=>dealScore(b)-dealScore(a)).slice(0,5);
+    const cards=[...document.querySelectorAll(".stage .float-card")];
+    cards.forEach((card,i)=>{
+      const p=picks[i%picks.length];
+      if(!p) return;
+      const img=card.querySelector("img");
+      const title=card.querySelector("h4");
+      const priceEl=card.querySelector(".float-price b");
+      const badge=card.querySelector(".float-badge");
+      if(img){ img.src=p.img; img.alt=productName(p); }
+      if(title) title.textContent=productName(p);
+      if(priceEl) priceEl.textContent=price(p.price);
+      if(badge){
+        const label=i===0?L().best:(p.ship<=4?L().fast:(p.free?L().freeShip:L().topRated));
+        badge.textContent=label;
+      }
+      card.dataset.productId=p.id;
+      card.onclick=()=>openQuick(p.id);
+      card.style.cursor="pointer";
+    });
+  }catch(e){console.warn("Hero cards sync skipped",e)}
+}
+
 function render(){
  assignBrands();
  if(isAdminRoute()){ state.admin=false; }let l=L(),c=C();document.body.classList.toggle("admin-mode",isAdminRoute());document.documentElement.lang=state.lang;setTimeout(()=>{let f=document.getElementById("mobileFilterFab");if(f)f.innerHTML="⚙️ "+l.filters},0); if(state.q)addInterest(state.q); if(state.brandFilter!=="all")addInterest(state.brandFilter); if(state.platformFilter!=="all"&&platforms[state.platformFilter])addInterest(platforms[state.platformFilter].name);document.documentElement.dir=state.lang==="ar"?"rtl":"ltr";document.body.dir=document.documentElement.dir;
@@ -1659,7 +1834,7 @@ document.getElementById("app").innerHTML=`
   <rect x="63" y="16" width="18" height="18" rx="4" fill="#e11d2e"/>
   <path d="M68 20 v10 M76 20 v10 M68 25 h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
 </svg></div><div><h1>ChinaSearch</h1><span>${l.sub.substring(0,68)}...</span></div></a><nav class="navlinks"><a class="active">${l.home}</a><a href="#deals">${l.deals}</a><a href="#platforms">${l.platforms}</a><a href="#how">${l.how}</a><a href="#faq">${l.faq}</a></nav><div class="nav-actions"><select class="select" onchange="setCountry(this.value)">${Object.keys(SUPPORTED_COUNTRIES).map(k=>`<option value="${k}" ${state.country===k?'selected':''}>${SUPPORTED_COUNTRIES[k].flag} ${state.lang==='ar'?SUPPORTED_COUNTRIES[k].countryAr:SUPPORTED_COUNTRIES[k].countryEn}</option>`).join("")}</select><select class="select" onchange="setLang(this.value)"><option value="ar" ${state.lang==='ar'?'selected':''}>AR</option><option value="en" ${state.lang==='en'?'selected':''}>EN</option><option value="fr">FR</option><option value="de">DE</option><option value="es">ES</option><option value="pt">PT</option><option value="ru">RU</option></select><button class="notif-btn" onclick="toggleNotifications()">🔔<span class="notif-dot"></span></button><a class="primary" href="#deals">${l.start}</a></div></div></header>
- <section class="hero"><div class="container hero-inner"><div><div class="badge-line"><span class="pill">✅ ${l.trusted}</span><span class="pill">🌍 ${c.region}</span><span class="pill">💱 ${c.currency}</span></div><div class="hero-slogan">✨ ${l.heroPunch}</div><h2>${l.title}<br><span class="accent">${l.accent}</span></h2><p>${l.heroBetter}</p><div class="hero-helper-row"><span class="hero-helper-chip">🤖 ${l.aiAssistant}</span><span class="hero-helper-chip">🌍 ${l.geoTitle}</span><span class="hero-helper-chip">🏆 ${l.dealScore}</span></div><div class="search-panel"><span class="icon">🔍</span><input value="${state.q}" oninput="state.q=this.value;render()" placeholder="${l.search}"><button onclick="rememberSearch();document.getElementById('deals').scrollIntoView()">${l.searchBtn}</button></div><div class="hero-search-note"><span class="hint">⚡ ${l.bestMatchTitle}</span><span class="hint">💱 ${l.currency}: ${c.currency}</span><span class="hint">🚚 ${l.fast}</span></div>
+ <section class="hero"><div class="container hero-inner"><div><div class="badge-line"><span class="pill">✅ ${l.trusted}</span><span class="pill">🌍 ${c.region}</span><span class="pill">💱 ${c.currency}</span></div><div class="hero-slogan">✨ ${l.heroPunch}</div><h2>${l.title}<br><span class="accent">${l.accent}</span></h2><p>${l.heroBetter}</p><div class="hero-helper-row"><span class="hero-helper-chip">🤖 ${l.aiAssistant}</span><span class="hero-helper-chip">🌍 ${l.geoTitle}</span><span class="hero-helper-chip">🏆 ${l.dealScore}</span></div><div class="search-panel"><span class="icon">🔍</span><input value="${state.q}" oninput="state.q=this.value;render();setTimeout(syncHeroCardsWithSearch,40)" placeholder="${l.search}"><button onclick="rememberSearch();document.getElementById('deals').scrollIntoView()">${l.searchBtn}</button></div><div class="hero-search-note"><span class="hint">⚡ ${l.bestMatchTitle}</span><span class="hint">💱 ${l.currency}: ${c.currency}</span><span class="hint">🚚 ${l.fast}</span></div>
 <div class="search-examples">
   <button class="search-example" onclick="state.q=this.innerText;render();document.getElementById('deals').scrollIntoView()">🔎 ${l.ex1}</button>
   <button class="search-example" onclick="state.q=this.innerText;render();document.getElementById('deals').scrollIntoView()">⌚ ${l.ex2}</button>
@@ -1759,6 +1934,15 @@ document.getElementById("app").innerHTML=`
  `;
 }
 window.addEventListener('scroll',()=>{document.body.classList.toggle('show-jump', window.scrollY < 500)});
+
+const __csOriginalRenderV46 = typeof render==="function" ? render : null;
+if(__csOriginalRenderV46){
+  render=function(){
+    __csOriginalRenderV46();
+    setTimeout(syncHeroCardsWithSearch,40);
+  }
+}
+
 bootstrapApp();
 window.addEventListener('hashchange',()=>{render();renderLegalPage()});
 </script>

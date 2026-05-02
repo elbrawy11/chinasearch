@@ -1,2 +1,2 @@
-ChinaSearch V4.5 continuous motion polish
-Cards use top/margin animation so motion continues even if transform is overridden.
+ChinaSearch V4.6 final hero search motion
+Header polished, hero title refined, continuous motion active, hero cards sync with search.
