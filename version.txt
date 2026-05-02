@@ -1,2 +1,2 @@
-ChinaSearch V5.8 search takeover experience
-Search now transforms the hero, results area, platform counts, ranking controls and page context around the query.
+ChinaSearch V5.9 search orchestrator fix
+Search now has event delegation, live desktop takeover, Enter/button handling, clickable product cards, and clearer search state.

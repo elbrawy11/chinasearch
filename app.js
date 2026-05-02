@@ -276,7 +276,7 @@ function liveFeedItems(){
  ];
 }
 
-function card(p){let l=L(),avg=activeProducts().reduce((s,x)=>s+x.price,0)/Math.max(1,activeProducts().length),saved=Math.max(0,Math.round((1-p.price/avg)*100)),score=dealScore(p),pts=rewardPoints(p),checked=state.compareList.includes(p.id);return `<div class="card ${p.isBest?'best':''}" role="button" tabindex="0" onclick="if(!event.target.closest('button,input,label,a')) openQuick('${p.id}')" onkeydown="if((event.key==='Enter'||event.key===' ')&&!event.target.closest('button,input,label,a')){event.preventDefault();openQuick('${p.id}')}"><label class="compare-check"><input title="${l.chooseCompare}" type="checkbox" ${checked?'checked':''} onclick="event.stopPropagation()" onchange="toggleCompare('${p.id}')"></label><div class="deal-score"><div class="score-ring" style="--score:${score}"><b>${score}</b></div></div><div class="image"><img src="${p.img}" alt="${productName(p)}"></div><div class="badges">${badge(p)}<span class="tag free">${p.brand}</span><span class="country-badge">🌍 ${l.bestForCountry}</span></div><h3>${productName(p)}</h3><div class="price-row"><strong>${price(p.price)}</strong><del>${price(p.old)}</del><span class="discount">-${p.discount}%</span></div><div class="rating-line"><span class="stars">★★★★★</span><span>${p.rating} · ${p.reviews.toLocaleString()}</span></div><div class="shipping-line"><span>🚚 ${p.ship} ${l.days}</span><span>🎁 +${pts} ${l.points}</span></div><div class="reason-chips"><span class="reason-chip">💰 ${saved}% ${l.reasonCheap}</span><span class="reason-chip">🚀 ${l.reasonFast}</span><span class="reason-chip">⭐ ${l.reasonRating}</span><span class="reason-chip">🤖 AI Pick</span></div><div class="card-actions-clean"><button class="secondary-action" onclick="event.stopPropagation();openQuick('${p.id}')">${l.quickView}</button><button class="watch-btn" onclick="event.stopPropagation();watchPrice('${p.id}')">${isWatched(p.id)?l.watched:l.watchPrice}</button><button class="cta" onclick="event.stopPropagation();openQuick('${p.id}')">${l.get}</button></div></div>`}
+function card(p){let l=L(),avg=activeProducts().reduce((s,x)=>s+x.price,0)/Math.max(1,activeProducts().length),saved=Math.max(0,Math.round((1-p.price/avg)*100)),score=dealScore(p),pts=rewardPoints(p),checked=state.compareList.includes(p.id);return `<div class="card ${p.isBest?'best':''}" data-product-id="${p.id}" role="button" tabindex="0"><label class="compare-check"><input title="${l.chooseCompare}" type="checkbox" ${checked?'checked':''} onclick="event.stopPropagation()" onchange="toggleCompare('${p.id}')"></label><div class="deal-score"><div class="score-ring" style="--score:${score}"><b>${score}</b></div></div><div class="image"><img src="${p.img}" alt="${productName(p)}"></div><div class="badges">${badge(p)}<span class="tag free">${p.brand}</span><span class="country-badge">🌍 ${l.bestForCountry}</span></div><h3>${productName(p)}</h3><div class="price-row"><strong>${price(p.price)}</strong><del>${price(p.old)}</del><span class="discount">-${p.discount}%</span></div><div class="rating-line"><span class="stars">★★★★★</span><span>${p.rating} · ${p.reviews.toLocaleString()}</span></div><div class="shipping-line"><span>🚚 ${p.ship} ${l.days}</span><span>🎁 +${pts} ${l.points}</span></div><div class="reason-chips"><span class="reason-chip">💰 ${saved}% ${l.reasonCheap}</span><span class="reason-chip">🚀 ${l.reasonFast}</span><span class="reason-chip">⭐ ${l.reasonRating}</span><span class="reason-chip">🤖 AI Pick</span></div><div class="card-actions-clean"><button class="secondary-action" data-open-product="${p.id}" onclick="event.stopPropagation();openQuick('${p.id}')">${l.quickView}</button><button class="watch-btn" onclick="event.stopPropagation();watchPrice('${p.id}')">${isWatched(p.id)?l.watched:l.watchPrice}</button><button class="cta" data-open-product="${p.id}" onclick="event.stopPropagation();openQuick('${p.id}')">${l.get}</button></div></div>`}
 function floatCard(p,type,style){return `<div class="float-card" role="button" tabindex="0" onclick="openQuick('${p.id}')" style="${style};--rot:${style.includes('rotate')?'0deg':'0deg'}"><span class="float-badge" style="background:${type.color}">${type.label}</span><div class="f-img"><img src="${p.img}"></div><h4>${productName(p)}</h4><div class="float-price"><b>${price(p.price)}</b><small style="text-decoration:line-through;color:#94a3b8">${price(p.old)}</small></div><div class="float-meta"><span>${platforms[p.platform].name}</span><span>⭐ ${p.rating}</span><span>🚚 ${p.ship}</span></div></div>`}
 function platformStats(k){let list=products.filter(p=>p.platform===k),avgPrice=list.reduce((s,p)=>s+p.price,0)/list.length,avgShip=list.reduce((s,p)=>s+p.ship,0)/list.length,avgRating=list.reduce((s,p)=>s+p.rating,0)/list.length;return{avgPrice,avgShip,avgRating,count:list.length}}
 function bestPlatformKey(){let keys=Object.keys(platforms).filter(k=>platforms[k].enabled&&platforms[k].regions.includes(C().region));return keys.sort((a,b)=>{let A=platformStats(a),B=platformStats(b);return (B.avgRating*2-B.avgShip*.08-platforms[b].priority*.05+platforms[b].commission*.03)-(A.avgRating*2-A.avgShip*.08-platforms[a].priority*.05+platforms[a].commission*.03)})[0]||"aliexpress"}
@@ -877,23 +877,7 @@ function normalizeSearchText(s){
     .trim()
     .toLowerCase();
 }
-function runSearch(){
-  try{
-    const input=document.querySelector(".hero-search-input");
-    if(input) state.q=input.value.trim();
-    if(!state.q) return;
-    if(typeof hideExitHook==="function") hideExitHook();
-    state.view = "cards";
-    rememberSearch();
-    render();
-    requestAnimationFrame(()=>{
-      const target=document.getElementById("searchFocus") || document.getElementById("deals");
-      if(target) target.scrollIntoView({behavior:"smooth",block:"start"});
-    });
-  }catch(e){
-    console.warn("runSearch failed", e);
-  }
-}
+function runSearch(){ executeSearch("legacy"); }
 function applySearchExample(value){
   state.q = normalizeSearchText(value);
   runSearch();
@@ -997,7 +981,7 @@ function searchMissionHtml(data,best){
         <button onclick="state.sort='price';render();document.getElementById('searchFocus')?.scrollIntoView({behavior:'smooth'})">💰 ${state.lang==="ar"?"الأرخص":"Cheapest"}</button>
         <button onclick="state.sort='ship';render();document.getElementById('searchFocus')?.scrollIntoView({behavior:'smooth'})">🚚 ${state.lang==="ar"?"أسرع شحن":"Fastest"}</button>
         <button onclick="state.sort='rating';render();document.getElementById('searchFocus')?.scrollIntoView({behavior:'smooth'})">⭐ ${state.lang==="ar"?"أعلى تقييم":"Top rated"}</button>
-        <button class="clear-search" onclick="state.q='';render();window.scrollTo({top:0,behavior:'smooth'})">✕ ${state.lang==="ar"?"مسح البحث":"Clear"}</button>
+        <button class="clear-search" data-clear-search="1">✕ ${state.lang==="ar"?"مسح البحث":"Clear"}</button>
       </div>
     </div>
     <div class="takeover-side">
@@ -1018,6 +1002,123 @@ function searchSectionTitleHtml(data,best){
     </div>`;
   }
   return `<div class="section-head"><div><h2>${L().deals}</h2><p>${L().resultsNote}</p></div><span class="pill" style="background:#fff;color:#111;border-color:#e5e7eb">${L().bestToday}: ${c.flag} ${state.lang==='ar'?c.countryAr:c.countryEn}</span></div>`;
+}
+
+
+/* v5.9 Search Orchestrator - one source of truth for search + clicks */
+let __csSearchDebounce = null;
+let __csLastQuery = "";
+
+function getSearchInputValue(){
+  const input=document.querySelector(".hero-search-input");
+  return input ? input.value.trim() : (state.q||"").trim();
+}
+
+function scrollToFocusedResults(){
+  requestAnimationFrame(()=>{
+    const target=document.getElementById("searchFocus") || document.getElementById("deals");
+    if(target) target.scrollIntoView({behavior:"smooth",block:"start"});
+  });
+}
+
+function executeSearch(source="button"){
+  try{
+    const q=getSearchInputValue();
+    state.q=q;
+    if(!q) return;
+    if(typeof hideExitHook==="function") hideExitHook();
+    state.view="cards";
+    __csLastQuery=q;
+    rememberSearch();
+    render();
+    scrollToFocusedResults();
+  }catch(e){
+    console.error("executeSearch failed", e);
+  }
+}
+
+function liveSearchInput(value){
+  state.q=value;
+  clearTimeout(__csSearchDebounce);
+  // Desktop live transform. Mobile waits for button/Enter so keyboard does not collapse.
+  if(window.innerWidth<=760) {
+    requestAnimationFrame(syncHeroCardsWithSearch);
+    return;
+  }
+  const q=value.trim();
+  if(q.length<2){
+    requestAnimationFrame(syncHeroCardsWithSearch);
+    return;
+  }
+  __csSearchDebounce=setTimeout(()=>{
+    const active=document.activeElement;
+    const shouldRestore=active && active.classList && active.classList.contains("hero-search-input");
+    const pos=shouldRestore ? active.selectionStart : null;
+    render();
+    requestAnimationFrame(()=>{
+      const next=document.querySelector(".hero-search-input");
+      if(shouldRestore && next){
+        next.focus({preventScroll:true});
+        try{ next.setSelectionRange(pos,pos); }catch(e){}
+      }
+    });
+  },520);
+}
+
+document.addEventListener("click",(e)=>{
+  const searchBtn=e.target.closest("[data-search-run]");
+  if(searchBtn){
+    e.preventDefault();
+    executeSearch("button");
+    return;
+  }
+  const example=e.target.closest("[data-search-example]");
+  if(example){
+    e.preventDefault();
+    const q=example.getAttribute("data-search-example") || example.textContent || "";
+    state.q=normalizeSearchText(q);
+    executeSearch("example");
+    return;
+  }
+  const clear=e.target.closest("[data-clear-search]");
+  if(clear){
+    e.preventDefault();
+    state.q="";
+    render();
+    window.scrollTo({top:0,behavior:"smooth"});
+    return;
+  }
+  const open=e.target.closest("[data-open-product]");
+  if(open){
+    e.preventDefault();
+    e.stopPropagation();
+    openQuick(open.getAttribute("data-open-product"));
+    return;
+  }
+  const card=e.target.closest(".card[data-product-id]");
+  if(card && !e.target.closest("button,input,label,a,select")){
+    e.preventDefault();
+    openQuick(card.getAttribute("data-product-id"));
+  }
+});
+
+document.addEventListener("keydown",(e)=>{
+  if(e.target && e.target.classList && e.target.classList.contains("hero-search-input") && e.key==="Enter"){
+    e.preventDefault();
+    executeSearch("enter");
+  }
+  const card=e.target.closest && e.target.closest(".card[data-product-id]");
+  if(card && (e.key==="Enter" || e.key===" ") && !e.target.closest("button,input,label,a,select")){
+    e.preventDefault();
+    openQuick(card.getAttribute("data-product-id"));
+  }
+});
+
+
+function directSearchNoticeHtml(directCount){
+  if(!searchMode()) return "";
+  if(directCount>0) return "";
+  return `<div class="direct-search-notice">⚠️ ${state.lang==="ar"?"لم نجد تطابقًا مباشرًا قويًا، لذلك نعرض أقرب بدائل من كل المنصات بدل صفحة فاضية.":"No strong direct match found, so we are showing closest alternatives instead of an empty page."}</div>`;
 }
 
 function render(){
@@ -1053,10 +1154,10 @@ document.getElementById("app").innerHTML=`
   <rect x="63" y="16" width="18" height="18" rx="4" fill="#e11d2e"/>
   <path d="M68 20 v10 M76 20 v10 M68 25 h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
 </svg></div><div><h1>ChinaSearch</h1><span>${l.sub.substring(0,68)}...</span></div></a><nav class="navlinks"><a class="active">${l.home}</a><a href="#deals">${l.deals}</a><a href="#platforms">${l.platforms}</a><a href="#how">${l.how}</a><a href="#faq">${l.faq}</a></nav><div class="nav-actions"><select class="select" onchange="setCountry(this.value)">${Object.keys(SUPPORTED_COUNTRIES).map(k=>`<option value="${k}" ${state.country===k?'selected':''}>${SUPPORTED_COUNTRIES[k].flag} ${state.lang==='ar'?SUPPORTED_COUNTRIES[k].countryAr:SUPPORTED_COUNTRIES[k].countryEn}</option>`).join("")}</select><select class="select" onchange="setLang(this.value)"><option value="ar" ${state.lang==='ar'?'selected':''}>AR</option><option value="en" ${state.lang==='en'?'selected':''}>EN</option><option value="fr">FR</option><option value="de">DE</option><option value="es">ES</option><option value="pt">PT</option><option value="ru">RU</option></select><button class="notif-btn" onclick="toggleNotifications()">🔔<span class="notif-dot"></span></button><a class="primary" href="#deals">${l.start}</a></div></div></header>
- <section class="hero"><div class="container hero-inner"><div><div class="badge-line"><span class="pill">✅ ${l.trusted}</span><span class="pill">🌍 ${c.region}</span><span class="pill">💱 ${c.currency}</span></div><div class="hero-slogan">✨ ${searchMode()?(state.lang==="ar"?"بحث مباشر عبر كل المنصات":"Live marketplace search"):l.heroPunch}</div><h2>${heroTitleHtml()}</h2><p>${heroSubtitleText()}</p><div class="hero-helper-row"><span class="hero-helper-chip">🤖 ${l.aiAssistant}</span><span class="hero-helper-chip">🌍 ${l.geoTitle}</span><span class="hero-helper-chip">🏆 ${l.dealScore}</span></div><div class="search-panel"><span class="icon">🔍</span><input class="hero-search-input" value="${state.q}" oninput="state.q=this.value;requestAnimationFrame(syncHeroCardsWithSearch)" onkeydown="if(event.key==='Enter')runSearch()" placeholder="${searchMode()?(state.lang==='ar'?'ابحث عن بديل أو نوع آخر...':'Search another product...'):l.search}"><button onclick="runSearch()">${searchMode()?(state.lang==='ar'?'حدّث البحث':'Update search'):l.searchBtn}</button></div><div class="hero-search-note"><span class="hint">⚡ ${l.bestMatchTitle}</span><span class="hint">💱 ${l.currency}: ${c.currency}</span><span class="hint">🚚 ${l.fast}</span></div>
+ <section class="hero"><div class="container hero-inner"><div><div class="badge-line"><span class="pill">✅ ${l.trusted}</span><span class="pill">🌍 ${c.region}</span><span class="pill">💱 ${c.currency}</span></div><div class="hero-slogan">✨ ${searchMode()?(state.lang==="ar"?"بحث مباشر عبر كل المنصات":"Live marketplace search"):l.heroPunch}</div><h2>${heroTitleHtml()}</h2><p>${heroSubtitleText()}</p><div class="hero-helper-row"><span class="hero-helper-chip">🤖 ${l.aiAssistant}</span><span class="hero-helper-chip">🌍 ${l.geoTitle}</span><span class="hero-helper-chip">🏆 ${l.dealScore}</span></div><div class="search-panel"><span class="icon">🔍</span><input class="hero-search-input" value="${state.q}" oninput="liveSearchInput(this.value)" placeholder="${searchMode()?(state.lang==='ar'?'ابحث عن بديل أو نوع آخر...':'Search another product...'):l.search}"><button type="button" data-search-run="1">${searchMode()?(state.lang==='ar'?'حدّث البحث':'Update search'):l.searchBtn}</button></div><div class="hero-search-note"><span class="hint">⚡ ${l.bestMatchTitle}</span><span class="hint">💱 ${l.currency}: ${c.currency}</span><span class="hint">🚚 ${l.fast}</span></div>
 <div class="search-examples">
-  <button class="search-example" onclick="applySearchExample(this.innerText)">🔎 ${l.ex1}</button>
-  <button class="search-example" onclick="applySearchExample(this.innerText)">⌚ ${l.ex2}</button>
+  <button class="search-example" type="button" data-search-example="${l.ex1}">🔎 ${l.ex1}</button>
+  <button class="search-example" type="button" data-search-example="${l.ex2}">⌚ ${l.ex2}</button>
   <button class="search-example" onclick="state.sort='free';render();document.getElementById('deals').scrollIntoView()">🚚 ${l.ex3}</button>
   <button class="search-example" onclick="state.platformFilter='shein';render();document.getElementById('deals').scrollIntoView()">🛍️ ${l.ex4}</button>
   <button class="search-example" onclick="state.platformFilter='aliexpress';render();document.getElementById('deals').scrollIntoView()">🏷️ ${l.ex5}</button>
@@ -1102,7 +1203,7 @@ document.getElementById("app").innerHTML=`
  </section>
 <section class="section"><div class="container best-deal"><div>${card(best)}</div><div class="best-copy"><h2>🔥 ${l.bestDeal}</h2><p>${l.bestDealSub}</p><div class="reason"><b>🤖 ${l.whyChosen}</b><ul><li>${l.rankReason}</li><li>${l.dealScore}: ${Math.round(best.score*100)}/100</li><li>${platforms[best.platform].name} · ${price(best.price)} · ${best.ship} ${l.days}</li></ul></div></div></div></section>
  <div class="filters"><div class="container filter-row"><b>${l.filter}</b>${filterBtns}</div></div>
- <main id="deals" class="container section">${searchMode()?"":welcomeBackHtml()}${searchSectionTitleHtml(data,best)}${searchMissionHtml(data,best)}${searchMode()?"":recommendedHtml()}${aiSummaryHtml(best)}${platformWinnerHtml(data)}<div class="match-box"><div><b>🤖 ${bestMatchTitle()}</b><span>${matchMessage()}</span></div><div class="match-score">${best?Math.round((best.score||.85)*100):88}<small>/100</small></div></div><div class="advanced-toolbar">
+ <main id="deals" class="container section">${searchMode()?"":welcomeBackHtml()}${searchSectionTitleHtml(data,best)}${searchMissionHtml(data,best)}${directSearchNoticeHtml(directMatchCount)}${searchMode()?"":recommendedHtml()}${aiSummaryHtml(best)}${platformWinnerHtml(data)}<div class="match-box"><div><b>🤖 ${bestMatchTitle()}</b><span>${matchMessage()}</span></div><div class="match-score">${best?Math.round((best.score||.85)*100):88}<small>/100</small></div></div><div class="advanced-toolbar">
    <div class="toolbar-grid">
     <div class="field"><label>${l.viewMode}</label><div class="view-toggle">${[["cards","grid",l.cards],["list","list",l.list],["compact","compact",l.compact],["compare","compare",l.compare]].map(v=>`<button class="view-btn ${state.view===v[0]?'active':''}" onclick="state.view='${v[0]}';render()">${icon(v[1])}<span>${v[2]}</span></button>`).join("")}</div></div>
     <div class="field"><label>${l.platformFilter}</label><select onchange="state.platformFilter=this.value;state.brandFilter='all';render()"><option value="all">${l.allPlatforms}</option>${Object.keys(platforms).filter(k=>platforms[k].enabled).map(k=>`<option value="${k}" ${state.platformFilter===k?'selected':''}>${platforms[k].name}</option>`).join("")}</select></div>

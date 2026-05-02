@@ -459,3 +459,38 @@ body.searching .hero-slogan{
   .takeover-main h2{font-size:25px}
   .mission-platforms{grid-template-columns:1fr}
 }
+
+/* v5.9 search orchestrator fix */
+.search-panel button[data-search-run]{
+  cursor:pointer;
+  position:relative;
+  z-index:3;
+}
+.hero-search-input{
+  position:relative;
+  z-index:2;
+}
+body.searching .topbar{
+  border-bottom:2px solid rgba(255,106,0,.22)!important;
+}
+body.searching .search-panel{
+  outline:3px solid rgba(255,106,0,.18);
+}
+body.searching .search-panel button[data-search-run]{
+  box-shadow:0 14px 34px rgba(255,106,0,.28)!important;
+}
+.direct-search-notice{
+  margin:0 0 14px;
+  padding:12px 14px;
+  border:1px solid #fed7aa;
+  background:#fff7ed;
+  color:#9a3412;
+  border-radius:18px;
+  font-weight:900;
+}
+.card[data-product-id]{
+  cursor:pointer;
+}
+.card[data-product-id]:hover{
+  transform:translateY(-4px);
+}
