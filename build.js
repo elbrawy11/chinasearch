@@ -3,6 +3,10 @@ const path = require("path");
 
 const files = [
   "index.html",
+  "translations.json",
+  "products.json",
+  "app.js",
+  "styles.css",
   "about.html",
   "how-it-works.html",
   "affiliate-disclosure.html",

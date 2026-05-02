@@ -1,0 +1,15 @@
+{
+  "note": "V5.0 prepared data layer. Current app.js still contains product seed data for zero-break deployment. Next step can move product arrays here fully.",
+  "schema": {
+    "id": "string",
+    "platform": "aliexpress|temu|shein|dhgate|banggood",
+    "brand": "string",
+    "price": "number",
+    "old": "number",
+    "rating": "number",
+    "ship": "number",
+    "free": "boolean",
+    "img": "url"
+  },
+  "products": []
+}

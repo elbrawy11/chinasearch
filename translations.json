@@ -1,0 +1,13 @@
+{
+  "note": "V5.0 prepared translation layer. Current app.js still contains translations for zero-break deployment. Next step can move T object here fully.",
+  "languages_ready": [
+    "ar",
+    "en",
+    "fr",
+    "de",
+    "es",
+    "pt",
+    "ru"
+  ],
+  "translations": {}
+}

@@ -1,2 +1,2 @@
-ChinaSearch V4.6 final hero search motion
-Header polished, hero title refined, continuous motion active, hero cards sync with search.
+ChinaSearch V5.0 refactor split files
+index.html now loads external styles.css and app.js. Build copies refactor assets.
