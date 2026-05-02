@@ -1,7 +1,6 @@
-ChinaSearch V6.3 professional search results polish
-- Platform selector redesigned with brand-inspired colors
-- Sticky organized filter toolbar
-- Real pagination based on actual expanded catalog
-- Products expanded above 180 items; mobile searches now return 100+ relevant results
-- Results start higher with reduced top whitespace
-- Product cards polished for grid/list/compare views
+ChinaSearch V6.4 floating search navigation cleanup
+- Added search link to the main navigation
+- Added floating animated search button that stays while scrolling
+- Removed the large crawlable English information block from visible pages
+- Replaced official information with a compact collapsible link block
+- Kept homepage and standalone search page behavior intact
