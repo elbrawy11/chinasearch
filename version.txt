@@ -1,2 +1,6 @@
-ChinaSearch V6.1 standalone search results page
-Search now redirects from homepage to /search.html?q=..., keeps homepage intact, saves searches, supports platform multi-select, cards/list/compare views, watch price and compare actions.
+ChinaSearch V6.2 compact search results refinement
+- Search hero reduced ~70% height
+- Cleaner platform selectors
+- Removed crawlable text block from search page
+- Results badge now shows 100+ and page count
+- Search page polished for faster scanning
