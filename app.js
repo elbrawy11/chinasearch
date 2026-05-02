@@ -155,7 +155,7 @@ window.__CS_CONFIG = null;
 
 async function loadTranslationsData(){
   try{
-    const res = await fetch('/translations.json?v=5.1', {cache:'no-store'});
+    const res = await fetch('/translations.json?v=5.2', {cache:'no-store'});
     if(!res.ok) throw new Error('translations.json HTTP '+res.status);
     const data = await res.json();
     T = data.translations || {};
@@ -170,7 +170,7 @@ async function loadTranslationsData(){
 }
 async function loadProductsData(){
   try{
-    const res = await fetch('/products.json?v=5.1', {cache:'no-store'});
+    const res = await fetch('/products.json?v=5.2', {cache:'no-store'});
     if(!res.ok) throw new Error('products.json HTTP '+res.status);
     const data = await res.json();
     products = (data.products || []).map(p => ({
@@ -182,7 +182,7 @@ async function loadProductsData(){
     return true;
   }catch(e){
     console.error('products load failed', e);
-    products = [];
+    if(!Array.isArray(products) || !products.length){products = [];}
     return false;
   }
 }
@@ -213,7 +213,14 @@ function C(){return SUPPORTED_COUNTRIES[state.country]||SUPPORTED_COUNTRIES.KW}
 function L(){let base=T[state.lang]||T.en;return new Proxy(base,{get:(o,k)=>o[k]||T.en[k]||T.ar[k]||k});}
 function norm(v,min,max,inv){if(max===min)return 1;let n=(v-min)/(max-min);return inv?1-n:n}
 function weights(){let r=C().region;if(r==="Middle East")return{price:.25,ship:.35,rating:.25,pop:.15};if(r==="Europe"||r==="USA")return{price:.23,ship:.18,rating:.42,pop:.17};if(r==="Latin America"||r==="North Africa")return{price:.42,ship:.18,rating:.22,pop:.18};if(r==="Russia")return{price:.28,ship:.28,rating:.27,pop:.17};return{price:.35,ship:.25,rating:.25,pop:.15}}
-function activeProducts(){return products.filter(p=>platforms[p.platform]&&platforms[p.platform].enabled&&platforms[p.platform].regions.includes(C().region)&&(state.platformFilter==='all'||p.platform===state.platformFilter)&&(state.brandFilter==='all'||p.brand===state.brandFilter))}
+function activeProducts(){
+ let data=products.filter(p=>platforms[p.platform]&&platforms[p.platform].enabled&&platforms[p.platform].regions.includes(C().region)&&(state.platformFilter==='all'||p.platform===state.platformFilter)&&(state.brandFilter==='all'||p.brand===state.brandFilter));
+ if(!data.length){
+   data=products.filter(p=>platforms[p.platform]&&platforms[p.platform].enabled&&(state.platformFilter==='all'||p.platform===state.platformFilter)&&(state.brandFilter==='all'||p.brand===state.brandFilter));
+ }
+ return data;
+}
+function allProducts(){return Array.isArray(products)?products:[]}
 function ranked(){
  let data=activeProducts();let ps=data.map(p=>p.price),ss=data.map(p=>p.ship),rs=data.map(p=>p.rating),vs=data.map(p=>p.reviews),coms=data.map(p=>platforms[p.platform].commission||1);let mi=a=>Math.min(...a),ma=a=>Math.max(...a),w=weights();
  let scored=data.map(p=>{
@@ -312,7 +319,7 @@ function quickSimilarHtml(p){
 
 
 function openQuick(id){
- let p=allProducts().find(x=>x.id===id),l=L(),avg=activeProducts().reduce((s,x)=>s+x.price,0)/Math.max(1,activeProducts().length),saving=Math.max(0,avg-p.price),c=C(),score=dealScore(p),pts=rewardPoints(p),fit=Math.min(98,Math.max(74,score+4)),plat=platforms[p.platform];
+ let p=allProducts().find(x=>x.id===id); if(!p){console.warn('Product not found',id); return;} let l=L(),avg=activeProducts().reduce((s,x)=>s+x.price,0)/Math.max(1,activeProducts().length),saving=Math.max(0,avg-p.price),c=C(),score=dealScore(p),pts=rewardPoints(p),fit=Math.min(98,Math.max(74,score+4)),plat=platforms[p.platform];
  let box=document.getElementById("quickModal");
  box.innerHTML=`<div class="quick-shell"><div class="quick-topbar"><div class="quick-top-left"><span class="quick-platform-chip" style="border-color:${plat.color};color:${plat.color}">🛍️ ${plat.name}</span><span class="quick-score-chip">🏆 ${l.dealScore}: ${score}/100</span><span class="quick-country-chip">🌍 ${c.flag} ${state.lang==='ar'?c.countryAr:c.countryEn}</span></div><button class="quick-close-pro" onclick="closeQuick()">✕ ${l.close}</button></div><div class="quick-layout-pro"><div class="quick-media-side"><div class="quick-media-main"><img src="${p.img}" alt="${productName(p)}"></div><div class="quick-media-caption"><h2>${productName(p)}</h2><p>${p.aiSummary||l.aiQuick}</p></div><div class="quick-mini-rail"><div class="quick-mini-card"><span>${l.bestForCountry}</span><b>${state.lang==='ar'?c.countryAr:c.countryEn}</b></div><div class="quick-mini-card"><span>${l.platformTrust}</span><b>${l.excellent}</b></div><div class="quick-mini-card"><span>${l.rewardEstimate}</span><b>+${pts} ${l.points}</b></div><div class="quick-mini-card"><span>${l.priceConfidence}</span><b>${fit}%</b></div></div></div><div class="quick-content-pro"><div class="badges">${badge(p)}<span class="tag free">${p.brand}</span><span class="country-badge">🌍 ${l.bestForCountry}</span></div><div class="quick-headline"><div><h3>${productName(p)}</h3><p>${l.redirectTrust}</p></div></div><div class="quick-price-row"><strong>${price(p.price)}</strong><del>${price(p.old)}</del><span class="discount">-${p.discount}%</span></div><div class="rating-line"><span class="stars">★★★★★</span><span>${p.rating} · ${p.reviews.toLocaleString()}</span></div><div class="shipping-line"><span>🚚 ${p.ship} ${l.days}</span><span>🎁 +${pts} ${l.points}</span><span>🏷️ ${plat.name}</span></div><div class="quick-highlight-grid"><div class="quick-highlight-card"><span>${l.marketAverage}</span><b>${price(avg)}</b></div><div class="quick-highlight-card"><span>${l.yourSaving}</span><b>${price(saving)}</b></div><div class="quick-highlight-card"><span>${l.rewardEstimate}</span><b>+${pts} ${l.points}</b></div><div class="quick-highlight-card"><span>${l.countryFit}</span><b>${fit}%</b></div></div><div class="quick-two-col"><div class="quick-panel-pro">${dealPassportHtml(p)}${scoreBreakdownHtml(p)}<div class="quick-action-row"><button class="cta" onclick="click('${p.id}')">${l.goOffer}</button><button class="secondary-action" onclick="watchPrice('${p.id}')">${isWatched(p.id)?l.watched:l.watchPrice}</button><button class="secondary-action" onclick="toggleCompare('${p.id}');closeQuick()">${l.similar}</button><button class="secondary-action" onclick="navigator.clipboard&&navigator.clipboard.writeText('${p.url}')">${l.copyLink}</button></div><div class="quick-safe-note">${l.trustNoteFull}</div></div><div class="quick-panel-pro"><div class="quick-ai-box"><b>🤖 ${l.aiSummaryTitle||l.aiAssistant}</b><p>${p.aiSummary||l.aiQuick}</p></div><div class="quick-metrics"><div class="quick-metric"><span>${l.factorPrice}</span><b>${price(p.price)}</b></div><div class="quick-metric"><span>${l.factorShipping}</span><b>${p.ship} ${l.days}</b></div><div class="quick-metric"><span>${l.factorRating}</span><b>${p.rating}/5</b></div></div><div class="quick-confidence"><h4>${l.quickWhy}</h4><div class="bar"><i style="width:${fit}%"></i></div><div class="meta"><span>💰 ${l.qr1}</span><span>🚚 ${l.qr2}</span><span>⭐ ${l.qr3}</span></div></div><div style="margin-top:12px" class="quick-trust-list"><div class="quick-trust-item">✅ ${l.platformWinnerReason}</div><div class="quick-trust-item">🎁 ${l.qr4}</div><div class="quick-trust-item">🔒 ${l.trust1p||l.trustNoteFull}</div></div></div></div>${quickSimilarHtml(p)}</div></div><div class="quick-sticky-bar"><button class="cta" onclick="click('${p.id}')">${l.goOffer}</button><button class="secondary-action" onclick="watchPrice('${p.id}')">${isWatched(p.id)?l.watched:l.watchPrice}</button><button class="secondary-action" onclick="toggleCompare('${p.id}');closeQuick()">${l.compareNow||l.compare}</button></div></div>`;
  box.classList.add("show");
@@ -725,6 +732,7 @@ function syncHeroCardsWithSearch(){
       if(!picks.length) picks=allProducts();
     }
     picks=picks.sort((a,b)=>dealScore(b)-dealScore(a)).slice(0,5);
+    if(!picks.length) return;
     const cards=[...document.querySelectorAll(".stage .float-card")];
     cards.forEach((card,i)=>{
       const p=picks[i%picks.length];

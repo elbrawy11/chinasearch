@@ -1,2 +1,2 @@
-ChinaSearch V5.1 external data + clean motion
-Products and translations moved to JSON. CSS motion source of truth applied.
+ChinaSearch V5.2 stable hybrid fix
+Fixed allProducts helper, product fallback, activeProducts fallback, and stable external data loading.

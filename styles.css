@@ -98,3 +98,21 @@ body[dir="rtl"] .stage::after{right:auto;left:18px}
 }
 @media(prefers-reduced-motion:reduce){.float-card{animation:none!important}}
 
+
+
+/* v5.2 stable hybrid fix: keep SEO crawlable but do not let it dominate visual experience */
+.crawlable-home{
+  padding:22px 0!important;
+  background:linear-gradient(180deg,#fff,#f8fafc)!important;
+}
+.crawlable-card{
+  max-width:1180px!important;
+  margin:auto!important;
+  border-radius:22px!important;
+  padding:18px!important;
+  box-shadow:0 10px 28px rgba(15,23,42,.05)!important;
+}
+.crawlable-card h2{font-size:22px!important}
+.crawlable-card p,.crawlable-card li{font-size:13px!important;line-height:1.7!important}
+.crawlable-grid{gap:8px!important}
+.crawlable-mini{padding:10px!important;border-radius:14px!important}
