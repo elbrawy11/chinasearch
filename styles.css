@@ -1197,3 +1197,18 @@ body.search-page-mode #comparisonDrawer{display:none!important}
 @media(max-width:560px){
   .pulse-platforms{grid-template-columns:1fr}
 }
+
+/* === V6.9 search button/intent fix === */
+.empty-search-panel button[data-search-run]{
+  cursor:pointer!important;
+  position:relative!important;
+  z-index:5!important;
+  box-shadow:0 12px 32px rgba(255,106,0,.24)!important;
+}
+.empty-search-panel .hero-search-input{
+  position:relative!important;
+  z-index:4!important;
+}
+.empty-search-panel:focus-within{
+  outline:3px solid rgba(255,106,0,.18);
+}

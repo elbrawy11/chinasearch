@@ -26,7 +26,8 @@ const files = [
   "og-image.png",
   "404.html",
   "_headers",
-  "vercel.json"
+  "vercel.json",
+  "V69_REVIEW_NOTES.txt"
 ];
 
 fs.rmSync("dist", { recursive: true, force: true });

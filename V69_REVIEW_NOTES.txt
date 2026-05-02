@@ -1,0 +1,19 @@
+ChinaSearch V6.9 Search Button + Intent Accuracy Fix
+
+Fixes:
+1. /search empty page button now has direct onclick fallback submitEmptySearch().
+2. Empty search input now supports Enter directly.
+3. Added camera/security-camera intent:
+   camera, security camera, surveillance, cctv, ip camera,
+   كاميرا, كاميرا مراقبة, كاميرات مراقبة, مراقبة.
+4. Added camera/security products to products.json.
+5. Improved multi-word search matching to reduce unrelated results.
+6. Kept /search and /search.html compatibility.
+7. Kept market pulse, card actions, watch price, best price and quick view behavior.
+
+Please review:
+- /search empty page button click
+- /search?q=كاميرا مراقبة
+- /search?q=موبايل
+- Product card Quick View, Watch Price, Best Price
+- Console errors

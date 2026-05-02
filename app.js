@@ -972,6 +972,7 @@ const INTENT_MAP = {
   fashion_clothing:{keywords:["dress","shirt","shoes","bag","fashion","clothing","فستان","حذاء","حقيبه","حقيبة","شنطه","شنطة","ملابس","ازياء","أزياء"],brands:["nike","adidas","zara"],labelEn:"Fashion & Clothing",labelAr:"الأزياء والملابس"},
   beauty_care:{keywords:["beauty","makeup","skincare","cosmetic","perfume","تجميل","مكياج","عطر","عناية"],brands:[],labelEn:"Beauty & Care",labelAr:"الجمال والعناية"},
   auto_car:{keywords:["car","auto","vehicle","سياره","سيارة","عربيه","عربية"],brands:[],labelEn:"Automotive",labelAr:"السيارات وملحقاتها"},
+  surveillance_camera:{keywords:["camera","security camera","surveillance","cctv","ip camera","كاميرا","كاميرا مراقبة","كاميرات مراقبة","مراقبه","مراقبة","سي سي تي في"],brands:["xiaomi","tp-link","ezviz","hikvision","imou","dahua"],labelEn:"Security Cameras",labelAr:"كاميرات المراقبة"},
   toys_kids:{keywords:["toy","toys","kids","children","game","لعبه","لعبة","العاب","ألعاب","اطفال","أطفال"],brands:[],labelEn:"Toys & Kids",labelAr:"الألعاب والأطفال"}
 };
 function detectSearchIntent(rawQuery){
@@ -989,19 +990,28 @@ function intentLabel(intentKey){const intent=INTENT_MAP[intentKey];return intent
 function productMatchesQuery(p,rawQuery){
   if(!rawQuery||!rawQuery.trim()) return true;
   const q=normalizeSearchText(rawQuery);
-  const hay=normalizeSearchText([p.title,p.titleAr,p.brand].filter(Boolean).join(" "));
-  if(hay.includes(q)) return true;
+  const hay=normalizeSearchText([p.title,p.titleAr,p.brand,(p.intents||[]).join(" ")].filter(Boolean).join(" "));
   const intent=detectSearchIntent(rawQuery);
+
   if(intent && Array.isArray(p.intents)){
     if(p.intents.includes(intent)) return true;
     if(intent==="phones_mobile" && (p.intents.includes("phones_accessories") || p.intents.includes("headphones_audio"))) return true;
   }
-  if(q.length>=3){const words=q.split(/\s+/).filter(w=>w.length>=3); if(words.some(w=>hay.includes(w))) return true;}
+
+  if(hay.includes(q)) return true;
+
+  const words=q.split(/\s+/).filter(w=>w.length>=3);
+  if(words.length>=2){
+    return words.every(w=>hay.includes(w));
+  }
+  if(words.length===1){
+    return hay.includes(words[0]);
+  }
   return false;
 }
 function findRelatedProducts(rawQuery,exclude){
   const intent=detectSearchIntent(rawQuery); if(!intent) return [];
-  const nearMap={phones_mobile:["phones_accessories","headphones_audio"],phones_accessories:["phones_mobile"],headphones_audio:["phones_accessories"],watches_wearables:["phones_accessories"],laptops_pc:["phones_accessories"],auto_car:["phones_accessories"]};
+  const nearMap={phones_mobile:["phones_accessories","headphones_audio"],phones_accessories:["phones_mobile"],headphones_audio:["phones_accessories"],watches_wearables:["phones_accessories"],laptops_pc:["phones_accessories"],auto_car:["phones_accessories"],surveillance_camera:["phones_accessories","laptops_pc"]};
   const nearIntents=nearMap[intent]||[]; if(!nearIntents.length) return [];
   const excludeIds=new Set((exclude||[]).map(p=>p.id));
   return allProducts().filter(p=>!excludeIds.has(p.id)&&Array.isArray(p.intents)&&p.intents.some(i=>nearIntents.includes(i))).slice(0,6);
@@ -1356,6 +1366,19 @@ function floatingSearchButtonHtml(){
 }
 
 
+
+function submitEmptySearch(){
+  const input=document.querySelector(".search-empty-state .hero-search-input") || document.querySelector(".hero-search-input");
+  const q=(input?.value||"").trim();
+  if(!q){
+    showToast(state.lang==="ar"?"اكتب كلمة البحث أولاً":"Type a search first","warn");
+    input?.focus();
+    return;
+  }
+  localStorage.setItem("lastSearchQuery",q);
+  window.location.href="/search?q="+encodeURIComponent(q);
+}
+
 function renderSearchEmptyState(){
   document.documentElement.lang=state.lang;
   document.documentElement.dir=state.lang==="ar"?"rtl":"ltr";
@@ -1363,7 +1386,7 @@ function renderSearchEmptyState(){
   document.body.classList.remove("admin-mode");
   document.body.classList.add("search-page-mode");
   document.body.classList.toggle("searching",false);
-  const popular=["موبايل","سماعات","ساعة","كاميرا","لابتوب"];
+  const popular=["موبايل","كاميرا مراقبة","سماعات","ساعة","لابتوب"];
   document.getElementById("app").innerHTML=`
   <header class="topbar search-only-topbar"><div class="container nav compact-search-nav">
     <a class="brand" href="/"><div class="logo"><svg viewBox="0 0 96 96"><circle cx="42" cy="42" r="31" fill="none" stroke="#0b2b5c" stroke-width="9"/><path d="M63 63 L84 84" stroke="#0b2b5c" stroke-width="11" stroke-linecap="round"/><path d="M36 24 L59 35 L59 58 L36 69 L14 58 L14 35 Z" fill="#ff6a00"/><path d="M14 35 L36 46 L59 35M36 46V69" fill="none" stroke="#fff" stroke-width="4"/></svg></div><div><h1>ChinaSearch</h1><span>${state.lang==="ar"?"صفحة البحث":"Search page"}</span></div></a>
@@ -1378,8 +1401,8 @@ function renderSearchEmptyState(){
         <p>${state.lang==="ar"?"اكتب اسم المنتج أو الفئة، وسنحوّل الصفحة كلها لنتائج مخصصة.":"Type a product or category and the page will become focused search results."}</p>
         <div class="search-panel empty-search-panel">
           <span class="icon">🔍</span>
-          <input class="hero-search-input" placeholder="${state.lang==="ar"?'موبايل، سماعات، ساعة...':'mobile, headphones, watch...'}" autofocus>
-          <button type="button" data-search-run="1">${state.lang==="ar"?"بحث":"Search"}</button>
+          <input class="hero-search-input" placeholder="${state.lang==="ar"?'موبايل، كاميرا مراقبة، سماعات...':'mobile, security camera, headphones...'}" autofocus onkeydown="if(event.key==='Enter'){event.preventDefault();submitEmptySearch()}">
+          <button type="button" data-search-run="1" onclick="submitEmptySearch()">${state.lang==="ar"?"بحث":"Search"}</button>
         </div>
         <div class="popular-searches">
           <span>${state.lang==="ar"?"شائع:":"Popular:"}</span>
