@@ -1,2 +1,2 @@
-ChinaSearch V5.0 refactor split files
-index.html now loads external styles.css and app.js. Build copies refactor assets.
+ChinaSearch V5.1 external data + clean motion
+Products and translations moved to JSON. CSS motion source of truth applied.
