@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ChinaSearch V6.6 — Deployment Fixed</title>
+  <title>ChinaSearch V6.7 — Clean URL Search Fix</title>
   <meta name="description" content="ChinaSearch is a smart pre-launch China marketplace comparison platform for price, shipping, ratings, country fit and estimated rewards. Affiliate links are pending marketplace approval.">
   <meta name="keywords" content="China deals, AliExpress deals, Temu deals, SHEIN deals, Banggood deals, DHgate deals, price comparison, cashback, rewards, smart shopping">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://chinasearch.vercel.app/search.html">
+  <link rel="canonical" href="https://chinasearch.vercel.app/search">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="ChinaSearch">
   <meta property="og:title" content="ChinaSearch — Compare China Deals Smarter">
@@ -17,13 +17,13 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#071225">
   <link rel="manifest" href="/manifest.json">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"ChinaSearch","url":"https://chinasearch.vercel.app/","description":"Smart comparison platform for Chinese marketplace deals by price, shipping, ratings and rewards.","potentialAction":{"@type":"SearchAction","target":"https://chinasearch.vercel.app/?q={search_term_string}","query-input":"required name=search_term_string"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"ChinaSearch","url":"https://chinasearch.vercel.app/","description":"Smart comparison platform for Chinese marketplace deals by price, shipping, ratings and rewards.","potentialAction":{"@type":"SearchAction","target":"https://chinasearch.vercel.app/search?q={search_term_string}","query-input":"required name=search_term_string"}}</script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <meta name="description" content="ChinaSearch is a smart affiliate product discovery platform for Chinese marketplaces." />
-  <link rel="stylesheet" href="/styles.css?v=6.6">
+  <link rel="stylesheet" href="/styles.css?v=6.7">
 
 </head>
 <body>
@@ -42,6 +42,6 @@
 <div id="mobileFilterSheet" class="mobile-filter-sheet"></div>
   <div id="notificationPanel" class="notification-panel"></div>
 <div id="consentMini" class="consent-mini hidden"><b>Privacy & personalization</b><p>ChinaSearch uses local browser storage for preferences, searches, watched products and demo recommendations. No real tracking is activated yet.</p><button onclick="localStorage.setItem('cs_consent','1');document.getElementById('consentMini').classList.remove('show');document.getElementById('consentMini').classList.add('hidden')">OK</button></div>
-<script src="/app.js?v=6.6"></script>
+<script src="/app.js?v=6.7"></script>
 </body>
 </html>

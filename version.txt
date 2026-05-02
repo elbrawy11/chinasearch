@@ -1,5 +1,6 @@
-ChinaSearch V6.6 deployment fixed full package
-- Fixed index.html and search.html asset references from v=6.4 to v=6.6
-- Added vercel.json with buildCommand and outputDirectory=dist
-- Includes the V6.5 architecture fixes: search empty state, hidden orb on search page, cleaned search DOM, consent fix
-- Use this package for a clean redeploy
+ChinaSearch V6.7 clean URL search fix
+- Fixed /search?q=... so it is recognized as the search page, not only /search.html
+- Added Vercel rewrite: /search -> /search.html
+- Updated homepage/search links to use /search?q=...
+- Kept /search.html?q=... compatible
+- Fixes the issue where the search page looked hidden or empty after cleanUrls

@@ -1071,7 +1071,7 @@ function executeSearch(source="button"){
     rememberSearch();
     localStorage.setItem("lastSearchQuery",q);
     if(!isSearchRoute()){
-      window.location.href="/search.html?q="+encodeURIComponent(q);
+      window.location.href="/search?q="+encodeURIComponent(q);
       return;
     }
     const url=new URL(window.location.href);
@@ -1161,7 +1161,8 @@ document.addEventListener("keydown",(e)=>{
 
 
 function isSearchRoute(){
-  return /\/search\.html$/.test(location.pathname) || location.search.includes("search=1");
+  const path = location.pathname.replace(/\/$/, "");
+  return path==="/search" || path==="/search.html" || location.search.includes("search=1");
 }
 function initSearchRouteFromUrl(){
   if(!isSearchRoute()) return;
@@ -1302,7 +1303,7 @@ function searchValueStripHtml(){
 function floatingSearchButtonHtml(){
   if(isSearchRoute()) return "";
   const q = encodeURIComponent((state.q||localStorage.getItem("lastSearchQuery")||"موبايل").trim()||"موبايل");
-  return `<a class="floating-search-orb" href="/search.html?q=${q}" aria-label="${state.lang==="ar"?"بحث سريع":"Quick search"}">
+  return `<a class="floating-search-orb" href="/search?q=${q}" aria-label="${state.lang==="ar"?"بحث سريع":"Quick search"}">
     <span class="orb-icon">🔎</span>
     <span class="orb-text">${state.lang==="ar"?"بحث":"Search"}</span>
   </a>`;
@@ -1320,7 +1321,7 @@ function renderSearchEmptyState(){
   document.getElementById("app").innerHTML=`
   <header class="topbar search-only-topbar"><div class="container nav compact-search-nav">
     <a class="brand" href="/"><div class="logo"><svg viewBox="0 0 96 96"><circle cx="42" cy="42" r="31" fill="none" stroke="#0b2b5c" stroke-width="9"/><path d="M63 63 L84 84" stroke="#0b2b5c" stroke-width="11" stroke-linecap="round"/><path d="M36 24 L59 35 L59 58 L36 69 L14 58 L14 35 Z" fill="#ff6a00"/><path d="M14 35 L36 46 L59 35M36 46V69" fill="none" stroke="#fff" stroke-width="4"/></svg></div><div><h1>ChinaSearch</h1><span>${state.lang==="ar"?"صفحة البحث":"Search page"}</span></div></a>
-    <nav class="navlinks"><a href="/">${state.lang==="ar"?"الرئيسية":"Home"}</a><a class="active" href="/search.html">${state.lang==="ar"?"بحث":"Search"}</a><a href="/#deals">${L().deals}</a><a href="/#platforms">${L().platforms}</a><a href="/#how">${L().how}</a></nav>
+    <nav class="navlinks"><a href="/">${state.lang==="ar"?"الرئيسية":"Home"}</a><a class="active" href="/search">${state.lang==="ar"?"بحث":"Search"}</a><a href="/#deals">${L().deals}</a><a href="/#platforms">${L().platforms}</a><a href="/#how">${L().how}</a></nav>
     <div class="nav-actions"><select class="select" onchange="setCountry(this.value)">${Object.keys(SUPPORTED_COUNTRIES).map(k=>`<option value="${k}" ${state.country===k?'selected':''}>${SUPPORTED_COUNTRIES[k].flag} ${state.lang==='ar'?SUPPORTED_COUNTRIES[k].countryAr:SUPPORTED_COUNTRIES[k].countryEn}</option>`).join("")}</select><select class="select" onchange="setLang(this.value)"><option value="ar" ${state.lang==='ar'?'selected':''}>AR</option><option value="en" ${state.lang==='en'?'selected':''}>EN</option></select></div>
   </div></header>
   <main class="search-empty-state">
@@ -1336,7 +1337,7 @@ function renderSearchEmptyState(){
         </div>
         <div class="popular-searches">
           <span>${state.lang==="ar"?"شائع:":"Popular:"}</span>
-          ${popular.map(q=>`<a href="/search.html?q=${encodeURIComponent(q)}">${q}</a>`).join("")}
+          ${popular.map(q=>`<a href="/search?q=${encodeURIComponent(q)}">${q}</a>`).join("")}
         </div>
       </section>
     </div>
@@ -1368,7 +1369,7 @@ function renderSearchPage(){
   document.getElementById("app").innerHTML=`
   <header class="topbar search-only-topbar"><div class="container nav compact-search-nav">
     <a class="brand" href="/"><div class="logo"><svg viewBox="0 0 96 96"><circle cx="42" cy="42" r="31" fill="none" stroke="#0b2b5c" stroke-width="9"/><path d="M63 63 L84 84" stroke="#0b2b5c" stroke-width="11" stroke-linecap="round"/><path d="M36 24 L59 35 L59 58 L36 69 L14 58 L14 35 Z" fill="#ff6a00"/><path d="M14 35 L36 46 L59 35M36 46V69" fill="none" stroke="#fff" stroke-width="4"/></svg></div><div><h1>ChinaSearch</h1><span>${state.lang==="ar"?"صفحة نتائج البحث":"Search results page"}</span></div></a>
-    <nav class="navlinks"><a href="/">${state.lang==="ar"?"الرئيسية":"Home"}</a><a class="active" href="/search.html">${state.lang==="ar"?"بحث":"Search"}</a><a href="/#deals">${l.deals}</a><a href="/#platforms">${l.platforms}</a><a href="/#how">${l.how}</a></nav>
+    <nav class="navlinks"><a href="/">${state.lang==="ar"?"الرئيسية":"Home"}</a><a class="active" href="/search">${state.lang==="ar"?"بحث":"Search"}</a><a href="/#deals">${l.deals}</a><a href="/#platforms">${l.platforms}</a><a href="/#how">${l.how}</a></nav>
     <div class="nav-actions"><select class="select" onchange="setCountry(this.value)">${Object.keys(SUPPORTED_COUNTRIES).map(k=>`<option value="${k}" ${state.country===k?'selected':''}>${SUPPORTED_COUNTRIES[k].flag} ${state.lang==='ar'?SUPPORTED_COUNTRIES[k].countryAr:SUPPORTED_COUNTRIES[k].countryEn}</option>`).join("")}</select><select class="select" onchange="setLang(this.value)"><option value="ar" ${state.lang==='ar'?'selected':''}>AR</option><option value="en" ${state.lang==='en'?'selected':''}>EN</option></select></div>
   </div></header>
   <main class="search-results-page">
@@ -1438,7 +1439,7 @@ document.getElementById("app").innerHTML=`
   <path d="M27 29 L49 40" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
   <rect x="63" y="16" width="18" height="18" rx="4" fill="#e11d2e"/>
   <path d="M68 20 v10 M76 20 v10 M68 25 h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
-</svg></div><div><h1>ChinaSearch</h1><span>${l.sub.substring(0,68)}...</span></div></a><nav class="navlinks"><a class="active">${l.home}</a><a href="/search.html">${state.lang==="ar"?"بحث":"Search"}</a><a href="#deals">${l.deals}</a><a href="#platforms">${l.platforms}</a><a href="#how">${l.how}</a><a href="#faq">${l.faq}</a></nav><div class="nav-actions"><select class="select" onchange="setCountry(this.value)">${Object.keys(SUPPORTED_COUNTRIES).map(k=>`<option value="${k}" ${state.country===k?'selected':''}>${SUPPORTED_COUNTRIES[k].flag} ${state.lang==='ar'?SUPPORTED_COUNTRIES[k].countryAr:SUPPORTED_COUNTRIES[k].countryEn}</option>`).join("")}</select><select class="select" onchange="setLang(this.value)"><option value="ar" ${state.lang==='ar'?'selected':''}>AR</option><option value="en" ${state.lang==='en'?'selected':''}>EN</option><option value="fr">FR</option><option value="de">DE</option><option value="es">ES</option><option value="pt">PT</option><option value="ru">RU</option></select><button class="notif-btn" onclick="toggleNotifications()">🔔<span class="notif-dot"></span></button><a class="primary" href="#deals">${l.start}</a></div></div></header>
+</svg></div><div><h1>ChinaSearch</h1><span>${l.sub.substring(0,68)}...</span></div></a><nav class="navlinks"><a class="active">${l.home}</a><a href="/search">${state.lang==="ar"?"بحث":"Search"}</a><a href="#deals">${l.deals}</a><a href="#platforms">${l.platforms}</a><a href="#how">${l.how}</a><a href="#faq">${l.faq}</a></nav><div class="nav-actions"><select class="select" onchange="setCountry(this.value)">${Object.keys(SUPPORTED_COUNTRIES).map(k=>`<option value="${k}" ${state.country===k?'selected':''}>${SUPPORTED_COUNTRIES[k].flag} ${state.lang==='ar'?SUPPORTED_COUNTRIES[k].countryAr:SUPPORTED_COUNTRIES[k].countryEn}</option>`).join("")}</select><select class="select" onchange="setLang(this.value)"><option value="ar" ${state.lang==='ar'?'selected':''}>AR</option><option value="en" ${state.lang==='en'?'selected':''}>EN</option><option value="fr">FR</option><option value="de">DE</option><option value="es">ES</option><option value="pt">PT</option><option value="ru">RU</option></select><button class="notif-btn" onclick="toggleNotifications()">🔔<span class="notif-dot"></span></button><a class="primary" href="#deals">${l.start}</a></div></div></header>
  <section class="hero"><div class="container hero-inner"><div><div class="badge-line"><span class="pill">✅ ${l.trusted}</span><span class="pill">🌍 ${c.region}</span><span class="pill">💱 ${c.currency}</span></div><div class="hero-slogan">✨ ${searchMode()?(state.lang==="ar"?"بحث مباشر عبر كل المنصات":"Live marketplace search"):l.heroPunch}</div><h2>${heroTitleHtml()}</h2><p>${heroSubtitleText()}</p><div class="hero-helper-row"><span class="hero-helper-chip">🤖 ${l.aiAssistant}</span><span class="hero-helper-chip">🌍 ${l.geoTitle}</span><span class="hero-helper-chip">🏆 ${l.dealScore}</span></div><div class="search-panel"><span class="icon">🔍</span><input class="hero-search-input" value="${state.q}" oninput="liveSearchInput(this.value)" placeholder="${searchMode()?(state.lang==='ar'?'ابحث عن بديل أو نوع آخر...':'Search another product...'):l.search}"><button type="button" data-search-run="1">${searchMode()?(state.lang==='ar'?'حدّث البحث':'Update search'):l.searchBtn}</button></div><div class="hero-search-note"><span class="hint">⚡ ${l.bestMatchTitle}</span><span class="hint">💱 ${l.currency}: ${c.currency}</span><span class="hint">🚚 ${l.fast}</span></div>
 <div class="search-examples">
   <button class="search-example" type="button" data-search-example="${l.ex1}">🔎 ${l.ex1}</button>
