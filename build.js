@@ -30,7 +30,8 @@ const files = [
   "vercel.json",
   "V69_REVIEW_NOTES.txt",
   "V70_REVIEW_NOTES.txt",
-  "V73_REVIEW_NOTES.txt"
+  "V73_REVIEW_NOTES.txt",
+  "V74_REVIEW_NOTES.txt"
 ];
 
 fs.rmSync("dist", { recursive: true, force: true });

@@ -1282,3 +1282,73 @@ body.search-page-mode .exit-hook{
 .did-you-mean b{
   color:#071225;
 }
+
+/* === V7.4 first-paint + stable search input + strict search guard === */
+body.cs-app-loading .official-info-collapsed,
+body.cs-app-loading #legalPage,
+body.cs-app-loading #comparisonDrawer,
+body.cs-app-loading #mobileFilterSheet,
+body.cs-app-loading #notificationPanel,
+body.cs-app-loading #compareBar,
+body.cs-app-loading .consent-mini{
+  display:none!important;
+}
+.strict-empty-results{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:28px;
+  padding:38px 24px;
+  text-align:center;
+  box-shadow:0 20px 60px rgba(15,23,42,.08);
+}
+.strict-empty-icon{
+  width:64px;
+  height:64px;
+  display:grid;
+  place-items:center;
+  margin:0 auto 14px;
+  border-radius:22px;
+  background:#fff7ed;
+  color:#c2410c;
+  font-size:28px;
+}
+.strict-empty-results h2{
+  margin:0 0 10px;
+  color:#071225;
+  font-size:26px;
+}
+.strict-empty-results p{
+  margin:8px auto;
+  max-width:680px;
+  color:#64748b;
+  font-weight:850;
+  line-height:1.8;
+}
+.strict-empty-results b{
+  color:#0f172a;
+}
+.strict-empty-actions{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:18px;
+}
+.strict-empty-actions button{
+  border:0;
+  border-radius:14px;
+  padding:11px 16px;
+  font-weight:950;
+  cursor:pointer;
+}
+.strict-empty-actions button:first-child{
+  background:linear-gradient(135deg,#ff6a00,#ff3d2e);
+  color:white;
+}
+.strict-empty-actions button:last-child{
+  background:#f1f5f9;
+  color:#0f172a;
+}
+.search-page-input .hero-search-input{
+  caret-color:#ff6a00;
+}

@@ -1,0 +1,27 @@
+ChinaSearch V7.4 Review Notes
+
+Focused fixes only:
+1. First Paint Fix:
+   - body.cs-app-loading hides official-info/legal fallback until JS render.
+   - index/search HTML now include inline first-paint CSS.
+   - markAppReady() removes loading class after render.
+
+2. Input Stability:
+   - liveSearchInput no longer calls render() while typing.
+   - It only updates state and URL after 900ms.
+   - Search executes only on button click or Enter.
+
+3. Strict Search Guard:
+   - Added searchScoreThreshold().
+   - Direct results require enough score.
+   - Weak matches go to alternatives, not main results.
+   - If no direct result, user sees a clear "no accurate match" state.
+
+Please test:
+- First page load: no transparency/privacy flash before homepage.
+- /search: type slowly/quickly, keyboard/focus must stay.
+- /search?q=كفر هونر ٣
+- /search?q=كاميرا مراقبة
+- /search?q=xyz123
+- Quick View / Watch Price / Best Price
+- Mobile keyboard behavior.

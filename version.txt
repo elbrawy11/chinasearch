@@ -1,7 +1,8 @@
-ChinaSearch V7.3 smart search dictionary
-- Added search-dictionary.json with multi-language aliases for categories, brands and model families
-- Added dictionary loader and smart query parser
-- Added Arabic/English/European language normalization and Arabic digit normalization
-- Search scoring now uses canonical intent + brand + model + number detection
-- Added Did you mean hint on search results
-- Kept standalone search page, Quick View, Watch Price, Best Price, exit hook and clean URL behavior intact
+ChinaSearch V7.4 first paint, input stability and strict search guard
+- Fixed first-paint flash: official/legal fallback blocks are hidden during app loading
+- Added clean loading state until app render is complete
+- Search page input no longer re-renders while the user is typing
+- Search now runs on button click or Enter, keeping keyboard/focus stable
+- Added strict search threshold to prevent random weak results
+- Added accurate no-result state instead of showing unrelated products
+- Kept V7.3 dictionary and standalone search page intact

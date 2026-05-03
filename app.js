@@ -134,6 +134,14 @@ function setLang(v){
   render();
 }
 
+
+function markAppReady(){
+  try{
+    document.body.classList.remove("cs-app-loading");
+    document.body.classList.add("cs-app-ready");
+  }catch(e){}
+}
+
 function syncConsentMini(){
   const el=document.getElementById("consentMini");
   if(!el) return;
@@ -161,7 +169,7 @@ async function bootstrapApp(){
       localStorage.setItem("lang",nextLang);
     }
   }
-  loadSiteConfig().then(()=>{render();renderLegalPage();requestAnimationFrame(() => requestAnimationFrame(()=>{syncHeroCardsWithSearch();forceHeroMotionReady();startHeroCardMotionEngine();}));});
+  loadSiteConfig().then(()=>{render();renderLegalPage();markAppReady();requestAnimationFrame(() => requestAnimationFrame(()=>{syncHeroCardsWithSearch();forceHeroMotionReady();startHeroCardMotionEngine();}));});
 }
 
 
@@ -406,6 +414,8 @@ function watchPrice(id){
  );
  renderCompareBar();
   setupExitHook();
+  markAppReady();
+  markAppReady();
  requestAnimationFrame(()=>{
    const btn=document.querySelector(`[data-watch-price="${id}"]`);
    if(btn) btn.textContent=state.lang==="ar"?"✓ تتم مراقبته":"✓ Watching";
@@ -919,7 +929,7 @@ function syncHeroCardsWithSearch(){
 let SEARCH_DICTIONARY = null;
 async function loadSearchDictionary(){
   try{
-    const res = await fetch("/search-dictionary.json?v=7.3",{cache:"no-store"});
+    const res = await fetch("/search-dictionary.json?v=7.4",{cache:"no-store"});
     if(res.ok) SEARCH_DICTIONARY = await res.json();
   }catch(e){
     console.warn("Search dictionary failed to load", e);
@@ -1239,23 +1249,18 @@ function liveSearchInput(value){
   clearTimeout(__csSearchDebounce);
   requestAnimationFrame(syncHeroCardsWithSearch);
   if(!isSearchRoute()) return;
-  const q=value.trim();
+
+  // Critical V7.4 fix:
+  // Do not render the whole search page while the user is typing.
+  // Rendering replaces the input node, closes mobile keyboards and resets the text.
   __csSearchDebounce=setTimeout(()=>{
-    const active=document.activeElement;
-    const pos=active&&active.classList&&active.classList.contains("hero-search-input")?active.selectionStart:null;
+    const q=(value||"").trim();
     const url=new URL(window.location.href);
     if(q) url.searchParams.set("q",q); else url.searchParams.delete("q");
     history.replaceState(null,"",url.toString());
-    render();
-    requestAnimationFrame(()=>{
-      const next=document.querySelector(".hero-search-input");
-      if(next){
-        next.focus({preventScroll:true});
-        try{ if(pos!==null)next.setSelectionRange(pos,pos); }catch(e){}
-      }
-    });
-  },420);
+  },900);
 }
+
 
 document.addEventListener("click",(e)=>{
   const searchBtn=e.target.closest("[data-search-run]");
@@ -1373,29 +1378,75 @@ function searchPageMeta(list){
   return {total, pages, from, to, page:state.page, perPage};
 }
 function platformUiClass(k){return 'brand-'+k}
+
+function searchScoreThreshold(rawQuery){
+  if(!rawQuery || !rawQuery.trim()) return 1;
+  const parsed=parseSmartQuery(rawQuery);
+  let min=22;
+  if(parsed.intent) min=35;
+  if(parsed.brand) min=45;
+  if(parsed.intent && parsed.brand) min=70;
+  if(parsed.numbers.length && (parsed.brand || parsed.model)) min+=8;
+  return min;
+}
+function strictSearchEmptyHtml(){
+  const parsed=parseSmartQuery(state.q||"");
+  const parts=[];
+  if(parsed.intent) parts.push(parsed.intent.replace(/_/g," "));
+  if(parsed.brand) parts.push(parsed.brand);
+  if(parsed.model) parts.push(parsed.model);
+  if(parsed.numbers.length) parts.push(parsed.numbers.join(" "));
+  const meaning=parts.length?parts.join(" · "):(state.q||"");
+  return `<section class="strict-empty-results">
+    <div class="strict-empty-icon">🔎</div>
+    <h2>${state.lang==="ar"?"لم نجد نتيجة دقيقة لهذا البحث":"No accurate match found"}</h2>
+    <p>${state.lang==="ar"?"فهمنا البحث كالتالي:":"We understood your search as:"} <b>${meaning}</b></p>
+    <p>${state.lang==="ar"?"جرّب كلمة أبسط، أو احذف رقم الموديل، أو اختر اقتراحًا قريبًا من الأسفل.":"Try a simpler query, remove the model number, or pick a related suggestion below."}</p>
+    <div class="strict-empty-actions">
+      <button onclick="document.querySelector('.hero-search-input')?.focus()">${state.lang==="ar"?"تعديل البحث":"Edit search"}</button>
+      <button onclick="state.q='${parsed.brand||""}';render()">${state.lang==="ar"?"بحث بالبراند فقط":"Search brand only"}</button>
+    </div>
+  </section>`;
+}
+
 function searchFilteredData(){
+  const threshold=searchScoreThreshold(state.q);
   let directMatches = ranked()
-  .map(p => Object.assign({}, p, {_searchScore: productSearchScore(p, state.q)}))
-  .filter(p => p._searchScore > 0)
-  .sort((a, b) => b._searchScore - a._searchScore);
+    .map(p => Object.assign({}, p, {_searchScore: productSearchScore(p, state.q)}))
+    .filter(p => p._searchScore >= threshold)
+    .sort((a, b) => b._searchScore - a._searchScore);
+
   let directMatchCount=directMatches.length;
   let alternatives=[];
-  if(state.q && directMatchCount<4){alternatives=findRelatedProducts(state.q,directMatches)}
-  let data=directMatches.length?directMatches:alternatives;
+  if(state.q && directMatchCount<4){
+    alternatives=ranked()
+      .map(p => Object.assign({}, p, {_searchScore: productSearchScore(p, state.q)}))
+      .filter(p => p._searchScore > 0 && p._searchScore < threshold)
+      .sort((a,b)=>b._searchScore-a._searchScore)
+      .slice(0,8);
+    if(alternatives.length<4){
+      alternatives=alternatives.concat(findRelatedProducts(state.q,directMatches).slice(0,8-alternatives.length));
+    }
+  }
+
+  let data=directMatches;
   const selected=new Set(selectedPlatformKeys());
   data=data.filter(p=>selected.has(p.platform));
   alternatives=alternatives.filter(p=>selected.has(p.platform));
+
   if(state.sort==="price")data.sort((a,b)=>a.price-b.price);
   else if(state.sort==="ship")data.sort((a,b)=>a.ship-b.ship);
   else if(state.sort==="rating")data.sort((a,b)=>b.rating-a.rating);
   else if(state.sort==="free")data.sort((a,b)=>(b.free?1:0)-(a.free?1:0)||dealScore(b)-dealScore(a));
   else if(state.sort==="pop")data.sort((a,b)=>b.reviews-a.reviews);
-  else data.sort((a,b)=>dealScore(b)-dealScore(a));
+  else data.sort((a,b)=>(b._searchScore||0)-(a._searchScore||0)||dealScore(b)-dealScore(a));
+
   window.__csAlternatives=alternatives;
   window._products={};
   [...data,...alternatives].forEach(p=>window._products[p.id]=p);
-  return {data,directMatchCount,alternatives};
+  return {data,directMatchCount,alternatives,threshold};
 }
+
 function platformSelectorHtml(data){
   const selected=selectedPlatformKeys();
   const allKeys=Object.keys(platforms).filter(k=>platforms[k].enabled);
@@ -1474,7 +1525,7 @@ function smartDidYouMeanHtml(){
 
 function searchResultsHtml(data){
   if(!data.length){
-    return `<section class="empty-search-state"><h2>🔎 ${state.lang==="ar"?"لا توجد نتائج مباشرة":"No direct results"}</h2><p>${state.lang==="ar"?"جرّب كلمة أخرى أو فعّل منصات أكثر من الأعلى.":"Try another keyword or enable more platforms above."}</p></section>`;
+    return strictSearchEmptyHtml();
   }
   const meta=searchPageMeta(data);
   const paged=data.slice((meta.page-1)*meta.perPage, (meta.page-1)*meta.perPage + meta.perPage);
@@ -1547,6 +1598,7 @@ function renderSearchEmptyState(){
       </section>
     </div>
   </main>`;
+  markAppReady();
 }
 
 function renderSearchPage(){
@@ -1585,7 +1637,7 @@ function renderSearchPage(){
             <h2>${state.lang==="ar"?`نتائج بحث: <span>${label}</span>`:`Results for: <span>${label}</span>`}</h2>
             <p>${state.lang==="ar"?`مقارنة ذكية عبر AliExpress و Temu و SHEIN و DHgate و Banggood حسب بلدك، السعر، الشحن والتقييم.`:`Smart cross-platform comparison by country, price, shipping and rating.`}</p>
           </div>
-          <div class="search-panel search-page-input compact-input"><span class="icon">🔍</span><input class="hero-search-input" value="${q}" oninput="liveSearchInput(this.value)" placeholder="${state.lang==="ar"?"ابحث عن منتج آخر...":"Search another product..."}"><button type="button" data-search-run="1">${state.lang==="ar"?"حدّث البحث":"Update search"}</button></div>
+          <div class="search-panel search-page-input compact-input"><span class="icon">🔍</span><input class="hero-search-input" value="${q}" oninput="liveSearchInput(this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault();executeSearch('enter')}" placeholder="${state.lang==="ar"?"ابحث عن منتج آخر...":"Search another product..."}"><button type="button" data-search-run="1">${state.lang==="ar"?"حدّث البحث":"Update search"}</button></div>
         </div>
         <div class="quick-suggestions compact"><b>${state.lang==="ar"?"اقتراحات سريعة:":"Suggestions:"}</b>${["ايفون 15 برو","سامسونج S24","شاومي ريدمي نوت 13","ايباد","سماعات بلوتوث"].map(x=>`<button data-search-example="${x}">${x}</button>`).join("")}</div>
         ${searchSummaryStripHtml(data,best)}
@@ -1602,7 +1654,9 @@ function renderSearchPage(){
     </section>
   </main>${floatingSearchButtonHtml()}`;
   renderCompareBar();
+  markAppReady();
   requestAnimationFrame(()=>requestAnimationFrame(()=>{forceHeroMotionReady();}));
+  markAppReady();
 }
 
 
@@ -1845,3 +1899,5 @@ window.addEventListener('scroll',()=>{document.body.classList.toggle('show-jump'
 
 bootstrapApp();
 window.addEventListener('hashchange',()=>{render();renderLegalPage()});
+
+window.__csReadyFallbackV74=true;setTimeout(()=>{if(document.body.classList.contains('cs-app-loading'))markAppReady()},4500);

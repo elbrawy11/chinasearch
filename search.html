@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ChinaSearch V7.3 — Smart Search Dictionary</title>
+  <title>ChinaSearch V7.4 — First Paint Input Stability</title>
   <meta name="description" content="ChinaSearch is a smart pre-launch China marketplace comparison platform for price, shipping, ratings, country fit and estimated rewards. Affiliate links are pending marketplace approval.">
   <meta name="keywords" content="China deals, AliExpress deals, Temu deals, SHEIN deals, Banggood deals, DHgate deals, price comparison, cashback, rewards, smart shopping">
   <meta name="robots" content="index, follow">
@@ -23,10 +23,45 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <meta name="description" content="ChinaSearch is a smart affiliate product discovery platform for Chinese marketplaces." />
-  <link rel="stylesheet" href="/styles.css?v=7.3">
+  <link rel="stylesheet" href="/styles.css?v=7.4">
+
+
+<style id="cs-first-paint-fix">
+  body.cs-app-loading .official-info-collapsed,
+  body.cs-app-loading #legalPage,
+  body.cs-app-loading #comparisonDrawer,
+  body.cs-app-loading #mobileFilterSheet,
+  body.cs-app-loading #notificationPanel,
+  body.cs-app-loading #compareBar,
+  body.cs-app-loading .consent-mini { display:none!important; }
+  body.cs-app-loading #app:empty::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+      radial-gradient(circle at 15% 15%, rgba(255,106,0,.10), transparent 28%),
+      radial-gradient(circle at 85% 10%, rgba(37,99,235,.10), transparent 30%),
+      #f8fafc;
+    z-index:1;
+  }
+  body.cs-app-loading #app:empty::after{
+    content:"ChinaSearch";
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    z-index:2;
+    font:900 28px/1.2 system-ui,-apple-system,Segoe UI,Arial;
+    color:#071225;
+    padding:18px 26px;
+    border-radius:24px;
+    background:rgba(255,255,255,.86);
+    box-shadow:0 24px 70px rgba(15,23,42,.10);
+  }
+</style>
 
 </head>
-<body>
+<body class="cs-app-loading">
 <script>document.body.classList.add("search-page-mode");</script>
 
 
@@ -42,6 +77,6 @@
 <div id="mobileFilterSheet" class="mobile-filter-sheet"></div>
   <div id="notificationPanel" class="notification-panel"></div>
 <div id="consentMini" class="consent-mini hidden"><b>Privacy & personalization</b><p>ChinaSearch uses local browser storage for preferences, searches, watched products and demo recommendations. No real tracking is activated yet.</p><button onclick="localStorage.setItem('cs_consent','1');document.getElementById('consentMini').classList.remove('show');document.getElementById('consentMini').classList.add('hidden')">OK</button></div>
-<script src="/app.js?v=7.3"></script>
+<script src="/app.js?v=7.4"></script>
 </body>
 </html>
