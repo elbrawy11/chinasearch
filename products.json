@@ -1,5 +1,5 @@
 {
-  "version": "7.3",
+  "version": "7.5",
   "products": [
     {
       "id": "dhg-ph-0001",
@@ -7,7 +7,6 @@
       "titleAr": "هاتف سامسونج جالاكسي A55 5G",
       "cat": "phones",
       "intents": [
-        "mobile_phone",
         "phones_mobile",
         "samsung"
       ],
@@ -28,7 +27,6 @@
       "titleAr": "هاتف سامسونج S24 الترا ستايل",
       "cat": "phones",
       "intents": [
-        "mobile_phone",
         "phones_mobile",
         "samsung"
       ],
@@ -49,7 +47,6 @@
       "titleAr": "هاتف شاومي ريدمي نوت 13 برو",
       "cat": "phones",
       "intents": [
-        "mobile_phone",
         "phones_mobile",
         "xiaomi"
       ],
@@ -70,7 +67,6 @@
       "titleAr": "هاتف شاومي بوكو X6 برو للألعاب",
       "cat": "phones",
       "intents": [
-        "mobile_phone",
         "phones_mobile",
         "xiaomi"
       ],
@@ -92,7 +88,6 @@
       "cat": "phones",
       "intents": [
         "apple",
-        "mobile_phone",
         "phones_mobile"
       ],
       "platform": "aliexpress",
@@ -113,7 +108,6 @@
       "cat": "phones",
       "intents": [
         "apple",
-        "mobile_phone",
         "phones_mobile"
       ],
       "platform": "dhgate",
@@ -134,7 +128,6 @@
       "cat": "phones",
       "intents": [
         "honor",
-        "mobile_phone",
         "phones_mobile"
       ],
       "platform": "temu",
@@ -154,9 +147,8 @@
       "titleAr": "هاتف اوبو رينو 11 بكاميرا قوية",
       "cat": "phones",
       "intents": [
-        "mobile_phone",
-        "oppo",
         "phones_mobile",
+        "oppo",
         "surveillance_camera"
       ],
       "platform": "banggood",
@@ -176,7 +168,6 @@
       "titleAr": "هاتف ريلمي 12 برو اندرويد",
       "cat": "phones",
       "intents": [
-        "mobile_phone",
         "phones_mobile",
         "realme"
       ],
@@ -197,9 +188,8 @@
       "titleAr": "هاتف ون بلس نورد CE 4",
       "cat": "phones",
       "intents": [
-        "mobile_phone",
-        "oneplus",
-        "phones_mobile"
+        "phones_mobile",
+        "oneplus"
       ],
       "platform": "aliexpress",
       "brand": "OnePlus",
@@ -213,224 +203,13 @@
       "img": "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=700&q=80"
     },
     {
-      "id": "dhg-ph-0051",
-      "title": "Samsung Galaxy A55 5G Smartphone V6",
-      "titleAr": "هاتف سامسونج جالاكسي A55 5G إصدار 6",
-      "cat": "phones",
-      "intents": [
-        "mobile_phone",
-        "phones_mobile",
-        "samsung"
-      ],
-      "platform": "dhgate",
-      "brand": "Samsung",
-      "price": 257.21,
-      "old": 324.08,
-      "rating": 4.9,
-      "reviews": 19046,
-      "ship": 7,
-      "sold": 38334,
-      "free": true,
-      "img": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=700&q=80"
-    },
-    {
-      "id": "tem-ph-0052",
-      "title": "Samsung Galaxy S24 Ultra Style Phone V6",
-      "titleAr": "هاتف سامسونج S24 الترا ستايل إصدار 6",
-      "cat": "phones",
-      "intents": [
-        "mobile_phone",
-        "phones_mobile",
-        "samsung"
-      ],
-      "platform": "temu",
-      "brand": "Samsung",
-      "price": 671.04,
-      "old": 852.22,
-      "rating": 4.5,
-      "reviews": 19357,
-      "ship": 10,
-      "sold": 39053,
-      "free": false,
-      "img": "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=700&q=80"
-    },
-    {
-      "id": "ban-ph-0053",
-      "title": "Xiaomi Redmi Note 13 Pro Smartphone V6",
-      "titleAr": "هاتف شاومي ريدمي نوت 13 برو إصدار 6",
-      "cat": "phones",
-      "intents": [
-        "mobile_phone",
-        "phones_mobile",
-        "xiaomi"
-      ],
-      "platform": "banggood",
-      "brand": "Xiaomi",
-      "price": 225.57,
-      "old": 288.73,
-      "rating": 4.1,
-      "reviews": 19668,
-      "ship": 4,
-      "sold": 39772,
-      "free": true,
-      "img": "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=700&q=80"
-    },
-    {
-      "id": "ali-ph-0054",
-      "title": "Xiaomi Poco X6 Pro Gaming Phone V6",
-      "titleAr": "هاتف شاومي بوكو X6 برو للألعاب إصدار 6",
-      "cat": "phones",
-      "intents": [
-        "mobile_phone",
-        "phones_mobile",
-        "xiaomi"
-      ],
-      "platform": "aliexpress",
-      "brand": "Xiaomi",
-      "price": 299.39,
-      "old": 386.21,
-      "rating": 4.6,
-      "reviews": 19979,
-      "ship": 7,
-      "sold": 40491,
-      "free": true,
-      "img": "https://images.unsplash.com/photo-1580910051074-3eb694886505?w=700&q=80"
-    },
-    {
-      "id": "ali-ph-0055",
-      "title": "Apple iPhone 13 Refurbished Phone V6",
-      "titleAr": "ايفون 13 مجدد إصدار 6",
-      "cat": "phones",
-      "intents": [
-        "apple",
-        "mobile_phone",
-        "phones_mobile"
-      ],
-      "platform": "aliexpress",
-      "brand": "Apple",
-      "price": 489.02,
-      "old": 577.04,
-      "rating": 4.2,
-      "reviews": 20290,
-      "ship": 10,
-      "sold": 41210,
-      "free": false,
-      "img": "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=700&q=80"
-    },
-    {
-      "id": "dhg-ph-0056",
-      "title": "Apple iPhone 15 Pro Style Phone V6",
-      "titleAr": "ايفون 15 برو ستايل إصدار 6",
-      "cat": "phones",
-      "intents": [
-        "apple",
-        "mobile_phone",
-        "phones_mobile"
-      ],
-      "platform": "dhgate",
-      "brand": "Apple",
-      "price": 838.95,
-      "old": 998.35,
-      "rating": 4.7,
-      "reviews": 20601,
-      "ship": 4,
-      "sold": 41929,
-      "free": true,
-      "img": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=700&q=80"
-    },
-    {
-      "id": "tem-ph-0057",
-      "title": "Honor X9b 5G Smartphone V6",
-      "titleAr": "هاتف هونر X9b 5G إصدار 6",
-      "cat": "phones",
-      "intents": [
-        "honor",
-        "mobile_phone",
-        "phones_mobile"
-      ],
-      "platform": "temu",
-      "brand": "Honor",
-      "price": 246.45,
-      "old": 295.74,
-      "rating": 4.3,
-      "reviews": 20912,
-      "ship": 7,
-      "sold": 42648,
-      "free": true,
-      "img": "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=700&q=80"
-    },
-    {
-      "id": "ban-ph-0058",
-      "title": "Oppo Reno 11 Camera Phone V6",
-      "titleAr": "هاتف اوبو رينو 11 بكاميرا قوية إصدار 6",
-      "cat": "phones",
-      "intents": [
-        "mobile_phone",
-        "oppo",
-        "phones_mobile",
-        "surveillance_camera"
-      ],
-      "platform": "banggood",
-      "brand": "Oppo",
-      "price": 299.0,
-      "old": 361.79,
-      "rating": 4.8,
-      "reviews": 21223,
-      "ship": 10,
-      "sold": 43367,
-      "free": false,
-      "img": "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=700&q=80"
-    },
-    {
-      "id": "ali-ph-0059",
-      "title": "Realme 12 Pro Android Phone V6",
-      "titleAr": "هاتف ريلمي 12 برو اندرويد إصدار 6",
-      "cat": "phones",
-      "intents": [
-        "mobile_phone",
-        "phones_mobile",
-        "realme"
-      ],
-      "platform": "aliexpress",
-      "brand": "Realme",
-      "price": 215.6,
-      "old": 263.03,
-      "rating": 4.4,
-      "reviews": 21534,
-      "ship": 4,
-      "sold": 44086,
-      "free": true,
-      "img": "https://images.unsplash.com/photo-1580910051074-3eb694886505?w=700&q=80"
-    },
-    {
-      "id": "ali-ph-0060",
-      "title": "OnePlus Nord CE 4 Phone V6",
-      "titleAr": "هاتف ون بلس نورد CE 4 إصدار 6",
-      "cat": "phones",
-      "intents": [
-        "mobile_phone",
-        "oneplus",
-        "phones_mobile"
-      ],
-      "platform": "aliexpress",
-      "brand": "OnePlus",
-      "price": 299.25,
-      "old": 368.08,
-      "rating": 4.9,
-      "reviews": 21845,
-      "ship": 7,
-      "sold": 44805,
-      "free": true,
-      "img": "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=700&q=80"
-    },
-    {
       "id": "ali-ph-0061",
       "title": "MagSafe Magnetic Phone Case",
       "titleAr": "جراب مغناطيسي ماج سيف للموبايل",
       "cat": "phones",
       "intents": [
         "baseus",
-        "mobile_phone",
+        "phones_mobile",
         "phone_case",
         "phones_accessories"
       ],
@@ -451,7 +230,7 @@
       "titleAr": "كفر سيليكون فاخر للموبايل",
       "cat": "phones",
       "intents": [
-        "mobile_phone",
+        "phones_mobile",
         "nillkin",
         "phone_case",
         "phones_accessories"
@@ -473,7 +252,7 @@
       "titleAr": "حماية شاشة زجاجية للموبايل",
       "cat": "phones",
       "intents": [
-        "mobile_phone",
+        "phones_mobile",
         "nillkin",
         "phones_accessories",
         "screen_protector"
@@ -497,7 +276,7 @@
       "intents": [
         "anker",
         "fast_charger",
-        "mobile_phone",
+        "phones_mobile",
         "phones_accessories"
       ],
       "platform": "temu",
@@ -518,7 +297,7 @@
       "cat": "phones",
       "intents": [
         "fast_charger",
-        "mobile_phone",
+        "phones_mobile",
         "phones_accessories",
         "ugreen"
       ],
@@ -539,7 +318,7 @@
       "titleAr": "كابل USB-C مضفر 2 متر",
       "cat": "phones",
       "intents": [
-        "mobile_phone",
+        "phones_mobile",
         "phones_accessories",
         "ugreen"
       ],
@@ -561,7 +340,7 @@
       "cat": "phones",
       "intents": [
         "baseus",
-        "mobile_phone",
+        "phones_mobile",
         "phones_accessories"
       ],
       "platform": "banggood",
@@ -581,7 +360,7 @@
       "titleAr": "باور بانك نحيف 10000 مللي أمبير",
       "cat": "phones",
       "intents": [
-        "mobile_phone",
+        "phones_mobile",
         "phones_accessories",
         "power_bank",
         "romoss"
@@ -604,7 +383,7 @@
       "cat": "phones",
       "intents": [
         "baseus",
-        "mobile_phone",
+        "phones_mobile",
         "phones_accessories",
         "power_bank"
       ],
@@ -625,7 +404,7 @@
       "titleAr": "ستاند شحن لاسلكي 15 واط",
       "cat": "phones",
       "intents": [
-        "mobile_phone",
+        "phones_mobile",
         "phones_accessories",
         "ugreen"
       ],
@@ -647,7 +426,7 @@
       "cat": "phones",
       "intents": [
         "generic",
-        "mobile_phone",
+        "phones_mobile",
         "phones_accessories"
       ],
       "platform": "aliexpress",
@@ -668,7 +447,7 @@
       "cat": "phones",
       "intents": [
         "apexel",
-        "mobile_phone",
+        "phones_mobile",
         "phones_accessories",
         "surveillance_camera"
       ],
@@ -684,273 +463,13 @@
       "img": "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=700&q=80"
     },
     {
-      "id": "ali-ph-0121",
-      "title": "MagSafe Magnetic Phone Case V6",
-      "titleAr": "جراب مغناطيسي ماج سيف للموبايل إصدار 6",
-      "cat": "phones",
-      "intents": [
-        "baseus",
-        "mobile_phone",
-        "phone_case",
-        "phones_accessories"
-      ],
-      "platform": "aliexpress",
-      "brand": "Baseus",
-      "price": 7.8,
-      "old": 9.67,
-      "rating": 4.8,
-      "reviews": 40816,
-      "ship": 10,
-      "sold": 18664,
-      "free": false,
-      "img": "https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=700&q=80"
-    },
-    {
-      "id": "ban-ph-0122",
-      "title": "Premium Silicone Phone Cover V6",
-      "titleAr": "كفر سيليكون فاخر للموبايل إصدار 6",
-      "cat": "phones",
-      "intents": [
-        "mobile_phone",
-        "nillkin",
-        "phone_case",
-        "phones_accessories"
-      ],
-      "platform": "banggood",
-      "brand": "Nillkin",
-      "price": 4.78,
-      "old": 5.98,
-      "rating": 4.4,
-      "reviews": 41127,
-      "ship": 4,
-      "sold": 19383,
-      "free": true,
-      "img": "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=700&q=80"
-    },
-    {
-      "id": "dhg-ph-0123",
-      "title": "Tempered Glass Screen Protector V6",
-      "titleAr": "حماية شاشة زجاجية للموبايل إصدار 6",
-      "cat": "phones",
-      "intents": [
-        "mobile_phone",
-        "nillkin",
-        "phones_accessories",
-        "screen_protector"
-      ],
-      "platform": "dhgate",
-      "brand": "Nillkin",
-      "price": 3.17,
-      "old": 3.99,
-      "rating": 4.9,
-      "reviews": 41438,
-      "ship": 7,
-      "sold": 20102,
-      "free": true,
-      "img": "https://images.unsplash.com/photo-1598327105854-c8674faddf1f?w=700&q=80"
-    },
-    {
-      "id": "tem-ph-0124",
-      "title": "65W USB-C Fast Charger V6",
-      "titleAr": "شاحن سريع USB-C بقدرة 65 واط إصدار 6",
-      "cat": "phones",
-      "intents": [
-        "anker",
-        "fast_charger",
-        "mobile_phone",
-        "phones_accessories"
-      ],
-      "platform": "temu",
-      "brand": "Anker",
-      "price": 20.03,
-      "old": 25.44,
-      "rating": 4.5,
-      "reviews": 41749,
-      "ship": 10,
-      "sold": 20821,
-      "free": false,
-      "img": "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=700&q=80"
-    },
-    {
-      "id": "tem-ph-0125",
-      "title": "100W GaN Travel Charger V6",
-      "titleAr": "شاحن سفر GaN بقدرة 100 واط إصدار 6",
-      "cat": "phones",
-      "intents": [
-        "fast_charger",
-        "mobile_phone",
-        "phones_accessories",
-        "ugreen"
-      ],
-      "platform": "temu",
-      "brand": "Ugreen",
-      "price": 30.55,
-      "old": 39.1,
-      "rating": 4.1,
-      "reviews": 42060,
-      "ship": 4,
-      "sold": 21540,
-      "free": true,
-      "img": "https://images.unsplash.com/photo-1601593346740-925612772716?w=700&q=80"
-    },
-    {
-      "id": "ali-ph-0126",
-      "title": "Braided USB-C Cable 2m V6",
-      "titleAr": "كابل USB-C مضفر 2 متر إصدار 6",
-      "cat": "phones",
-      "intents": [
-        "mobile_phone",
-        "phones_accessories",
-        "ugreen"
-      ],
-      "platform": "aliexpress",
-      "brand": "Ugreen",
-      "price": 3.94,
-      "old": 5.08,
-      "rating": 4.6,
-      "reviews": 42371,
-      "ship": 7,
-      "sold": 22259,
-      "free": true,
-      "img": "https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=700&q=80"
-    },
-    {
-      "id": "ban-ph-0127",
-      "title": "Magnetic Car Phone Holder V6",
-      "titleAr": "حامل هاتف مغناطيسي للسيارة إصدار 6",
-      "cat": "phones",
-      "intents": [
-        "baseus",
-        "mobile_phone",
-        "phones_accessories"
-      ],
-      "platform": "banggood",
-      "brand": "Baseus",
-      "price": 6.05,
-      "old": 7.14,
-      "rating": 4.2,
-      "reviews": 42682,
-      "ship": 10,
-      "sold": 22978,
-      "free": false,
-      "img": "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=700&q=80"
-    },
-    {
-      "id": "dhg-ph-0128",
-      "title": "10000mAh Slim Power Bank V6",
-      "titleAr": "باور بانك نحيف 10000 مللي أمبير إصدار 6",
-      "cat": "phones",
-      "intents": [
-        "mobile_phone",
-        "phones_accessories",
-        "power_bank",
-        "romoss"
-      ],
-      "platform": "dhgate",
-      "brand": "Romoss",
-      "price": 13.92,
-      "old": 16.56,
-      "rating": 4.7,
-      "reviews": 993,
-      "ship": 4,
-      "sold": 23697,
-      "free": true,
-      "img": "https://images.unsplash.com/photo-1598327105854-c8674faddf1f?w=700&q=80"
-    },
-    {
-      "id": "tem-ph-0129",
-      "title": "20000mAh Fast Power Bank V6",
-      "titleAr": "باور بانك سريع 20000 مللي أمبير إصدار 6",
-      "cat": "phones",
-      "intents": [
-        "baseus",
-        "mobile_phone",
-        "phones_accessories",
-        "power_bank"
-      ],
-      "platform": "temu",
-      "brand": "Baseus",
-      "price": 26.27,
-      "old": 31.52,
-      "rating": 4.3,
-      "reviews": 1304,
-      "ship": 7,
-      "sold": 24416,
-      "free": true,
-      "img": "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=700&q=80"
-    },
-    {
-      "id": "tem-ph-0130",
-      "title": "Wireless Charging Stand 15W V6",
-      "titleAr": "ستاند شحن لاسلكي 15 واط إصدار 6",
-      "cat": "phones",
-      "intents": [
-        "mobile_phone",
-        "phones_accessories",
-        "ugreen"
-      ],
-      "platform": "temu",
-      "brand": "Ugreen",
-      "price": 11.1,
-      "old": 13.43,
-      "rating": 4.8,
-      "reviews": 1615,
-      "ship": 10,
-      "sold": 25135,
-      "free": false,
-      "img": "https://images.unsplash.com/photo-1601593346740-925612772716?w=700&q=80"
-    },
-    {
-      "id": "ali-ph-0131",
-      "title": "Waterproof Phone Pouch V6",
-      "titleAr": "حافظة هاتف ضد الماء إصدار 6",
-      "cat": "phones",
-      "intents": [
-        "generic",
-        "mobile_phone",
-        "phones_accessories"
-      ],
-      "platform": "aliexpress",
-      "brand": "Generic",
-      "price": 2.35,
-      "old": 2.87,
-      "rating": 4.4,
-      "reviews": 1926,
-      "ship": 4,
-      "sold": 25854,
-      "free": true,
-      "img": "https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=700&q=80"
-    },
-    {
-      "id": "ban-ph-0132",
-      "title": "Phone Camera Lens Kit V6",
-      "titleAr": "طقم عدسات كاميرا للموبايل إصدار 6",
-      "cat": "phones",
-      "intents": [
-        "apexel",
-        "mobile_phone",
-        "phones_accessories",
-        "surveillance_camera"
-      ],
-      "platform": "banggood",
-      "brand": "Apexel",
-      "price": 10.4,
-      "old": 12.79,
-      "rating": 4.9,
-      "reviews": 2237,
-      "ship": 7,
-      "sold": 26573,
-      "free": true,
-      "img": "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=700&q=80"
-    },
-    {
       "id": "dhg-he-0133",
       "title": "Bluetooth Noise Cancelling Headphones",
       "titleAr": "سماعات بلوتوث عازلة للضوضاء",
       "cat": "headphones",
       "intents": [
         "headphones_audio",
-        "mobile_phone",
+        "phones_mobile",
         "sony"
       ],
       "platform": "dhgate",
@@ -972,7 +491,7 @@
       "intents": [
         "anker",
         "headphones_audio",
-        "mobile_phone"
+        "phones_mobile"
       ],
       "platform": "aliexpress",
       "brand": "Anker",
@@ -993,7 +512,7 @@
       "intents": [
         "headphones_audio",
         "jbl",
-        "mobile_phone"
+        "phones_mobile"
       ],
       "platform": "aliexpress",
       "brand": "JBL",
@@ -1013,7 +532,7 @@
       "cat": "headphones",
       "intents": [
         "headphones_audio",
-        "mobile_phone",
+        "phones_mobile",
         "redragon"
       ],
       "platform": "temu",

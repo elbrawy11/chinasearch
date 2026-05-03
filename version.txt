@@ -1,8 +1,7 @@
-ChinaSearch V7.4 first paint, input stability and strict search guard
-- Fixed first-paint flash: official/legal fallback blocks are hidden during app loading
-- Added clean loading state until app render is complete
-- Search page input no longer re-renders while the user is typing
-- Search now runs on button click or Enter, keeping keyboard/focus stable
-- Added strict search threshold to prevent random weak results
-- Added accurate no-result state instead of showing unrelated products
-- Kept V7.3 dictionary and standalone search page intact
+ChinaSearch V7.5 catalog cleanup, intent unification, soft fallback
+- Removed remaining artificial V6/V7+ catalog variants
+- Unified product intents from mobile_phone to phones_mobile
+- Added soft fallback when strict search threshold returns no results
+- Removed duplicate markAppReady calls and reduced fallback timeout to 2s
+- Replaced unsafe inline brand-only search onclick with data attribute handler
+- Optimized liveSearchInput to skip hero card sync on search page

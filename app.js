@@ -415,8 +415,7 @@ function watchPrice(id){
  renderCompareBar();
   setupExitHook();
   markAppReady();
-  markAppReady();
- requestAnimationFrame(()=>{
+requestAnimationFrame(()=>{
    const btn=document.querySelector(`[data-watch-price="${id}"]`);
    if(btn) btn.textContent=state.lang==="ar"?"✓ تتم مراقبته":"✓ Watching";
  });
@@ -1263,6 +1262,9 @@ function liveSearchInput(value){
 
 
 document.addEventListener("click",(e)=>{
+  const brandOnly=e.target.closest("[data-search-brand-only]");
+  if(brandOnly){e.preventDefault();state.q=brandOnly.getAttribute("data-search-brand-only")||"";executeSearch("brand-only");return;}
+
   const searchBtn=e.target.closest("[data-search-run]");
   if(searchBtn){
     e.preventDefault();
@@ -1404,17 +1406,33 @@ function strictSearchEmptyHtml(){
     <p>${state.lang==="ar"?"جرّب كلمة أبسط، أو احذف رقم الموديل، أو اختر اقتراحًا قريبًا من الأسفل.":"Try a simpler query, remove the model number, or pick a related suggestion below."}</p>
     <div class="strict-empty-actions">
       <button onclick="document.querySelector('.hero-search-input')?.focus()">${state.lang==="ar"?"تعديل البحث":"Edit search"}</button>
-      <button onclick="state.q='${parsed.brand||""}';render()">${state.lang==="ar"?"بحث بالبراند فقط":"Search brand only"}</button>
+      <button data-search-brand-only="${(parsed.brand||"").replace(/"/g,"&quot;")}">${state.lang==="ar"?"بحث بالبراند فقط":"Search brand only"}</button>
     </div>
   </section>`;
 }
 
 function searchFilteredData(){
   const threshold=searchScoreThreshold(state.q);
-  let directMatches = ranked()
+  let allScored = ranked()
     .map(p => Object.assign({}, p, {_searchScore: productSearchScore(p, state.q)}))
+    .filter(p => p._searchScore > 0);
+
+  let directMatches = allScored
     .filter(p => p._searchScore >= threshold)
     .sort((a, b) => b._searchScore - a._searchScore);
+
+  // V7.5 fallback: if strict threshold returns nothing, try a softer threshold
+  // before declaring "no results". This protects against unknown brands like "هونر".
+  if(directMatches.length === 0 && state.q && allScored.length > 0){
+    const softThreshold = Math.max(15, Math.floor(threshold * 0.5));
+    directMatches = allScored
+      .filter(p => p._searchScore >= softThreshold)
+      .sort((a, b) => b._searchScore - a._searchScore)
+      .slice(0, 12);
+    window.__csSoftFallbackActive = directMatches.length > 0;
+  }else{
+    window.__csSoftFallbackActive = false;
+  }
 
   let directMatchCount=directMatches.length;
   let alternatives=[];
@@ -1497,6 +1515,12 @@ function searchToolbarHtml(){
 }
 function searchPagerHtml(meta){
   return `<div class="search-pager"><button ${meta.page<=1?'disabled':''} onclick="setSearchPage(${meta.page-1})">← ${state.lang==="ar"?"السابق":"Prev"}</button><span>${state.lang==="ar"?`الصفحة ${meta.page} من ${meta.pages}`:`Page ${meta.page} / ${meta.pages}`}</span><button ${meta.page>=meta.pages?'disabled':''} onclick="setSearchPage(${meta.page+1})">${state.lang==="ar"?"التالي":"Next"} →</button></div>`;
+}
+
+
+function softFallbackNoticeHtml(){
+  if(!window.__csSoftFallbackActive) return "";
+  return `<div class="soft-fallback-notice">⚠️ ${state.lang==="ar"?"لم نجد تطابقًا دقيقًا، نعرض لك أقرب نتائج متاحة.":"No exact match found, showing closest available results."}</div>`;
 }
 
 function smartDidYouMeanHtml(){
@@ -1646,7 +1670,7 @@ function renderSearchPage(){
     </section>
     <section class="search-page-body container compact-body">
       ${searchToolbarHtml()}
-      ${smartDidYouMeanHtml()}<div class="results-count-line"><span class="results-badge">${state.lang==="ar"?"نتائج البحث":"Search results"}</span> <b>100+</b> · ${state.lang==="ar"?`الصفحة ${meta.page} من ${meta.pages}`:`page ${meta.page} / ${meta.pages}`} · ${label}</div>
+      ${smartDidYouMeanHtml()}${softFallbackNoticeHtml()}<div class="results-count-line"><span class="results-badge">${state.lang==="ar"?"نتائج البحث":"Search results"}</span> <b>100+</b> · ${state.lang==="ar"?`الصفحة ${meta.page} من ${meta.pages}`:`page ${meta.page} / ${meta.pages}`} · ${label}</div>
       ${bestPickRibbonHtml(best)}
       ${searchResultsHtml(data)}
       ${alternativesSectionHtml(result.directMatchCount)}
@@ -1900,4 +1924,4 @@ window.addEventListener('scroll',()=>{document.body.classList.toggle('show-jump'
 bootstrapApp();
 window.addEventListener('hashchange',()=>{render();renderLegalPage()});
 
-window.__csReadyFallbackV74=true;setTimeout(()=>{if(document.body.classList.contains('cs-app-loading'))markAppReady()},4500);
+window.__csReadyFallbackV74=true;setTimeout(()=>{if(document.body.classList.contains('cs-app-loading'))markAppReady()},2000);

@@ -1,0 +1,29 @@
+ChinaSearch V7.5 Review Notes
+
+Applied exactly as a limited patch to app.js + products.json + version/review note.
+
+Catalog:
+- Products before: 75
+- Products after: 53
+- Removed variant IDs count: 22
+- Unified mobile_phone -> phones_mobile and deduplicated intents.
+
+Search:
+- Added allScored + soft fallback in searchFilteredData.
+- strict threshold still works, but unknown brands can show close alternatives.
+- Added soft fallback notice when used.
+
+Safety/performance:
+- Collapsed duplicate markAppReady() calls.
+- Fallback loading timeout 4500ms -> 2000ms.
+- Replaced unsafe onclick brand-only button with data-search-brand-only.
+- liveSearchInput no longer syncs hero cards on /search.
+
+Test:
+- /search?q=موبايل
+- /search?q=كفر هونر ٣
+- /search?q=كاميرا مراقبة
+- /search?q=xyz123
+- /search on mobile: typing should not rerender/close keyboard
+- Check no "إصدار 6" remains
+- Check no mobile_phone intent remains in products.json
