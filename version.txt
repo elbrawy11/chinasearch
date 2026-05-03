@@ -1,6 +1,6 @@
-ChinaSearch V7.0 catalog cleanup and scoring engine
-- Removed duplicate product variants from products.json: 233 -> 75 products
-- Removed legacy productMatchesQuery duplicate if present
-- Added productSearchScore scoring engine while keeping productMatchesQuery for compatibility
-- Direct search results now sort by match quality
-- Updated popular searches in empty search state
+ChinaSearch V7.1 deploy cache fix
+- Fixed missed HTML asset references: index.html/search.html now load app.js?v=7.1 and styles.css?v=7.1
+- products.json version updated to 7.1 while keeping schema
+- Added no-store cache headers for version.txt, products.json, app.js and styles.css
+- Keeps V7.0 catalog cleanup and scoring engine
+- Use this package to replace the previous V7.0 upload
