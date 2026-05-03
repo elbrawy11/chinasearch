@@ -1,5 +1,5 @@
 {
-  "version": "7.1",
+  "version": "7.3",
   "products": [
     {
       "id": "dhg-ph-0001",
@@ -7,6 +7,7 @@
       "titleAr": "هاتف سامسونج جالاكسي A55 5G",
       "cat": "phones",
       "intents": [
+        "mobile_phone",
         "phones_mobile",
         "samsung"
       ],
@@ -27,6 +28,7 @@
       "titleAr": "هاتف سامسونج S24 الترا ستايل",
       "cat": "phones",
       "intents": [
+        "mobile_phone",
         "phones_mobile",
         "samsung"
       ],
@@ -47,6 +49,7 @@
       "titleAr": "هاتف شاومي ريدمي نوت 13 برو",
       "cat": "phones",
       "intents": [
+        "mobile_phone",
         "phones_mobile",
         "xiaomi"
       ],
@@ -67,6 +70,7 @@
       "titleAr": "هاتف شاومي بوكو X6 برو للألعاب",
       "cat": "phones",
       "intents": [
+        "mobile_phone",
         "phones_mobile",
         "xiaomi"
       ],
@@ -87,8 +91,9 @@
       "titleAr": "ايفون 13 مجدد",
       "cat": "phones",
       "intents": [
-        "phones_mobile",
-        "apple"
+        "apple",
+        "mobile_phone",
+        "phones_mobile"
       ],
       "platform": "aliexpress",
       "brand": "Apple",
@@ -107,8 +112,9 @@
       "titleAr": "ايفون 15 برو ستايل",
       "cat": "phones",
       "intents": [
-        "phones_mobile",
-        "apple"
+        "apple",
+        "mobile_phone",
+        "phones_mobile"
       ],
       "platform": "dhgate",
       "brand": "Apple",
@@ -127,8 +133,9 @@
       "titleAr": "هاتف هونر X9b 5G",
       "cat": "phones",
       "intents": [
-        "phones_mobile",
-        "honor"
+        "honor",
+        "mobile_phone",
+        "phones_mobile"
       ],
       "platform": "temu",
       "brand": "Honor",
@@ -147,8 +154,10 @@
       "titleAr": "هاتف اوبو رينو 11 بكاميرا قوية",
       "cat": "phones",
       "intents": [
+        "mobile_phone",
+        "oppo",
         "phones_mobile",
-        "oppo"
+        "surveillance_camera"
       ],
       "platform": "banggood",
       "brand": "Oppo",
@@ -167,6 +176,7 @@
       "titleAr": "هاتف ريلمي 12 برو اندرويد",
       "cat": "phones",
       "intents": [
+        "mobile_phone",
         "phones_mobile",
         "realme"
       ],
@@ -187,8 +197,9 @@
       "titleAr": "هاتف ون بلس نورد CE 4",
       "cat": "phones",
       "intents": [
-        "phones_mobile",
-        "oneplus"
+        "mobile_phone",
+        "oneplus",
+        "phones_mobile"
       ],
       "platform": "aliexpress",
       "brand": "OnePlus",
@@ -207,6 +218,7 @@
       "titleAr": "هاتف سامسونج جالاكسي A55 5G إصدار 6",
       "cat": "phones",
       "intents": [
+        "mobile_phone",
         "phones_mobile",
         "samsung"
       ],
@@ -227,6 +239,7 @@
       "titleAr": "هاتف سامسونج S24 الترا ستايل إصدار 6",
       "cat": "phones",
       "intents": [
+        "mobile_phone",
         "phones_mobile",
         "samsung"
       ],
@@ -247,6 +260,7 @@
       "titleAr": "هاتف شاومي ريدمي نوت 13 برو إصدار 6",
       "cat": "phones",
       "intents": [
+        "mobile_phone",
         "phones_mobile",
         "xiaomi"
       ],
@@ -267,6 +281,7 @@
       "titleAr": "هاتف شاومي بوكو X6 برو للألعاب إصدار 6",
       "cat": "phones",
       "intents": [
+        "mobile_phone",
         "phones_mobile",
         "xiaomi"
       ],
@@ -287,8 +302,9 @@
       "titleAr": "ايفون 13 مجدد إصدار 6",
       "cat": "phones",
       "intents": [
-        "phones_mobile",
-        "apple"
+        "apple",
+        "mobile_phone",
+        "phones_mobile"
       ],
       "platform": "aliexpress",
       "brand": "Apple",
@@ -307,8 +323,9 @@
       "titleAr": "ايفون 15 برو ستايل إصدار 6",
       "cat": "phones",
       "intents": [
-        "phones_mobile",
-        "apple"
+        "apple",
+        "mobile_phone",
+        "phones_mobile"
       ],
       "platform": "dhgate",
       "brand": "Apple",
@@ -327,8 +344,9 @@
       "titleAr": "هاتف هونر X9b 5G إصدار 6",
       "cat": "phones",
       "intents": [
-        "phones_mobile",
-        "honor"
+        "honor",
+        "mobile_phone",
+        "phones_mobile"
       ],
       "platform": "temu",
       "brand": "Honor",
@@ -347,8 +365,10 @@
       "titleAr": "هاتف اوبو رينو 11 بكاميرا قوية إصدار 6",
       "cat": "phones",
       "intents": [
+        "mobile_phone",
+        "oppo",
         "phones_mobile",
-        "oppo"
+        "surveillance_camera"
       ],
       "platform": "banggood",
       "brand": "Oppo",
@@ -367,6 +387,7 @@
       "titleAr": "هاتف ريلمي 12 برو اندرويد إصدار 6",
       "cat": "phones",
       "intents": [
+        "mobile_phone",
         "phones_mobile",
         "realme"
       ],
@@ -387,8 +408,9 @@
       "titleAr": "هاتف ون بلس نورد CE 4 إصدار 6",
       "cat": "phones",
       "intents": [
-        "phones_mobile",
-        "oneplus"
+        "mobile_phone",
+        "oneplus",
+        "phones_mobile"
       ],
       "platform": "aliexpress",
       "brand": "OnePlus",
@@ -407,8 +429,10 @@
       "titleAr": "جراب مغناطيسي ماج سيف للموبايل",
       "cat": "phones",
       "intents": [
-        "phones_accessories",
-        "baseus"
+        "baseus",
+        "mobile_phone",
+        "phone_case",
+        "phones_accessories"
       ],
       "platform": "aliexpress",
       "brand": "Baseus",
@@ -427,8 +451,10 @@
       "titleAr": "كفر سيليكون فاخر للموبايل",
       "cat": "phones",
       "intents": [
-        "phones_accessories",
-        "nillkin"
+        "mobile_phone",
+        "nillkin",
+        "phone_case",
+        "phones_accessories"
       ],
       "platform": "banggood",
       "brand": "Nillkin",
@@ -447,8 +473,10 @@
       "titleAr": "حماية شاشة زجاجية للموبايل",
       "cat": "phones",
       "intents": [
+        "mobile_phone",
+        "nillkin",
         "phones_accessories",
-        "nillkin"
+        "screen_protector"
       ],
       "platform": "dhgate",
       "brand": "Nillkin",
@@ -467,8 +495,10 @@
       "titleAr": "شاحن سريع USB-C بقدرة 65 واط",
       "cat": "phones",
       "intents": [
-        "phones_accessories",
-        "anker"
+        "anker",
+        "fast_charger",
+        "mobile_phone",
+        "phones_accessories"
       ],
       "platform": "temu",
       "brand": "Anker",
@@ -487,6 +517,8 @@
       "titleAr": "شاحن سفر GaN بقدرة 100 واط",
       "cat": "phones",
       "intents": [
+        "fast_charger",
+        "mobile_phone",
         "phones_accessories",
         "ugreen"
       ],
@@ -507,6 +539,7 @@
       "titleAr": "كابل USB-C مضفر 2 متر",
       "cat": "phones",
       "intents": [
+        "mobile_phone",
         "phones_accessories",
         "ugreen"
       ],
@@ -527,8 +560,9 @@
       "titleAr": "حامل هاتف مغناطيسي للسيارة",
       "cat": "phones",
       "intents": [
-        "phones_accessories",
-        "baseus"
+        "baseus",
+        "mobile_phone",
+        "phones_accessories"
       ],
       "platform": "banggood",
       "brand": "Baseus",
@@ -547,7 +581,9 @@
       "titleAr": "باور بانك نحيف 10000 مللي أمبير",
       "cat": "phones",
       "intents": [
+        "mobile_phone",
         "phones_accessories",
+        "power_bank",
         "romoss"
       ],
       "platform": "dhgate",
@@ -567,8 +603,10 @@
       "titleAr": "باور بانك سريع 20000 مللي أمبير",
       "cat": "phones",
       "intents": [
+        "baseus",
+        "mobile_phone",
         "phones_accessories",
-        "baseus"
+        "power_bank"
       ],
       "platform": "temu",
       "brand": "Baseus",
@@ -587,6 +625,7 @@
       "titleAr": "ستاند شحن لاسلكي 15 واط",
       "cat": "phones",
       "intents": [
+        "mobile_phone",
         "phones_accessories",
         "ugreen"
       ],
@@ -607,8 +646,9 @@
       "titleAr": "حافظة هاتف ضد الماء",
       "cat": "phones",
       "intents": [
-        "phones_accessories",
-        "generic"
+        "generic",
+        "mobile_phone",
+        "phones_accessories"
       ],
       "platform": "aliexpress",
       "brand": "Generic",
@@ -627,8 +667,10 @@
       "titleAr": "طقم عدسات كاميرا للموبايل",
       "cat": "phones",
       "intents": [
+        "apexel",
+        "mobile_phone",
         "phones_accessories",
-        "apexel"
+        "surveillance_camera"
       ],
       "platform": "banggood",
       "brand": "Apexel",
@@ -647,8 +689,10 @@
       "titleAr": "جراب مغناطيسي ماج سيف للموبايل إصدار 6",
       "cat": "phones",
       "intents": [
-        "phones_accessories",
-        "baseus"
+        "baseus",
+        "mobile_phone",
+        "phone_case",
+        "phones_accessories"
       ],
       "platform": "aliexpress",
       "brand": "Baseus",
@@ -667,8 +711,10 @@
       "titleAr": "كفر سيليكون فاخر للموبايل إصدار 6",
       "cat": "phones",
       "intents": [
-        "phones_accessories",
-        "nillkin"
+        "mobile_phone",
+        "nillkin",
+        "phone_case",
+        "phones_accessories"
       ],
       "platform": "banggood",
       "brand": "Nillkin",
@@ -687,8 +733,10 @@
       "titleAr": "حماية شاشة زجاجية للموبايل إصدار 6",
       "cat": "phones",
       "intents": [
+        "mobile_phone",
+        "nillkin",
         "phones_accessories",
-        "nillkin"
+        "screen_protector"
       ],
       "platform": "dhgate",
       "brand": "Nillkin",
@@ -707,8 +755,10 @@
       "titleAr": "شاحن سريع USB-C بقدرة 65 واط إصدار 6",
       "cat": "phones",
       "intents": [
-        "phones_accessories",
-        "anker"
+        "anker",
+        "fast_charger",
+        "mobile_phone",
+        "phones_accessories"
       ],
       "platform": "temu",
       "brand": "Anker",
@@ -727,6 +777,8 @@
       "titleAr": "شاحن سفر GaN بقدرة 100 واط إصدار 6",
       "cat": "phones",
       "intents": [
+        "fast_charger",
+        "mobile_phone",
         "phones_accessories",
         "ugreen"
       ],
@@ -747,6 +799,7 @@
       "titleAr": "كابل USB-C مضفر 2 متر إصدار 6",
       "cat": "phones",
       "intents": [
+        "mobile_phone",
         "phones_accessories",
         "ugreen"
       ],
@@ -767,8 +820,9 @@
       "titleAr": "حامل هاتف مغناطيسي للسيارة إصدار 6",
       "cat": "phones",
       "intents": [
-        "phones_accessories",
-        "baseus"
+        "baseus",
+        "mobile_phone",
+        "phones_accessories"
       ],
       "platform": "banggood",
       "brand": "Baseus",
@@ -787,7 +841,9 @@
       "titleAr": "باور بانك نحيف 10000 مللي أمبير إصدار 6",
       "cat": "phones",
       "intents": [
+        "mobile_phone",
         "phones_accessories",
+        "power_bank",
         "romoss"
       ],
       "platform": "dhgate",
@@ -807,8 +863,10 @@
       "titleAr": "باور بانك سريع 20000 مللي أمبير إصدار 6",
       "cat": "phones",
       "intents": [
+        "baseus",
+        "mobile_phone",
         "phones_accessories",
-        "baseus"
+        "power_bank"
       ],
       "platform": "temu",
       "brand": "Baseus",
@@ -827,6 +885,7 @@
       "titleAr": "ستاند شحن لاسلكي 15 واط إصدار 6",
       "cat": "phones",
       "intents": [
+        "mobile_phone",
         "phones_accessories",
         "ugreen"
       ],
@@ -847,8 +906,9 @@
       "titleAr": "حافظة هاتف ضد الماء إصدار 6",
       "cat": "phones",
       "intents": [
-        "phones_accessories",
-        "generic"
+        "generic",
+        "mobile_phone",
+        "phones_accessories"
       ],
       "platform": "aliexpress",
       "brand": "Generic",
@@ -867,8 +927,10 @@
       "titleAr": "طقم عدسات كاميرا للموبايل إصدار 6",
       "cat": "phones",
       "intents": [
+        "apexel",
+        "mobile_phone",
         "phones_accessories",
-        "apexel"
+        "surveillance_camera"
       ],
       "platform": "banggood",
       "brand": "Apexel",
@@ -888,6 +950,7 @@
       "cat": "headphones",
       "intents": [
         "headphones_audio",
+        "mobile_phone",
         "sony"
       ],
       "platform": "dhgate",
@@ -907,8 +970,9 @@
       "titleAr": "سماعات لاسلكية بتأخير منخفض",
       "cat": "headphones",
       "intents": [
+        "anker",
         "headphones_audio",
-        "anker"
+        "mobile_phone"
       ],
       "platform": "aliexpress",
       "brand": "Anker",
@@ -928,7 +992,8 @@
       "cat": "headphones",
       "intents": [
         "headphones_audio",
-        "jbl"
+        "jbl",
+        "mobile_phone"
       ],
       "platform": "aliexpress",
       "brand": "JBL",
@@ -948,6 +1013,7 @@
       "cat": "headphones",
       "intents": [
         "headphones_audio",
+        "mobile_phone",
         "redragon"
       ],
       "platform": "temu",
@@ -967,8 +1033,8 @@
       "titleAr": "ساعة ذكية تدعم المكالمات",
       "cat": "watches",
       "intents": [
-        "watches_wearables",
-        "amazfit"
+        "amazfit",
+        "watches_wearables"
       ],
       "platform": "temu",
       "brand": "Amazfit",
@@ -1007,8 +1073,8 @@
       "titleAr": "ساعة ذكية للأطفال مع GPS",
       "cat": "watches",
       "intents": [
-        "watches_wearables",
-        "generic"
+        "generic",
+        "watches_wearables"
       ],
       "platform": "banggood",
       "brand": "Generic",
@@ -1087,8 +1153,8 @@
       "titleAr": "مصباح مكتب LED مع شحن لاسلكي",
       "cat": "home",
       "intents": [
-        "home_kitchen",
-        "generic"
+        "generic",
+        "home_kitchen"
       ],
       "platform": "banggood",
       "brand": "Generic",
@@ -1107,8 +1173,8 @@
       "titleAr": "قطاعة خضار للمطبخ",
       "cat": "home",
       "intents": [
-        "home_kitchen",
-        "generic"
+        "generic",
+        "home_kitchen"
       ],
       "platform": "aliexpress",
       "brand": "Generic",
@@ -1127,8 +1193,8 @@
       "titleAr": "شريط إضاءة RGB ذكي",
       "cat": "home",
       "intents": [
-        "home_kitchen",
-        "generic"
+        "generic",
+        "home_kitchen"
       ],
       "platform": "temu",
       "brand": "Generic",
@@ -1247,8 +1313,9 @@
       "titleAr": "كاميرا سيارة داش كام 4K",
       "cat": "auto",
       "intents": [
+        "70mai",
         "auto_car",
-        "70mai"
+        "surveillance_camera"
       ],
       "platform": "dhgate",
       "brand": "70mai",
@@ -1268,7 +1335,8 @@
       "cat": "auto",
       "intents": [
         "auto_car",
-        "baseus"
+        "baseus",
+        "fast_charger"
       ],
       "platform": "aliexpress",
       "brand": "Baseus",
@@ -1307,8 +1375,8 @@
       "titleAr": "لعبة مكعبات مغناطيسية",
       "cat": "toys",
       "intents": [
-        "toys_kids",
-        "generic"
+        "generic",
+        "toys_kids"
       ],
       "platform": "aliexpress",
       "brand": "Generic",
@@ -1327,8 +1395,8 @@
       "titleAr": "سيارة ريموت كنترول",
       "cat": "toys",
       "intents": [
-        "toys_kids",
-        "generic"
+        "generic",
+        "toys_kids"
       ],
       "platform": "banggood",
       "brand": "Generic",
@@ -1347,10 +1415,10 @@
       "titleAr": "كاميرا مراقبة شاومي 360 درجة 2K",
       "cat": "camera",
       "intents": [
-        "surveillance_camera",
         "camera",
-        "security_camera",
         "cctv",
+        "security_camera",
+        "surveillance_camera",
         "xiaomi"
       ],
       "platform": "aliexpress",
@@ -1370,10 +1438,10 @@
       "titleAr": "كاميرا مراقبة داخلية واي فاي TP-Link Tapo",
       "cat": "camera",
       "intents": [
-        "surveillance_camera",
         "camera",
-        "security_camera",
         "cctv",
+        "security_camera",
+        "surveillance_camera",
         "tp-link"
       ],
       "platform": "temu",
@@ -1393,11 +1461,11 @@
       "titleAr": "كاميرا مراقبة خارجية ضد الماء 1080p",
       "cat": "camera",
       "intents": [
-        "surveillance_camera",
         "camera",
-        "security_camera",
         "cctv",
-        "generic"
+        "generic",
+        "security_camera",
+        "surveillance_camera"
       ],
       "platform": "dhgate",
       "brand": "Generic",
@@ -1416,11 +1484,11 @@
       "titleAr": "كاميرا مراقبة تعمل بالطاقة الشمسية",
       "cat": "camera",
       "intents": [
-        "surveillance_camera",
         "camera",
-        "security_camera",
         "cctv",
-        "imou"
+        "imou",
+        "security_camera",
+        "surveillance_camera"
       ],
       "platform": "banggood",
       "brand": "Imou",
@@ -1439,11 +1507,11 @@
       "titleAr": "كاميرا IP صغيرة برؤية ليلية",
       "cat": "camera",
       "intents": [
-        "surveillance_camera",
         "camera",
-        "security_camera",
         "cctv",
-        "ezviz"
+        "ezviz",
+        "security_camera",
+        "surveillance_camera"
       ],
       "platform": "aliexpress",
       "brand": "EZVIZ",
@@ -1462,11 +1530,11 @@
       "titleAr": "جرس باب ذكي بكاميرا مراقبة",
       "cat": "camera",
       "intents": [
-        "surveillance_camera",
         "camera",
-        "security_camera",
         "cctv",
-        "generic"
+        "generic",
+        "security_camera",
+        "surveillance_camera"
       ],
       "platform": "aliexpress",
       "brand": "Generic",
@@ -1485,11 +1553,11 @@
       "titleAr": "كاميرا مراقبة أطفال واي فاي",
       "cat": "camera",
       "intents": [
-        "surveillance_camera",
         "camera",
-        "security_camera",
         "cctv",
-        "generic"
+        "generic",
+        "security_camera",
+        "surveillance_camera"
       ],
       "platform": "temu",
       "brand": "Generic",
@@ -1508,11 +1576,11 @@
       "titleAr": "كاميرا مراقبة خارجية PTZ بدقة 4MP",
       "cat": "camera",
       "intents": [
-        "surveillance_camera",
         "camera",
-        "security_camera",
         "cctv",
-        "dahua"
+        "dahua",
+        "security_camera",
+        "surveillance_camera"
       ],
       "platform": "dhgate",
       "brand": "Dahua",

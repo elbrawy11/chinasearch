@@ -1212,3 +1212,73 @@ body.search-page-mode #comparisonDrawer{display:none!important}
 .empty-search-panel:focus-within{
   outline:3px solid rgba(255,106,0,.18);
 }
+
+/* === V7.2 exit hook cleanup === */
+.exit-hook{
+  position:fixed!important;
+  inset-inline-start:22px!important;
+  bottom:24px!important;
+  width:min(420px,calc(100vw - 32px))!important;
+  max-width:420px!important;
+  transform:translate3d(-18px,24px,0) scale(.96)!important;
+  opacity:0!important;
+  pointer-events:none!important;
+  visibility:hidden!important;
+  z-index:130!important;
+  transition:opacity .22s ease, transform .22s ease, visibility .22s ease!important;
+}
+.exit-hook.show{
+  opacity:1!important;
+  pointer-events:auto!important;
+  visibility:visible!important;
+  transform:translate3d(0,0,0) scale(1)!important;
+}
+.exit-hook .exit-box,
+.exit-hook .hook-box,
+.exit-hook > div{
+  border-radius:24px!important;
+  box-shadow:0 24px 70px rgba(2,6,23,.22)!important;
+}
+.exit-hook h3,
+.exit-hook .exit-title{
+  font-size:18px!important;
+  line-height:1.35!important;
+  margin-bottom:6px!important;
+}
+.exit-hook p{
+  font-size:13px!important;
+  line-height:1.55!important;
+}
+.exit-hook .exit-actions,
+.exit-hook .hook-actions{
+  gap:8px!important;
+}
+.exit-hook button,
+.exit-hook a{
+  min-height:42px!important;
+  border-radius:14px!important;
+}
+body.search-page-mode .exit-hook{
+  display:none!important;
+}
+@media(max-width:760px){
+  .exit-hook{
+    inset-inline-start:12px!important;
+    bottom:12px!important;
+    width:calc(100vw - 24px)!important;
+  }
+}
+
+/* === V7.3 smart dictionary search === */
+.did-you-mean{
+  margin:8px 0 10px;
+  padding:11px 14px;
+  border-radius:16px;
+  background:#eff6ff;
+  border:1px solid #bfdbfe;
+  color:#1e40af;
+  font-weight:900;
+}
+.did-you-mean b{
+  color:#071225;
+}

@@ -1,0 +1,21 @@
+ChinaSearch V7.3 Smart Search Dictionary
+
+This is not a small brand-specific patch. It adds a scalable dictionary/search layer:
+- search-dictionary.json
+- canonical intents
+- aliases in ar/en/fr/es/de/it/tr/ru/pt/id/ms/ur/hi/nl/pl
+- brand aliases and model-family aliases
+- digit normalization: ٣ -> 3
+- smart query parser
+- productSearchScore upgraded to use intent + brand + model + numbers
+- did-you-mean hint
+
+Test:
+- /search?q=كفر هونر ٣
+- /search?q=honr magc 3 cover
+- /search?q=coque iphone
+- /search?q=funda samsung
+- /search?q=überwachungskamera
+- /search?q=كاميرا مراقبة
+- /search?q=phone case
+- /search?q=شاحن سامسونج

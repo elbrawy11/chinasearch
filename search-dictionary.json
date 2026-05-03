@@ -1,0 +1,1974 @@
+{
+  "version": "7.3",
+  "description": "Multi-language canonical search dictionary for ChinaSearch. Maps aliases in many languages to canonical intents, brands, and model families.",
+  "languages": [
+    "ar",
+    "en",
+    "fr",
+    "es",
+    "de",
+    "it",
+    "tr",
+    "ru",
+    "pt",
+    "id",
+    "ms",
+    "ur",
+    "hi",
+    "nl",
+    "pl"
+  ],
+  "intents": {
+    "phone_case": {
+      "ar": [
+        "كفر",
+        "جراب",
+        "غطاء",
+        "كفر موبايل",
+        "جراب موبايل",
+        "كفر هاتف",
+        "جراب هاتف",
+        "كفر جوال",
+        "جراب جوال",
+        "حافظة موبايل",
+        "حافظة هاتف",
+        "حافظة جوال",
+        "كفر حماية",
+        "غطاء حماية",
+        "كفر سيليكون",
+        "جراب سيليكون",
+        "كفر شفاف",
+        "جراب شفاف"
+      ],
+      "en": [
+        "case",
+        "cover",
+        "phone case",
+        "phone cover",
+        "mobile case",
+        "mobile cover",
+        "protective case",
+        "silicone case",
+        "clear case",
+        "back cover",
+        "smartphone case",
+        "shockproof case"
+      ],
+      "fr": [
+        "coque",
+        "coque téléphone",
+        "étui",
+        "housse",
+        "coque portable",
+        "protection téléphone",
+        "coque silicone"
+      ],
+      "es": [
+        "funda",
+        "carcasa",
+        "funda móvil",
+        "funda teléfono",
+        "protector móvil",
+        "funda silicona"
+      ],
+      "de": [
+        "hülle",
+        "handyhülle",
+        "telefonhülle",
+        "schutzhülle",
+        "smartphone hülle",
+        "siliconhülle"
+      ],
+      "it": [
+        "custodia",
+        "cover",
+        "cover telefono",
+        "custodia telefono",
+        "cover cellulare"
+      ],
+      "tr": [
+        "kılıf",
+        "telefon kılıfı",
+        "kapak",
+        "telefon kabı",
+        "silikon kılıf"
+      ],
+      "ru": [
+        "чехол",
+        "чехол для телефона",
+        "защитный чехол",
+        "силиконовый чехол"
+      ],
+      "pt": [
+        "capa",
+        "capa celular",
+        "capa telefone",
+        "capinha",
+        "capa silicone"
+      ],
+      "id": [
+        "casing",
+        "case hp",
+        "sarung hp",
+        "pelindung hp"
+      ],
+      "ms": [
+        "sarung telefon",
+        "casing telefon",
+        "pelindung telefon"
+      ],
+      "ur": [
+        "موبائل کور",
+        "فون کور",
+        "موبائل کیس"
+      ],
+      "hi": [
+        "मोबाइल कवर",
+        "फोन कवर",
+        "मोबाइल केस"
+      ],
+      "nl": [
+        "hoesje",
+        "telefoonhoesje",
+        "smartphone hoesje"
+      ],
+      "pl": [
+        "etui",
+        "etui na telefon",
+        "pokrowiec"
+      ]
+    },
+    "screen_protector": {
+      "ar": [
+        "اسكرينة",
+        "سكرينة",
+        "حماية شاشة",
+        "لاصق شاشة",
+        "زجاج حماية",
+        "حامي الشاشة",
+        "اسكرين",
+        "واقي شاشة"
+      ],
+      "en": [
+        "screen protector",
+        "tempered glass",
+        "glass protector",
+        "screen guard",
+        "film protector"
+      ],
+      "fr": [
+        "protecteur écran",
+        "verre trempé",
+        "film écran"
+      ],
+      "es": [
+        "protector pantalla",
+        "vidrio templado",
+        "cristal templado"
+      ],
+      "de": [
+        "panzerglas",
+        "displayschutz",
+        "schutzfolie"
+      ],
+      "it": [
+        "proteggi schermo",
+        "vetro temperato",
+        "pellicola"
+      ],
+      "tr": [
+        "ekran koruyucu",
+        "temperli cam",
+        "koruyucu cam"
+      ],
+      "ru": [
+        "защитное стекло",
+        "защитная пленка",
+        "стекло"
+      ],
+      "pt": [
+        "película",
+        "vidro temperado",
+        "protetor tela"
+      ],
+      "id": [
+        "anti gores",
+        "tempered glass",
+        "pelindung layar"
+      ],
+      "ms": [
+        "pelindung skrin",
+        "kaca tempered"
+      ],
+      "ur": [
+        "سکرین پروٹیکٹر",
+        "ٹمپرڈ گلاس"
+      ],
+      "hi": [
+        "स्क्रीन प्रोटेक्टर",
+        "टेम्पर्ड ग्लास"
+      ],
+      "nl": [
+        "screenprotector",
+        "gehard glas"
+      ],
+      "pl": [
+        "szkło hartowane",
+        "ochrona ekranu"
+      ]
+    },
+    "fast_charger": {
+      "ar": [
+        "شاحن",
+        "شاحن سريع",
+        "رأس شاحن",
+        "فيشة شاحن",
+        "ادابتر شاحن",
+        "شاحن تايب سي",
+        "شاحن usb c",
+        "شاحن جداري",
+        "شاحن اصلي"
+      ],
+      "en": [
+        "charger",
+        "fast charger",
+        "wall charger",
+        "usb c charger",
+        "type c charger",
+        "power adapter",
+        "charging adapter",
+        "gan charger"
+      ],
+      "fr": [
+        "chargeur",
+        "chargeur rapide",
+        "adaptateur secteur"
+      ],
+      "es": [
+        "cargador",
+        "cargador rápido",
+        "adaptador corriente"
+      ],
+      "de": [
+        "ladegerät",
+        "schnellladegerät",
+        "netzteil"
+      ],
+      "it": [
+        "caricatore",
+        "caricatore rapido",
+        "alimentatore"
+      ],
+      "tr": [
+        "şarj cihazı",
+        "hızlı şarj",
+        "adaptör"
+      ],
+      "ru": [
+        "зарядка",
+        "зарядное устройство",
+        "быстрая зарядка"
+      ],
+      "pt": [
+        "carregador",
+        "carregador rápido",
+        "adaptador"
+      ],
+      "id": [
+        "charger",
+        "casan",
+        "pengisi daya",
+        "charger cepat"
+      ],
+      "ms": [
+        "pengecas",
+        "charger pantas"
+      ],
+      "ur": [
+        "چارجر",
+        "فاسٹ چارجر"
+      ],
+      "hi": [
+        "चार्जर",
+        "फास्ट चार्जर"
+      ],
+      "nl": [
+        "oplader",
+        "snellader"
+      ],
+      "pl": [
+        "ładowarka",
+        "szybka ładowarka"
+      ]
+    },
+    "power_bank": {
+      "ar": [
+        "باور بانك",
+        "باور بنك",
+        "شاحن متنقل",
+        "بطارية متنقلة",
+        "بنك طاقة"
+      ],
+      "en": [
+        "power bank",
+        "portable charger",
+        "battery pack",
+        "external battery"
+      ],
+      "fr": [
+        "batterie externe",
+        "power bank"
+      ],
+      "es": [
+        "power bank",
+        "batería externa",
+        "cargador portátil"
+      ],
+      "de": [
+        "powerbank",
+        "externer akku"
+      ],
+      "it": [
+        "power bank",
+        "batteria esterna"
+      ],
+      "tr": [
+        "powerbank",
+        "taşınabilir şarj"
+      ],
+      "ru": [
+        "повербанк",
+        "внешний аккумулятор"
+      ],
+      "pt": [
+        "power bank",
+        "bateria externa"
+      ],
+      "id": [
+        "power bank",
+        "charger portable"
+      ],
+      "ms": [
+        "power bank"
+      ],
+      "ur": [
+        "پاور بینک"
+      ],
+      "hi": [
+        "पावर बैंक"
+      ],
+      "nl": [
+        "powerbank"
+      ],
+      "pl": [
+        "powerbank"
+      ]
+    },
+    "usb_cable": {
+      "ar": [
+        "كابل",
+        "كيبل",
+        "سلك شاحن",
+        "وصلة شاحن",
+        "كابل تايب سي",
+        "كابل ايفون",
+        "كابل usb"
+      ],
+      "en": [
+        "cable",
+        "charging cable",
+        "usb cable",
+        "usb c cable",
+        "type c cable",
+        "lightning cable",
+        "data cable"
+      ],
+      "fr": [
+        "câble",
+        "câble usb",
+        "câble charge"
+      ],
+      "es": [
+        "cable",
+        "cable usb",
+        "cable carga"
+      ],
+      "de": [
+        "kabel",
+        "usb kabel",
+        "ladekabel"
+      ],
+      "it": [
+        "cavo",
+        "cavo usb",
+        "cavo ricarica"
+      ],
+      "tr": [
+        "kablo",
+        "usb kablo",
+        "şarj kablosu"
+      ],
+      "ru": [
+        "кабель",
+        "usb кабель",
+        "зарядный кабель"
+      ],
+      "pt": [
+        "cabo",
+        "cabo usb",
+        "cabo carregador"
+      ],
+      "id": [
+        "kabel",
+        "kabel charger"
+      ],
+      "ms": [
+        "kabel",
+        "kabel pengecas"
+      ],
+      "ur": [
+        "کیبل",
+        "چارجنگ کیبل"
+      ],
+      "hi": [
+        "केबल",
+        "चार्जिंग केबल"
+      ],
+      "nl": [
+        "kabel",
+        "usb kabel"
+      ],
+      "pl": [
+        "kabel",
+        "kabel usb"
+      ]
+    },
+    "mobile_phone": {
+      "ar": [
+        "موبايل",
+        "موبيل",
+        "هاتف",
+        "تليفون",
+        "تلفون",
+        "جوال",
+        "سمارت فون",
+        "هاتف ذكي"
+      ],
+      "en": [
+        "mobile",
+        "phone",
+        "smartphone",
+        "cell phone",
+        "mobile phone",
+        "android phone"
+      ],
+      "fr": [
+        "téléphone",
+        "smartphone",
+        "portable"
+      ],
+      "es": [
+        "móvil",
+        "celular",
+        "teléfono",
+        "smartphone"
+      ],
+      "de": [
+        "handy",
+        "smartphone",
+        "telefon"
+      ],
+      "it": [
+        "telefono",
+        "cellulare",
+        "smartphone"
+      ],
+      "tr": [
+        "telefon",
+        "akıllı telefon",
+        "cep telefonu"
+      ],
+      "ru": [
+        "телефон",
+        "смартфон",
+        "мобильный"
+      ],
+      "pt": [
+        "celular",
+        "telemóvel",
+        "smartphone"
+      ],
+      "id": [
+        "hp",
+        "ponsel",
+        "smartphone"
+      ],
+      "ms": [
+        "telefon",
+        "telefon pintar"
+      ],
+      "ur": [
+        "موبائل",
+        "فون",
+        "اسمارٹ فون"
+      ],
+      "hi": [
+        "मोबाइल",
+        "फोन",
+        "स्मार्टफोन"
+      ],
+      "nl": [
+        "telefoon",
+        "smartphone"
+      ],
+      "pl": [
+        "telefon",
+        "smartfon"
+      ]
+    },
+    "wireless_earbuds": {
+      "ar": [
+        "سماعات",
+        "سماعة",
+        "ايربودز",
+        "ايربود",
+        "سماعات بلوتوث",
+        "سماعات لاسلكية",
+        "هاند فري",
+        "هاندفري"
+      ],
+      "en": [
+        "earbuds",
+        "earphones",
+        "wireless earbuds",
+        "bluetooth earbuds",
+        "airpods",
+        "tws",
+        "headphones",
+        "headset"
+      ],
+      "fr": [
+        "écouteurs",
+        "écouteurs bluetooth",
+        "casque",
+        "airpods"
+      ],
+      "es": [
+        "auriculares",
+        "audífonos",
+        "auriculares bluetooth"
+      ],
+      "de": [
+        "kopfhörer",
+        "ohrhörer",
+        "bluetooth kopfhörer"
+      ],
+      "it": [
+        "auricolari",
+        "cuffie",
+        "cuffie bluetooth"
+      ],
+      "tr": [
+        "kulaklık",
+        "bluetooth kulaklık",
+        "kablosuz kulaklık"
+      ],
+      "ru": [
+        "наушники",
+        "беспроводные наушники"
+      ],
+      "pt": [
+        "fones",
+        "fone bluetooth",
+        "auriculares"
+      ],
+      "id": [
+        "earbud",
+        "headset",
+        "earphone",
+        "bluetooth"
+      ],
+      "ms": [
+        "fon telinga",
+        "earbud"
+      ],
+      "ur": [
+        "ائیر بڈز",
+        "ہیڈ فون",
+        "بلوٹوتھ ہیڈ فون"
+      ],
+      "hi": [
+        "ईयरबड्स",
+        "हेडफोन",
+        "ब्लूटूथ हेडफोन"
+      ],
+      "nl": [
+        "oordopjes",
+        "koptelefoon"
+      ],
+      "pl": [
+        "słuchawki",
+        "słuchawki bluetooth"
+      ]
+    },
+    "smartwatch": {
+      "ar": [
+        "ساعة",
+        "ساعة ذكية",
+        "سمارت واتش",
+        "سوار ذكي",
+        "ساعة رياضية",
+        "سوار رياضي"
+      ],
+      "en": [
+        "watch",
+        "smartwatch",
+        "smart watch",
+        "fitness tracker",
+        "smart band",
+        "fitness band"
+      ],
+      "fr": [
+        "montre connectée",
+        "smartwatch",
+        "bracelet connecté"
+      ],
+      "es": [
+        "reloj inteligente",
+        "smartwatch",
+        "pulsera inteligente"
+      ],
+      "de": [
+        "smartwatch",
+        "fitnessuhr",
+        "fitnessband"
+      ],
+      "it": [
+        "smartwatch",
+        "orologio intelligente"
+      ],
+      "tr": [
+        "akıllı saat",
+        "smartwatch"
+      ],
+      "ru": [
+        "умные часы",
+        "смарт часы",
+        "фитнес браслет"
+      ],
+      "pt": [
+        "smartwatch",
+        "relógio inteligente"
+      ],
+      "id": [
+        "jam tangan pintar",
+        "smartwatch"
+      ],
+      "ms": [
+        "jam pintar",
+        "smartwatch"
+      ],
+      "ur": [
+        "سمارٹ واچ"
+      ],
+      "hi": [
+        "स्मार्टवॉच",
+        "स्मार्ट वॉच"
+      ],
+      "nl": [
+        "smartwatch"
+      ],
+      "pl": [
+        "smartwatch",
+        "zegarek inteligentny"
+      ]
+    },
+    "surveillance_camera": {
+      "ar": [
+        "كاميرا مراقبة",
+        "كاميرات مراقبة",
+        "كاميرا امنية",
+        "كاميرا امان",
+        "كاميرا خارجية",
+        "كاميرا داخلية",
+        "كاميرا واي فاي",
+        "كاميرا ip",
+        "كاميرا cctv",
+        "سي سي تي في",
+        "كاميرا باب",
+        "جرس بكاميرا"
+      ],
+      "en": [
+        "security camera",
+        "surveillance camera",
+        "cctv",
+        "ip camera",
+        "wifi camera",
+        "outdoor camera",
+        "indoor camera",
+        "doorbell camera",
+        "baby monitor",
+        "ptz camera"
+      ],
+      "fr": [
+        "caméra de surveillance",
+        "caméra sécurité",
+        "caméra ip",
+        "caméra wifi"
+      ],
+      "es": [
+        "cámara de seguridad",
+        "cámara vigilancia",
+        "cámara ip",
+        "cámara wifi"
+      ],
+      "de": [
+        "überwachungskamera",
+        "sicherheitskamera",
+        "ip kamera",
+        "wifi kamera"
+      ],
+      "it": [
+        "telecamera sorveglianza",
+        "telecamera sicurezza",
+        "camera ip"
+      ],
+      "tr": [
+        "güvenlik kamerası",
+        "ip kamera",
+        "kamera sistemi"
+      ],
+      "ru": [
+        "камера наблюдения",
+        "камера безопасности",
+        "ip камера"
+      ],
+      "pt": [
+        "câmera segurança",
+        "câmera vigilância",
+        "câmera ip"
+      ],
+      "id": [
+        "kamera keamanan",
+        "kamera cctv",
+        "kamera pengawas"
+      ],
+      "ms": [
+        "kamera keselamatan",
+        "kamera cctv"
+      ],
+      "ur": [
+        "سکیورٹی کیمرہ",
+        "سی سی ٹی وی کیمرہ"
+      ],
+      "hi": [
+        "सुरक्षा कैमरा",
+        "सीसीटीवी कैमरा"
+      ],
+      "nl": [
+        "beveiligingscamera",
+        "ip camera"
+      ],
+      "pl": [
+        "kamera bezpieczeństwa",
+        "kamera monitoringu"
+      ]
+    },
+    "laptop_pc": {
+      "ar": [
+        "لابتوب",
+        "لاب توب",
+        "كمبيوتر",
+        "حاسوب",
+        "نوت بوك",
+        "ماك بوك"
+      ],
+      "en": [
+        "laptop",
+        "notebook",
+        "computer",
+        "pc",
+        "macbook"
+      ],
+      "fr": [
+        "ordinateur portable",
+        "pc portable"
+      ],
+      "es": [
+        "portátil",
+        "laptop",
+        "ordenador portátil"
+      ],
+      "de": [
+        "laptop",
+        "notebook"
+      ],
+      "it": [
+        "laptop",
+        "notebook",
+        "portatile"
+      ],
+      "tr": [
+        "laptop",
+        "dizüstü bilgisayar"
+      ],
+      "ru": [
+        "ноутбук",
+        "компьютер"
+      ],
+      "pt": [
+        "notebook",
+        "laptop",
+        "computador portátil"
+      ],
+      "id": [
+        "laptop",
+        "notebook"
+      ],
+      "ms": [
+        "komputer riba",
+        "laptop"
+      ],
+      "ur": [
+        "لیپ ٹاپ"
+      ],
+      "hi": [
+        "लैपटॉप"
+      ],
+      "nl": [
+        "laptop"
+      ],
+      "pl": [
+        "laptop"
+      ]
+    },
+    "keyboard_mouse": {
+      "ar": [
+        "كيبورد",
+        "لوحة مفاتيح",
+        "ماوس",
+        "فارة",
+        "ماوس لاسلكي",
+        "كيبورد ميكانيكي"
+      ],
+      "en": [
+        "keyboard",
+        "mouse",
+        "wireless mouse",
+        "mechanical keyboard",
+        "gaming keyboard"
+      ],
+      "fr": [
+        "clavier",
+        "souris"
+      ],
+      "es": [
+        "teclado",
+        "ratón",
+        "mouse"
+      ],
+      "de": [
+        "tastatur",
+        "maus"
+      ],
+      "it": [
+        "tastiera",
+        "mouse"
+      ],
+      "tr": [
+        "klavye",
+        "fare"
+      ],
+      "ru": [
+        "клавиатура",
+        "мышь"
+      ],
+      "pt": [
+        "teclado",
+        "mouse"
+      ],
+      "id": [
+        "keyboard",
+        "mouse"
+      ],
+      "ms": [
+        "papan kekunci",
+        "tetikus"
+      ],
+      "ur": [
+        "کی بورڈ",
+        "ماؤس"
+      ],
+      "hi": [
+        "कीबोर्ड",
+        "माउस"
+      ],
+      "nl": [
+        "toetsenbord",
+        "muis"
+      ],
+      "pl": [
+        "klawiatura",
+        "mysz"
+      ]
+    },
+    "home_kitchen": {
+      "ar": [
+        "منزل",
+        "مطبخ",
+        "ادوات مطبخ",
+        "ديكور",
+        "اضاءة",
+        "لمبة",
+        "مصباح",
+        "منظم",
+        "رف"
+      ],
+      "en": [
+        "home",
+        "kitchen",
+        "home decor",
+        "lamp",
+        "led lamp",
+        "organizer",
+        "shelf"
+      ],
+      "fr": [
+        "maison",
+        "cuisine",
+        "lampe",
+        "organisateur"
+      ],
+      "es": [
+        "hogar",
+        "cocina",
+        "lámpara",
+        "organizador"
+      ],
+      "de": [
+        "haus",
+        "küche",
+        "lampe",
+        "organizer"
+      ],
+      "it": [
+        "casa",
+        "cucina",
+        "lampada"
+      ],
+      "tr": [
+        "ev",
+        "mutfak",
+        "lamba"
+      ],
+      "ru": [
+        "дом",
+        "кухня",
+        "лампа"
+      ],
+      "pt": [
+        "casa",
+        "cozinha",
+        "lâmpada"
+      ],
+      "id": [
+        "rumah",
+        "dapur",
+        "lampu"
+      ],
+      "ms": [
+        "rumah",
+        "dapur",
+        "lampu"
+      ],
+      "ur": [
+        "گھر",
+        "باورچی خانہ",
+        "لیمپ"
+      ],
+      "hi": [
+        "घर",
+        "रसोई",
+        "लैंप"
+      ],
+      "nl": [
+        "huis",
+        "keuken",
+        "lamp"
+      ],
+      "pl": [
+        "dom",
+        "kuchnia",
+        "lampa"
+      ]
+    },
+    "fashion": {
+      "ar": [
+        "ملابس",
+        "ازياء",
+        "أزياء",
+        "فستان",
+        "حذاء",
+        "شنطة",
+        "حقيبة",
+        "تيشيرت",
+        "قميص"
+      ],
+      "en": [
+        "fashion",
+        "clothing",
+        "dress",
+        "shoes",
+        "bag",
+        "backpack",
+        "tshirt",
+        "shirt"
+      ],
+      "fr": [
+        "mode",
+        "vêtements",
+        "robe",
+        "chaussures",
+        "sac"
+      ],
+      "es": [
+        "moda",
+        "ropa",
+        "vestido",
+        "zapatos",
+        "bolso"
+      ],
+      "de": [
+        "mode",
+        "kleidung",
+        "kleid",
+        "schuhe",
+        "tasche"
+      ],
+      "it": [
+        "moda",
+        "vestiti",
+        "abito",
+        "scarpe",
+        "borsa"
+      ],
+      "tr": [
+        "moda",
+        "giyim",
+        "elbise",
+        "ayakkabı",
+        "çanta"
+      ],
+      "ru": [
+        "мода",
+        "одежда",
+        "платье",
+        "обувь",
+        "сумка"
+      ],
+      "pt": [
+        "moda",
+        "roupa",
+        "vestido",
+        "sapatos",
+        "bolsa"
+      ],
+      "id": [
+        "fashion",
+        "pakaian",
+        "sepatu",
+        "tas"
+      ],
+      "ms": [
+        "fesyen",
+        "pakaian",
+        "kasut",
+        "beg"
+      ],
+      "ur": [
+        "فیشن",
+        "کپڑے",
+        "جوتے",
+        "بیگ"
+      ],
+      "hi": [
+        "फैशन",
+        "कपड़े",
+        "जूते",
+        "बैग"
+      ],
+      "nl": [
+        "mode",
+        "kleding",
+        "jurk",
+        "schoenen",
+        "tas"
+      ],
+      "pl": [
+        "moda",
+        "ubrania",
+        "sukienka",
+        "buty",
+        "torba"
+      ]
+    },
+    "beauty": {
+      "ar": [
+        "مكياج",
+        "تجميل",
+        "عناية",
+        "عناية بالبشرة",
+        "سيروم",
+        "عطر",
+        "فرش مكياج"
+      ],
+      "en": [
+        "beauty",
+        "makeup",
+        "skincare",
+        "serum",
+        "perfume",
+        "cosmetics"
+      ],
+      "fr": [
+        "beauté",
+        "maquillage",
+        "soin peau",
+        "parfum"
+      ],
+      "es": [
+        "belleza",
+        "maquillaje",
+        "cuidado piel",
+        "perfume"
+      ],
+      "de": [
+        "beauty",
+        "makeup",
+        "hautpflege",
+        "parfüm"
+      ],
+      "it": [
+        "bellezza",
+        "trucco",
+        "cura pelle",
+        "profumo"
+      ],
+      "tr": [
+        "güzellik",
+        "makyaj",
+        "cilt bakımı",
+        "parfüm"
+      ],
+      "ru": [
+        "красота",
+        "макияж",
+        "уход за кожей",
+        "духи"
+      ],
+      "pt": [
+        "beleza",
+        "maquiagem",
+        "cuidados pele",
+        "perfume"
+      ],
+      "id": [
+        "kecantikan",
+        "makeup",
+        "skincare",
+        "parfum"
+      ],
+      "ms": [
+        "kecantikan",
+        "mekap",
+        "penjagaan kulit"
+      ],
+      "ur": [
+        "میک اپ",
+        "خوبصورتی",
+        "سکن کیئر"
+      ],
+      "hi": [
+        "मेकअप",
+        "ब्यूटी",
+        "स्किनकेयर"
+      ],
+      "nl": [
+        "beauty",
+        "make-up",
+        "huidverzorging"
+      ],
+      "pl": [
+        "uroda",
+        "makijaż",
+        "pielęgnacja"
+      ]
+    },
+    "auto_car": {
+      "ar": [
+        "سيارة",
+        "سياره",
+        "عربية",
+        "عربيه",
+        "اكسسوارات سيارة",
+        "كاميرا سيارة",
+        "شاحن سيارة",
+        "منظم سيارة"
+      ],
+      "en": [
+        "car",
+        "auto",
+        "vehicle",
+        "car accessories",
+        "dash cam",
+        "car charger",
+        "car organizer"
+      ],
+      "fr": [
+        "voiture",
+        "auto",
+        "accessoires voiture"
+      ],
+      "es": [
+        "coche",
+        "auto",
+        "accesorios coche"
+      ],
+      "de": [
+        "auto",
+        "fahrzeug",
+        "autozubehör"
+      ],
+      "it": [
+        "auto",
+        "macchina",
+        "accessori auto"
+      ],
+      "tr": [
+        "araba",
+        "oto",
+        "araç aksesuarları"
+      ],
+      "ru": [
+        "авто",
+        "машина",
+        "аксессуары авто"
+      ],
+      "pt": [
+        "carro",
+        "auto",
+        "acessórios carro"
+      ],
+      "id": [
+        "mobil",
+        "aksesoris mobil"
+      ],
+      "ms": [
+        "kereta",
+        "aksesori kereta"
+      ],
+      "ur": [
+        "کار",
+        "گاڑی"
+      ],
+      "hi": [
+        "कार",
+        "गाड़ी"
+      ],
+      "nl": [
+        "auto",
+        "auto accessoires"
+      ],
+      "pl": [
+        "auto",
+        "samochód",
+        "akcesoria samochodowe"
+      ]
+    },
+    "toys_kids": {
+      "ar": [
+        "لعبة",
+        "لعبه",
+        "العاب",
+        "ألعاب",
+        "اطفال",
+        "أطفال",
+        "لعبة اطفال",
+        "تعليمية"
+      ],
+      "en": [
+        "toy",
+        "toys",
+        "kids",
+        "children",
+        "educational toy",
+        "puzzle",
+        "blocks"
+      ],
+      "fr": [
+        "jouet",
+        "enfants",
+        "puzzle"
+      ],
+      "es": [
+        "juguete",
+        "niños",
+        "puzzle"
+      ],
+      "de": [
+        "spielzeug",
+        "kinder",
+        "puzzle"
+      ],
+      "it": [
+        "giocattolo",
+        "bambini",
+        "puzzle"
+      ],
+      "tr": [
+        "oyuncak",
+        "çocuk",
+        "puzzle"
+      ],
+      "ru": [
+        "игрушка",
+        "дети",
+        "пазл"
+      ],
+      "pt": [
+        "brinquedo",
+        "crianças",
+        "quebra-cabeça"
+      ],
+      "id": [
+        "mainan",
+        "anak",
+        "puzzle"
+      ],
+      "ms": [
+        "mainan",
+        "kanak-kanak"
+      ],
+      "ur": [
+        "کھلونا",
+        "بچے"
+      ],
+      "hi": [
+        "खिलौना",
+        "बच्चे"
+      ],
+      "nl": [
+        "speelgoed",
+        "kinderen"
+      ],
+      "pl": [
+        "zabawka",
+        "dzieci"
+      ]
+    }
+  },
+  "brands": {
+    "honor": [
+      "honor",
+      "هونر",
+      "هونور",
+      "اونر",
+      "honer",
+      "honr",
+      "honor mobile",
+      "honor phone",
+      "荣耀"
+    ],
+    "huawei": [
+      "huawei",
+      "هواوي",
+      "هواوى",
+      "huawi",
+      "huawe",
+      "هواوى",
+      "华为"
+    ],
+    "samsung": [
+      "samsung",
+      "سامسونج",
+      "سامسونغ",
+      "samsong",
+      "sam sung",
+      "galaxy",
+      "جالكسي",
+      "جالاكسي"
+    ],
+    "xiaomi": [
+      "xiaomi",
+      "شاومي",
+      "شياومي",
+      "mi",
+      "redmi",
+      "ريدمي",
+      "poco",
+      "بوكو",
+      "miui",
+      "小米"
+    ],
+    "apple": [
+      "apple",
+      "iphone",
+      "ايفون",
+      "آيفون",
+      "ابل",
+      "أبل",
+      "ios",
+      "ايفوان"
+    ],
+    "oppo": [
+      "oppo",
+      "اوبو",
+      "أوبو"
+    ],
+    "realme": [
+      "realme",
+      "ريلمي",
+      "ريل مي"
+    ],
+    "oneplus": [
+      "oneplus",
+      "one plus",
+      "ون بلس"
+    ],
+    "vivo": [
+      "vivo",
+      "فيفو"
+    ],
+    "tecno": [
+      "tecno",
+      "تكنو"
+    ],
+    "infinix": [
+      "infinix",
+      "انفنكس",
+      "انفنيكس"
+    ],
+    "baseus": [
+      "baseus",
+      "باسيوس",
+      "باسوس"
+    ],
+    "ugreen": [
+      "ugreen",
+      "يوجرين",
+      "يوغرين"
+    ],
+    "anker": [
+      "anker",
+      "انكر",
+      "أنكر"
+    ],
+    "nillkin": [
+      "nillkin",
+      "نيلكين"
+    ],
+    "sony": [
+      "sony",
+      "سوني"
+    ],
+    "jbl": [
+      "jbl",
+      "جي بي ال"
+    ],
+    "lenovo": [
+      "lenovo",
+      "لينوفو"
+    ],
+    "logitech": [
+      "logitech",
+      "لوجيتك"
+    ],
+    "tp-link": [
+      "tp-link",
+      "tplink",
+      "تي بي لينك"
+    ],
+    "ezviz": [
+      "ezviz",
+      "ايزفيز"
+    ],
+    "dahua": [
+      "dahua",
+      "داهوا"
+    ],
+    "imou": [
+      "imou",
+      "ايمو"
+    ],
+    "hikvision": [
+      "hikvision",
+      "هايك فيجن",
+      "هايكفيجن"
+    ]
+  },
+  "models": {
+    "magic": [
+      "magic",
+      "ماجيك",
+      "ماجك",
+      "ماجكك"
+    ],
+    "galaxy": [
+      "galaxy",
+      "جالاكسي",
+      "جالكسي",
+      "جلاكسي"
+    ],
+    "redmi_note": [
+      "redmi note",
+      "ريدمي نوت",
+      "نوت ريدمي"
+    ],
+    "poco": [
+      "poco",
+      "بوكو"
+    ],
+    "iphone": [
+      "iphone",
+      "ايفون",
+      "آيفون"
+    ],
+    "watch_gt": [
+      "watch gt",
+      "واتش جي تي",
+      "gt watch"
+    ],
+    "tapo": [
+      "tapo",
+      "تابو"
+    ],
+    "reno": [
+      "reno",
+      "رينو"
+    ],
+    "nord": [
+      "nord",
+      "نورد"
+    ]
+  },
+  "generatedAliases": {
+    "phone_case": [
+      "capa",
+      "capa celular",
+      "capa silicone",
+      "capa telefone",
+      "capinha",
+      "carcasa",
+      "case",
+      "case hp",
+      "casing",
+      "casing telefon",
+      "coque",
+      "coque portable",
+      "coque silicone",
+      "coque téléphone",
+      "cover",
+      "cover cellulare",
+      "cover telefono",
+      "custodia",
+      "custodia telefono",
+      "etui",
+      "etui na telefon",
+      "funda",
+      "funda móvil",
+      "funda silicona",
+      "funda teléfono",
+      "handyhülle",
+      "hoesje",
+      "housse",
+      "hülle",
+      "kapak",
+      "kılıf",
+      "mobile case",
+      "mobile cover",
+      "pelindung hp",
+      "pelindung telefon",
+      "phone case",
+      "phone cover",
+      "pokrowiec",
+      "protection téléphone",
+      "protective case",
+      "protector móvil",
+      "sarung hp",
+      "sarung telefon",
+      "schutzhülle",
+      "silicone case",
+      "siliconhülle",
+      "silikon kılıf",
+      "smartphone hoesje",
+      "smartphone hülle",
+      "telefon kabı",
+      "telefon kılıfı",
+      "telefonhülle",
+      "telefoonhoesje",
+      "étui",
+      "защитный чехол",
+      "силиконовый чехол",
+      "чехол",
+      "чехол для телефона",
+      "جراب",
+      "جراب موبايل",
+      "جراب هاتف",
+      "غطاء",
+      "فون کور",
+      "كفر",
+      "كفر جوال",
+      "كفر موبايل",
+      "كفر هاتف",
+      "موبائل کور",
+      "موبائل کیس",
+      "फोन कवर",
+      "मोबाइल कवर",
+      "मोबाइल केस"
+    ],
+    "screen_protector": [
+      "anti gores",
+      "cristal templado",
+      "displayschutz",
+      "ekran koruyucu",
+      "film protector",
+      "film écran",
+      "gehard glas",
+      "glass protector",
+      "kaca tempered",
+      "koruyucu cam",
+      "ochrona ekranu",
+      "panzerglas",
+      "pelindung layar",
+      "pelindung skrin",
+      "pellicola",
+      "película",
+      "protecteur écran",
+      "protector pantalla",
+      "proteggi schermo",
+      "protetor tela",
+      "schutzfolie",
+      "screen guard",
+      "screen protector",
+      "screenprotector",
+      "szkło hartowane",
+      "tempered glass",
+      "temperli cam",
+      "verre trempé",
+      "vetro temperato",
+      "vidrio templado",
+      "vidro temperado",
+      "защитная пленка",
+      "защитное стекло",
+      "стекло",
+      "اسكرين",
+      "اسكرينة",
+      "حامي الشاشة",
+      "حماية شاشة",
+      "زجاج حماية",
+      "سكرينة",
+      "سکرین پروٹیکٹر",
+      "لاصق شاشة",
+      "واقي شاشة",
+      "ٹمپرڈ گلاس",
+      "टेम्पर्ड ग्लास",
+      "स्क्रीन प्रोटेक्टर"
+    ],
+    "fast_charger": [
+      "adaptador",
+      "adaptador corriente",
+      "adaptateur secteur",
+      "adaptör",
+      "alimentatore",
+      "cargador",
+      "cargador rápido",
+      "caricatore",
+      "caricatore rapido",
+      "carregador",
+      "carregador rápido",
+      "casan",
+      "charger",
+      "charger cepat",
+      "charger pantas",
+      "chargeur",
+      "chargeur rapide",
+      "charging adapter",
+      "fast charger",
+      "gan charger",
+      "hızlı şarj",
+      "ladegerät",
+      "netzteil",
+      "oplader",
+      "pengecas",
+      "pengisi daya",
+      "power adapter",
+      "schnellladegerät",
+      "snellader",
+      "szybka ładowarka",
+      "type c charger",
+      "usb c charger",
+      "wall charger",
+      "ładowarka",
+      "şarj cihazı",
+      "быстрая зарядка",
+      "зарядка",
+      "зарядное устройство",
+      "ادابتر شاحن",
+      "رأس شاحن",
+      "شاحن",
+      "شاحن usb c",
+      "شاحن تايب سي",
+      "شاحن جداري",
+      "شاحن سريع",
+      "فاسٹ چارجر",
+      "فيشة شاحن",
+      "چارجر",
+      "चार्जर",
+      "फास्ट चार्जर"
+    ],
+    "usb_cable": [
+      "cable",
+      "cable carga",
+      "cable usb",
+      "cabo",
+      "cabo carregador",
+      "cabo usb",
+      "cavo",
+      "cavo ricarica",
+      "cavo usb",
+      "charging cable",
+      "câble",
+      "câble charge",
+      "câble usb",
+      "data cable",
+      "kabel",
+      "kabel charger",
+      "kabel pengecas",
+      "kabel usb",
+      "kablo",
+      "ladekabel",
+      "lightning cable",
+      "type c cable",
+      "usb c cable",
+      "usb cable",
+      "usb kabel",
+      "usb kablo",
+      "usb кабель",
+      "şarj kablosu",
+      "зарядный кабель",
+      "кабель",
+      "سلك شاحن",
+      "كابل",
+      "كابل usb",
+      "كابل ايفون",
+      "كابل تايب سي",
+      "كيبل",
+      "وصلة شاحن",
+      "چارجنگ کیبل",
+      "کیبل",
+      "केबल",
+      "चार्जिंग केबल"
+    ],
+    "power_bank": [
+      "bateria externa",
+      "batería externa",
+      "batteria esterna",
+      "batterie externe",
+      "battery pack",
+      "cargador portátil",
+      "charger portable",
+      "external battery",
+      "externer akku",
+      "portable charger",
+      "power bank",
+      "powerbank",
+      "taşınabilir şarj",
+      "внешний аккумулятор",
+      "повербанк",
+      "باور بانك",
+      "باور بنك",
+      "بطارية متنقلة",
+      "بنك طاقة",
+      "شاحن متنقل",
+      "پاور بینک",
+      "पावर बैंक"
+    ],
+    "mobile_phone": [
+      "akıllı telefon",
+      "android phone",
+      "cell phone",
+      "cellulare",
+      "celular",
+      "cep telefonu",
+      "handy",
+      "hp",
+      "mobile",
+      "mobile phone",
+      "móvil",
+      "phone",
+      "ponsel",
+      "portable",
+      "smartfon",
+      "smartphone",
+      "telefon",
+      "telefon pintar",
+      "telefono",
+      "telefoon",
+      "telemóvel",
+      "teléfono",
+      "téléphone",
+      "мобильный",
+      "смартфон",
+      "телефон",
+      "اسمارٹ فون",
+      "تلفون",
+      "تليفون",
+      "جوال",
+      "سمارت فون",
+      "فون",
+      "موبائل",
+      "موبايل",
+      "موبيل",
+      "هاتف",
+      "هاتف ذكي",
+      "फोन",
+      "मोबाइल",
+      "स्मार्टफोन"
+    ],
+    "wireless_earbuds": [
+      "airpods",
+      "audífonos",
+      "auricolari",
+      "auriculares",
+      "auriculares bluetooth",
+      "bluetooth",
+      "bluetooth earbuds",
+      "bluetooth kopfhörer",
+      "bluetooth kulaklık",
+      "casque",
+      "cuffie",
+      "cuffie bluetooth",
+      "earbud",
+      "earbuds",
+      "earphone",
+      "earphones",
+      "fon telinga",
+      "fone bluetooth",
+      "fones",
+      "headphones",
+      "headset",
+      "kablosuz kulaklık",
+      "kopfhörer",
+      "koptelefoon",
+      "kulaklık",
+      "ohrhörer",
+      "oordopjes",
+      "słuchawki",
+      "słuchawki bluetooth",
+      "tws",
+      "wireless earbuds",
+      "écouteurs",
+      "écouteurs bluetooth",
+      "беспроводные наушники",
+      "наушники",
+      "ائیر بڈز",
+      "ايربود",
+      "ايربودز",
+      "بلوٹوتھ ہیڈ فون",
+      "سماعات",
+      "سماعات بلوتوث",
+      "سماعات لاسلكية",
+      "سماعة",
+      "هاند فري",
+      "هاندفري",
+      "ہیڈ فون",
+      "ईयरबड्स",
+      "ब्लूटूथ हेडफोन",
+      "हेडफोन"
+    ],
+    "smartwatch": [
+      "akıllı saat",
+      "bracelet connecté",
+      "fitness band",
+      "fitness tracker",
+      "fitnessband",
+      "fitnessuhr",
+      "jam pintar",
+      "jam tangan pintar",
+      "montre connectée",
+      "orologio intelligente",
+      "pulsera inteligente",
+      "reloj inteligente",
+      "relógio inteligente",
+      "smart band",
+      "smart watch",
+      "smartwatch",
+      "watch",
+      "zegarek inteligentny",
+      "смарт часы",
+      "умные часы",
+      "фитнес браслет",
+      "ساعة",
+      "ساعة ذكية",
+      "ساعة رياضية",
+      "سمارت واتش",
+      "سمارٹ واچ",
+      "سوار ذكي",
+      "سوار رياضي",
+      "स्मार्ट वॉच",
+      "स्मार्टवॉच"
+    ],
+    "surveillance_camera": [
+      "beveiligingscamera",
+      "camera ip",
+      "caméra de surveillance",
+      "caméra ip",
+      "caméra sécurité",
+      "caméra wifi",
+      "cctv",
+      "cámara de seguridad",
+      "cámara ip",
+      "cámara vigilancia",
+      "cámara wifi",
+      "câmera ip",
+      "câmera segurança",
+      "câmera vigilância",
+      "doorbell camera",
+      "güvenlik kamerası",
+      "indoor camera",
+      "ip camera",
+      "ip kamera",
+      "ip камера",
+      "kamera bezpieczeństwa",
+      "kamera cctv",
+      "kamera keamanan",
+      "kamera keselamatan",
+      "kamera monitoringu",
+      "kamera pengawas",
+      "kamera sistemi",
+      "outdoor camera",
+      "security camera",
+      "sicherheitskamera",
+      "surveillance camera",
+      "telecamera sicurezza",
+      "telecamera sorveglianza",
+      "wifi camera",
+      "wifi kamera",
+      "überwachungskamera",
+      "камера безопасности",
+      "камера наблюдения",
+      "سکیورٹی کیمرہ",
+      "سی سی ٹی وی کیمرہ",
+      "كاميرا ip",
+      "كاميرا امان",
+      "كاميرا امنية",
+      "كاميرا خارجية",
+      "كاميرا داخلية",
+      "كاميرا مراقبة",
+      "كاميرا واي فاي",
+      "كاميرات مراقبة",
+      "सीसीटीवी कैमरा",
+      "सुरक्षा कैमरा"
+    ]
+  }
+}

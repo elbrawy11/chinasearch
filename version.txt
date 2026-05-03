@@ -1,6 +1,7 @@
-ChinaSearch V7.1 deploy cache fix
-- Fixed missed HTML asset references: index.html/search.html now load app.js?v=7.1 and styles.css?v=7.1
-- products.json version updated to 7.1 while keeping schema
-- Added no-store cache headers for version.txt, products.json, app.js and styles.css
-- Keeps V7.0 catalog cleanup and scoring engine
-- Use this package to replace the previous V7.0 upload
+ChinaSearch V7.3 smart search dictionary
+- Added search-dictionary.json with multi-language aliases for categories, brands and model families
+- Added dictionary loader and smart query parser
+- Added Arabic/English/European language normalization and Arabic digit normalization
+- Search scoring now uses canonical intent + brand + model + number detection
+- Added Did you mean hint on search results
+- Kept standalone search page, Quick View, Watch Price, Best Price, exit hook and clean URL behavior intact

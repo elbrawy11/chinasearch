@@ -147,6 +147,7 @@ function syncConsentMini(){
 }
 
 async function bootstrapApp(){
+  await loadSearchDictionary();
   syncConsentMini();
   autoDetectGeoOnFirstVisit();
   const ipCountry=await fetchCountryByIP();
@@ -404,6 +405,7 @@ function watchPrice(id){
    already?"warn":"ok"
  );
  renderCompareBar();
+  setupExitHook();
  requestAnimationFrame(()=>{
    const btn=document.querySelector(`[data-watch-price="${id}"]`);
    if(btn) btn.textContent=state.lang==="ar"?"✓ تتم مراقبته":"✓ Watching";
@@ -913,6 +915,83 @@ function syncHeroCardsWithSearch(){
 }
 
 
+
+let SEARCH_DICTIONARY = null;
+async function loadSearchDictionary(){
+  try{
+    const res = await fetch("/search-dictionary.json?v=7.3",{cache:"no-store"});
+    if(res.ok) SEARCH_DICTIONARY = await res.json();
+  }catch(e){
+    console.warn("Search dictionary failed to load", e);
+  }
+}
+function normalizeDigits(str){
+  const ar="٠١٢٣٤٥٦٧٨٩", fa="۰۱۲۳۴۵۶۷۸۹";
+  return String(str||"").replace(/[٠-٩]/g,d=>String(ar.indexOf(d))).replace(/[۰-۹]/g,d=>String(fa.indexOf(d)));
+}
+function stripDiacritics(str){
+  return String(str||"").normalize("NFKD").replace(/[\u064B-\u065F\u0670\u0640]/g,"").replace(/[\u0300-\u036f]/g,"");
+}
+function smartNormalize(str){
+  return normalizeSearchText(stripDiacritics(normalizeDigits(str)))
+    .replace(/أ|إ|آ/g,"ا")
+    .replace(/ة/g,"ه")
+    .replace(/ى/g,"ي")
+    .replace(/ؤ/g,"و")
+    .replace(/ئ/g,"ي")
+    .replace(/\s+/g," ")
+    .trim();
+}
+function dictionaryAliasesFor(type,key){
+  if(!SEARCH_DICTIONARY || !SEARCH_DICTIONARY[type]) return [];
+  const v=SEARCH_DICTIONARY[type][key];
+  if(!v) return [];
+  if(Array.isArray(v)) return v;
+  if(typeof v==="object") return Object.values(v).flat();
+  return [];
+}
+function detectDictionaryIntent(rawQuery){
+  const q=smartNormalize(rawQuery);
+  if(!q || !SEARCH_DICTIONARY?.intents) return null;
+  let best=null, bestLen=0;
+  for(const [intent,obj] of Object.entries(SEARCH_DICTIONARY.intents)){
+    const aliases=Object.values(obj).flat().concat(SEARCH_DICTIONARY.generatedAliases?.[intent]||[]);
+    for(const a of aliases){
+      const n=smartNormalize(a);
+      if(!n) continue;
+      if(q===n || q.includes(n) || (n.length>=4 && n.includes(q) && q.length>=3)){
+        if(n.length>bestLen){best=intent;bestLen=n.length}
+      }
+    }
+  }
+  return best;
+}
+function detectDictionaryEntity(rawQuery,type){
+  const q=smartNormalize(rawQuery);
+  const source=SEARCH_DICTIONARY?.[type]||{};
+  let best=null,bestLen=0;
+  for(const [key,aliases] of Object.entries(source)){
+    for(const a of aliases){
+      const n=smartNormalize(a);
+      if(!n) continue;
+      if(q===n || q.includes(n) || (n.length>=4 && n.includes(q) && q.length>=3)){
+        if(n.length>bestLen){best=key;bestLen=n.length}
+      }
+    }
+  }
+  return best;
+}
+function parseSmartQuery(rawQuery){
+  return {
+    raw: rawQuery||"",
+    norm: smartNormalize(rawQuery),
+    intent: detectDictionaryIntent(rawQuery) || detectSearchIntent(rawQuery),
+    brand: detectDictionaryEntity(rawQuery,"brands"),
+    model: detectDictionaryEntity(rawQuery,"models"),
+    numbers: (normalizeDigits(rawQuery).match(/\d+/g)||[])
+  };
+}
+
 function normalizeSearchText(s){
   return (s||"").toString()
     .replace(/[🔎⌚🚚⚡⭐💰🎁]/g,"")
@@ -968,6 +1047,8 @@ const INTENT_MAP = {
   toys_kids:{keywords:["toy","toys","kids","children","game","لعبه","لعبة","العاب","ألعاب","اطفال","أطفال"],brands:[],labelEn:"Toys & Kids",labelAr:"الألعاب والأطفال"}
 };
 function detectSearchIntent(rawQuery){
+  const dictionaryIntent=detectDictionaryIntent(rawQuery);
+  if(dictionaryIntent) return dictionaryIntent;
   const q=normalizeSearchText(rawQuery); if(!q) return null;
   for(const intentKey of Object.keys(INTENT_MAP)){
     const intent=INTENT_MAP[intentKey], terms=[...intent.keywords,...intent.brands];
@@ -980,61 +1061,62 @@ function detectSearchIntent(rawQuery){
 }
 function intentLabel(intentKey){const intent=INTENT_MAP[intentKey];return intent?(state.lang==="ar"?intent.labelAr:intent.labelEn):null}
 
+
 function productSearchScore(p, rawQuery){
   if(!rawQuery || !rawQuery.trim()) return 1;
-  const q = normalizeSearchText(rawQuery);
-  const title = normalizeSearchText(p.title || "");
-  const titleAr = normalizeSearchText(p.titleAr || "");
-  const brand = normalizeSearchText(p.brand || "");
-  const intents = (p.intents || []).map(normalizeSearchText);
-  const intent = detectSearchIntent(rawQuery);
+  const parsed = parseSmartQuery(rawQuery);
+  const q = parsed.norm;
+  const title = smartNormalize(p.title || "");
+  const titleAr = smartNormalize(p.titleAr || "");
+  const brand = smartNormalize(p.brand || "");
+  const intents = (p.intents || []).map(smartNormalize);
+  const hay = [title,titleAr,brand,intents.join(" "),smartNormalize(p.cat||"")].join(" ");
   let score = 0;
-  // Exact title match
-  if(title === q || titleAr === q) score += 100;
-  // Title starts with query
-  else if(title.startsWith(q) || titleAr.startsWith(q)) score += 80;
-  // Title/titleAr contains query
-  else if(title.includes(q) || titleAr.includes(q)) score += 60;
-  // Brand match
-  if(brand && q.includes(brand)) score += 40;
-  // Intent match
-  if(intent && intents.includes(intent)) score += 50;
-  // Multi-word match
-  const words = q.split(/\s+/).filter(w => w.length >= 3);
-  const hay = title + " " + titleAr + " " + brand;
+
+  if(title === q || titleAr === q) score += 120;
+  else if(title.startsWith(q) || titleAr.startsWith(q)) score += 90;
+  else if(title.includes(q) || titleAr.includes(q)) score += 65;
+
+  if(parsed.intent && intents.includes(parsed.intent)) score += 70;
+  if(parsed.brand){
+    if(brand === parsed.brand || intents.includes(parsed.brand)) score += 65;
+    else if(hay.includes(parsed.brand)) score += 35;
+  }
+  if(parsed.model && hay.includes(parsed.model)) score += 35;
+
+  if(parsed.numbers.length){
+    const nmatch = parsed.numbers.some(n => hay.includes(n));
+    if(nmatch) score += 25;
+    else if(parsed.brand || parsed.model) score -= 30;
+  }
+
+  const words = q.split(/\s+/).filter(w => w.length >= 2);
   if(words.length >= 2){
-    const allMatch = words.every(w => hay.includes(w));
-    const someMatch = words.filter(w => hay.includes(w)).length;
-    if(allMatch) score += 30;
-    else score += 8 * someMatch;
-  } else if(words.length === 1 && hay.includes(words[0])) {
+    const hits = words.filter(w => hay.includes(w)).length;
+    if(hits === words.length) score += 38;
+    else score += hits * 7;
+  }else if(words.length === 1 && hay.includes(words[0])){
     score += 15;
   }
-  return score;
+
+  // Strictness: when a query has product type + brand, penalize unrelated accessories.
+  if(parsed.intent && !intents.includes(parsed.intent)){
+    if(parsed.intent==="mobile_phone" && (intents.includes("phone_case") || intents.includes("screen_protector"))) score -= 45;
+    else score -= 25;
+  }
+  if(parsed.brand && !(brand===parsed.brand || intents.includes(parsed.brand) || hay.includes(parsed.brand))){
+    score -= 50;
+  }
+
+  return Math.max(0, score);
 }
+
 
 function productMatchesQuery(p,rawQuery){
   if(!rawQuery||!rawQuery.trim()) return true;
-  const q=normalizeSearchText(rawQuery);
-  const hay=normalizeSearchText([p.title,p.titleAr,p.brand,(p.intents||[]).join(" ")].filter(Boolean).join(" "));
-  const intent=detectSearchIntent(rawQuery);
-
-  if(intent && Array.isArray(p.intents)){
-    if(p.intents.includes(intent)) return true;
-    if(intent==="phones_mobile" && (p.intents.includes("phones_accessories") || p.intents.includes("headphones_audio"))) return true;
-  }
-
-  if(hay.includes(q)) return true;
-
-  const words=q.split(/\s+/).filter(w=>w.length>=3);
-  if(words.length>=2){
-    return words.every(w=>hay.includes(w));
-  }
-  if(words.length===1){
-    return hay.includes(words[0]);
-  }
-  return false;
+  return productSearchScore(p, rawQuery) >= 20;
 }
+
 function findRelatedProducts(rawQuery,exclude){
   const intent=detectSearchIntent(rawQuery); if(!intent) return [];
   const nearMap={phones_mobile:["phones_accessories","headphones_audio"],phones_accessories:["phones_mobile"],headphones_audio:["phones_accessories"],watches_wearables:["phones_accessories"],laptops_pc:["phones_accessories"],auto_car:["phones_accessories"],surveillance_camera:["phones_accessories","laptops_pc"]};
@@ -1365,6 +1447,31 @@ function searchToolbarHtml(){
 function searchPagerHtml(meta){
   return `<div class="search-pager"><button ${meta.page<=1?'disabled':''} onclick="setSearchPage(${meta.page-1})">← ${state.lang==="ar"?"السابق":"Prev"}</button><span>${state.lang==="ar"?`الصفحة ${meta.page} من ${meta.pages}`:`Page ${meta.page} / ${meta.pages}`}</span><button ${meta.page>=meta.pages?'disabled':''} onclick="setSearchPage(${meta.page+1})">${state.lang==="ar"?"التالي":"Next"} →</button></div>`;
 }
+
+function smartDidYouMeanHtml(){
+  if(!searchMode || !searchMode() || !state.q) return "";
+  const parsed=parseSmartQuery(state.q);
+  const parts=[];
+  if(parsed.intent){
+    const labels={
+      phone_case: state.lang==="ar"?"كفر / جراب موبايل":"phone case",
+      screen_protector: state.lang==="ar"?"حماية شاشة":"screen protector",
+      fast_charger: state.lang==="ar"?"شاحن سريع":"fast charger",
+      power_bank: state.lang==="ar"?"باور بانك":"power bank",
+      mobile_phone: state.lang==="ar"?"موبايل":"mobile phone",
+      wireless_earbuds: state.lang==="ar"?"سماعات":"earbuds",
+      smartwatch: state.lang==="ar"?"ساعة ذكية":"smartwatch",
+      surveillance_camera: state.lang==="ar"?"كاميرا مراقبة":"security camera"
+    };
+    parts.push(labels[parsed.intent]||parsed.intent);
+  }
+  if(parsed.brand) parts.push(parsed.brand);
+  if(parsed.model) parts.push(parsed.model);
+  if(parsed.numbers.length) parts.push(parsed.numbers.join(" "));
+  if(parts.length<2) return "";
+  return `<div class="did-you-mean">💡 ${state.lang==="ar"?"هل تقصد:":"Did you mean:"} <b>${parts.join(" ")}</b></div>`;
+}
+
 function searchResultsHtml(data){
   if(!data.length){
     return `<section class="empty-search-state"><h2>🔎 ${state.lang==="ar"?"لا توجد نتائج مباشرة":"No direct results"}</h2><p>${state.lang==="ar"?"جرّب كلمة أخرى أو فعّل منصات أكثر من الأعلى.":"Try another keyword or enable more platforms above."}</p></section>`;
@@ -1487,7 +1594,7 @@ function renderSearchPage(){
     </section>
     <section class="search-page-body container compact-body">
       ${searchToolbarHtml()}
-      <div class="results-count-line"><span class="results-badge">${state.lang==="ar"?"نتائج البحث":"Search results"}</span> <b>100+</b> · ${state.lang==="ar"?`الصفحة ${meta.page} من ${meta.pages}`:`page ${meta.page} / ${meta.pages}`} · ${label}</div>
+      ${smartDidYouMeanHtml()}<div class="results-count-line"><span class="results-badge">${state.lang==="ar"?"نتائج البحث":"Search results"}</span> <b>100+</b> · ${state.lang==="ar"?`الصفحة ${meta.page} من ${meta.pages}`:`page ${meta.page} / ${meta.pages}`} · ${label}</div>
       ${bestPickRibbonHtml(best)}
       ${searchResultsHtml(data)}
       ${alternativesSectionHtml(result.directMatchCount)}
@@ -1538,6 +1645,50 @@ function marketPulseHtml(){
       </div>
     </div>
   </section>`;
+}
+
+
+function hideExitHook(){
+  const el=document.getElementById("exitHook");
+  if(!el) return;
+  el.classList.remove("show");
+  el.setAttribute("aria-hidden","true");
+}
+function showExitHook(reason="intent"){
+  const el=document.getElementById("exitHook");
+  if(!el) return;
+  if(sessionStorage.getItem("cs_exit_hook_seen")==="1") return;
+  if(isSearchRoute && isSearchRoute()) return;
+  sessionStorage.setItem("cs_exit_hook_seen","1");
+  el.classList.add("show");
+  el.setAttribute("aria-hidden","false");
+  clearTimeout(window.__csExitHookTimer);
+  window.__csExitHookTimer=setTimeout(hideExitHook,5200);
+}
+function setupExitHook(){
+  const el=document.getElementById("exitHook");
+  if(!el) return;
+  hideExitHook();
+  if(window.__csExitHookReady) return;
+  window.__csExitHookReady=true;
+
+  // Desktop exit intent: user moves mouse to top edge as if closing/leaving.
+  document.addEventListener("mouseleave",(e)=>{
+    if(e.clientY <= 8) showExitHook("mouse-leave");
+  });
+
+  // Mobile/back-pressure alternative: only after user spends time and scrolls.
+  let armed=false;
+  setTimeout(()=>{armed=true},18000);
+  window.addEventListener("scroll",()=>{
+    if(!armed) return;
+    const scrollRatio=(window.scrollY+window.innerHeight)/(document.documentElement.scrollHeight||1);
+    if(scrollRatio>.72) showExitHook("deep-scroll");
+  },{passive:true});
+
+  document.addEventListener("keydown",(e)=>{
+    if(e.key==="Escape") hideExitHook();
+  });
 }
 
 function render(){

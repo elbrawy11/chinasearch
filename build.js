@@ -6,6 +6,7 @@ const files = [
   "search.html",
   "translations.json",
   "products.json",
+  "search-dictionary.json",
   "app.js",
   "styles.css",
   "about.html",
@@ -28,7 +29,8 @@ const files = [
   "_headers",
   "vercel.json",
   "V69_REVIEW_NOTES.txt",
-  "V70_REVIEW_NOTES.txt"
+  "V70_REVIEW_NOTES.txt",
+  "V73_REVIEW_NOTES.txt"
 ];
 
 fs.rmSync("dist", { recursive: true, force: true });
