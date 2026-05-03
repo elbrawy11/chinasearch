@@ -928,14 +928,6 @@ function applySearchExample(value){
   state.q = normalizeSearchText(value);
   runSearch();
 }
-function productMatchesQuery(p,q){
-  if(!q) return true;
-  const words=searchIntentWords(q);
-  const hay=normalizeSearchText([p.title,p.titleAr,p.cat,p.brand,platforms[p.platform]?.name].filter(Boolean).join(" "));
-  const direct=normalizeSearchText(q);
-  if(hay.includes(direct)) return true;
-  return words.some(w=>hay.includes(w));
-}
 
 
 function searchOverviewHtml(data,best){
@@ -987,6 +979,40 @@ function detectSearchIntent(rawQuery){
   return null;
 }
 function intentLabel(intentKey){const intent=INTENT_MAP[intentKey];return intent?(state.lang==="ar"?intent.labelAr:intent.labelEn):null}
+
+function productSearchScore(p, rawQuery){
+  if(!rawQuery || !rawQuery.trim()) return 1;
+  const q = normalizeSearchText(rawQuery);
+  const title = normalizeSearchText(p.title || "");
+  const titleAr = normalizeSearchText(p.titleAr || "");
+  const brand = normalizeSearchText(p.brand || "");
+  const intents = (p.intents || []).map(normalizeSearchText);
+  const intent = detectSearchIntent(rawQuery);
+  let score = 0;
+  // Exact title match
+  if(title === q || titleAr === q) score += 100;
+  // Title starts with query
+  else if(title.startsWith(q) || titleAr.startsWith(q)) score += 80;
+  // Title/titleAr contains query
+  else if(title.includes(q) || titleAr.includes(q)) score += 60;
+  // Brand match
+  if(brand && q.includes(brand)) score += 40;
+  // Intent match
+  if(intent && intents.includes(intent)) score += 50;
+  // Multi-word match
+  const words = q.split(/\s+/).filter(w => w.length >= 3);
+  const hay = title + " " + titleAr + " " + brand;
+  if(words.length >= 2){
+    const allMatch = words.every(w => hay.includes(w));
+    const someMatch = words.filter(w => hay.includes(w)).length;
+    if(allMatch) score += 30;
+    else score += 8 * someMatch;
+  } else if(words.length === 1 && hay.includes(words[0])) {
+    score += 15;
+  }
+  return score;
+}
+
 function productMatchesQuery(p,rawQuery){
   if(!rawQuery||!rawQuery.trim()) return true;
   const q=normalizeSearchText(rawQuery);
@@ -1266,7 +1292,10 @@ function searchPageMeta(list){
 }
 function platformUiClass(k){return 'brand-'+k}
 function searchFilteredData(){
-  let directMatches=ranked().filter(p=>productMatchesQuery(p,state.q));
+  let directMatches = ranked()
+  .map(p => Object.assign({}, p, {_searchScore: productSearchScore(p, state.q)}))
+  .filter(p => p._searchScore > 0)
+  .sort((a, b) => b._searchScore - a._searchScore);
   let directMatchCount=directMatches.length;
   let alternatives=[];
   if(state.q && directMatchCount<4){alternatives=findRelatedProducts(state.q,directMatches)}
@@ -1386,7 +1415,7 @@ function renderSearchEmptyState(){
   document.body.classList.remove("admin-mode");
   document.body.classList.add("search-page-mode");
   document.body.classList.toggle("searching",false);
-  const popular=["موبايل","كاميرا مراقبة","سماعات","ساعة","لابتوب"];
+  const popular = state.lang === "ar" ? ["موبايل","سماعات","ساعة ذكية","كاميرا مراقبة","شاحن","لابتوب"] : ["mobile","headphones","smartwatch","security camera","charger","laptop"];
   document.getElementById("app").innerHTML=`
   <header class="topbar search-only-topbar"><div class="container nav compact-search-nav">
     <a class="brand" href="/"><div class="logo"><svg viewBox="0 0 96 96"><circle cx="42" cy="42" r="31" fill="none" stroke="#0b2b5c" stroke-width="9"/><path d="M63 63 L84 84" stroke="#0b2b5c" stroke-width="11" stroke-linecap="round"/><path d="M36 24 L59 35 L59 58 L36 69 L14 58 L14 35 Z" fill="#ff6a00"/><path d="M14 35 L36 46 L59 35M36 46V69" fill="none" stroke="#fff" stroke-width="4"/></svg></div><div><h1>ChinaSearch</h1><span>${state.lang==="ar"?"صفحة البحث":"Search page"}</span></div></a>
@@ -1517,7 +1546,10 @@ function render(){
  document.body.classList.remove('search-page-mode');
  assignBrands();
  if(isAdminRoute()){ state.admin=false; }let l=L(),c=C();document.body.classList.toggle("admin-mode",isAdminRoute());document.documentElement.lang=state.lang;setTimeout(()=>{let f=document.getElementById("mobileFilterFab");if(f)f.innerHTML="⚙️ "+l.filters},0); if(state.q)addInterest(state.q); if(state.brandFilter!=="all")addInterest(state.brandFilter); if(state.platformFilter!=="all"&&platforms[state.platformFilter])addInterest(platforms[state.platformFilter].name);document.documentElement.dir=state.lang==="ar"?"rtl":"ltr";document.body.dir=document.documentElement.dir;document.body.classList.toggle("searching",searchMode());
- let directMatches=ranked().filter(p=>productMatchesQuery(p,state.q));
+ let directMatches = ranked()
+  .map(p => Object.assign({}, p, {_searchScore: productSearchScore(p, state.q)}))
+  .filter(p => p._searchScore > 0)
+  .sort((a, b) => b._searchScore - a._searchScore);
  let directMatchCount=directMatches.length;
  let alternatives=[];
  if(state.q && directMatchCount<4){ alternatives=findRelatedProducts(state.q,directMatches); }

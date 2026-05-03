@@ -1,7 +1,6 @@
-ChinaSearch V6.9 search button and intent accuracy fix
-- Fixed /search empty page search button with direct onclick fallback
-- Added Enter key handler for empty search input
-- Added security camera / surveillance camera intent for searches like كاميرا مراقبة
-- Added camera/security products to products.json
-- Strengthened multi-word search matching to reduce unrelated results
-- Kept clean URL, market pulse, card actions and quick view intact
+ChinaSearch V7.0 catalog cleanup and scoring engine
+- Removed duplicate product variants from products.json: 233 -> 75 products
+- Removed legacy productMatchesQuery duplicate if present
+- Added productSearchScore scoring engine while keeping productMatchesQuery for compatibility
+- Direct search results now sort by match quality
+- Updated popular searches in empty search state

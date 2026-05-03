@@ -27,7 +27,8 @@ const files = [
   "404.html",
   "_headers",
   "vercel.json",
-  "V69_REVIEW_NOTES.txt"
+  "V69_REVIEW_NOTES.txt",
+  "V70_REVIEW_NOTES.txt"
 ];
 
 fs.rmSync("dist", { recursive: true, force: true });

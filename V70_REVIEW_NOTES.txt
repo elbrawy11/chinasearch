@@ -1,0 +1,29 @@
+ChinaSearch V7.0 catalog cleanup and scoring engine
+
+Applied patches:
+1. products.json duplicate variants removed:
+   before: 233
+   after: 75
+   removed ids count: 158
+
+2. Removed legacy productMatchesQuery(p,q) block if present.
+
+3. Added productSearchScore(p, rawQuery) above current productMatchesQuery(p, rawQuery).
+   productMatchesQuery was kept for backward compatibility.
+
+4. Replaced directMatches in render/search flow with scoring:
+   ranked() -> map _searchScore -> filter score > 0 -> sort descending.
+
+5. Updated popular searches:
+   Arabic: موبايل، سماعات، ساعة ذكية، كاميرا مراقبة، شاحن، لابتوب
+   English: mobile, headphones, smartwatch, security camera, charger, laptop
+
+Please review:
+- /search?q=كاميرا مراقبة
+- /search?q=موبايل
+- /search?q=samsung
+- /search?q=phone case
+- /search?q=xyz123
+- Quick View / Watch Price / Best Price
+- Homepage and admin page
+- Console errors
